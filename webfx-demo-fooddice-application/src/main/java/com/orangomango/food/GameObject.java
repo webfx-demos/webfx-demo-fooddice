@@ -1,12 +1,14 @@
 package com.orangomango.food;
 
-import javafx.scene.canvas.*;
-import javafx.animation.*;
-import javafx.util.Duration;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.input.KeyCode;
-
 import com.orangomango.food.ui.GameScreen;
+import dev.webfx.platform.scheduler.Scheduled;
+import dev.webfx.platform.scheduler.Scheduler;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.util.Duration;
 
 public abstract class GameObject{
 	protected double x, y, w, h;
@@ -49,26 +51,23 @@ public abstract class GameObject{
 		if (this.an != null) this.an.stop();
 		if (this.gr != null) this.gr.stop();
 	}
-	
+
+	private Scheduled scheduled;
 	/**
 	 * In order to use this method, be sure to override @link{applyEffects()}
 	 */
 	protected void startEffectLoop(){
-		Thread t = new Thread(() -> {
-			try {
-				while (!this.stopThread){
-					if (System.currentTimeMillis() >= this.lastTimeEffect+15000){
-						this.lastTimeEffect = System.currentTimeMillis();
-						this.loadEffect = true;
-					}
-					Thread.sleep(200);
+		if (scheduled == null) {
+			scheduled = Scheduler.schedulePeriodic(200, () -> {
+				if (this.stopThread) {
+					scheduled.cancel();
+					scheduled = null;
+				} else if (System.currentTimeMillis() >= this.lastTimeEffect + 15000) {
+					this.lastTimeEffect = System.currentTimeMillis();
+					this.loadEffect = true;
 				}
-			} catch (InterruptedException ex){
-				ex.printStackTrace();
-			}
-		}, "effect-loop");
-		t.setDaemon(true);
-		t.start();
+			});
+		}
 	}
 	
 	protected boolean isSolid(){
@@ -275,14 +274,7 @@ public abstract class GameObject{
 	private void playMoveSound(){
 		if (!this.soundAllowed) return;
 		this.soundAllowed = false;
-		new Thread(() -> {
-			try {
-				Thread.sleep(500);
-				this.soundAllowed = true;
-			} catch (InterruptedException ex){
-				ex.printStackTrace();
-			}
-		}, "move-sound-cooldown").start();
+		Scheduler.scheduleDelay(500, () -> this.soundAllowed = true);
 		MainApplication.playSound(MainApplication.MOVE_SOUND, false);
 	}
 	

@@ -1,5 +1,6 @@
 package com.orangomango.food;
 
+import dev.webfx.platform.scheduler.Scheduler;
 import javafx.scene.canvas.*;
 import javafx.scene.paint.Color;
 
@@ -50,33 +51,25 @@ public class MovablePlatform extends Platform implements Turnable{
 	}
 	
 	private void startLoop(){
-		Thread loop = new Thread(() -> {
-			while (!this.stopThread){
-				if (GameScreen.getInstance().isPaused() || !this.on) continue;
-				try {
-					double xMove = this.forward ? this.xSpeed : -this.xSpeed;
-					double yMove = this.forward ? this.ySpeed : -this.ySpeed;
-					Player player = GameScreen.getInstance().getPlayer();
-					if (player == null) continue;
-					if (player.collided(this.x, this.y-4, this.w, 4)){
-						player.setX(player.getX()+xMove);
-						player.setY(player.getY()+yMove);
-					}
-					this.x += xMove;
-					this.y += yMove;
-					if ((this.x == this.startX+this.xMax && this.xSpeed != 0) || (this.y == this.startY+this.yMax && this.ySpeed != 0)){
-						this.forward = false;
-					} else if ((this.x == this.startX && this.xSpeed != 0) || (this.y == this.startY && this.ySpeed != 0)){
-						this.forward = true;
-					}
-					Thread.sleep(this.time);
-				} catch (InterruptedException ex){
-					ex.printStackTrace();
-				}
+		if (!this.stopThread) {
+			if (GameScreen.getInstance().isPaused() || !this.on) return;
+			double xMove = this.forward ? this.xSpeed : -this.xSpeed;
+			double yMove = this.forward ? this.ySpeed : -this.ySpeed;
+			Player player = GameScreen.getInstance().getPlayer();
+			if (player == null) return;
+			if (player.collided(this.x, this.y - 4, this.w, 4)) {
+				player.setX(player.getX() + xMove);
+				player.setY(player.getY() + yMove);
 			}
-		}, "movable-platform");
-		loop.setDaemon(true);
-		loop.start();
+			this.x += xMove;
+			this.y += yMove;
+			if ((this.x == this.startX + this.xMax && this.xSpeed != 0) || (this.y == this.startY + this.yMax && this.ySpeed != 0)) {
+				this.forward = false;
+			} else if ((this.x == this.startX && this.xSpeed != 0) || (this.y == this.startY && this.ySpeed != 0)) {
+				this.forward = true;
+			}
+			Scheduler.scheduleDelay(this.time, this::startLoop);
+		}
 	}
 	
 	@Override

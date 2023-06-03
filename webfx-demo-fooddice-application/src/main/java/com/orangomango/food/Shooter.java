@@ -1,5 +1,6 @@
 package com.orangomango.food;
 
+import dev.webfx.platform.scheduler.Scheduler;
 import javafx.scene.canvas.*;
 import javafx.scene.image.Image;
 import javafx.animation.*;
@@ -48,22 +49,21 @@ public class Shooter extends GameObject{
 		this.images[1] = MainApplication.loadImage("shooter_1.png");
 		this.solid = true;
 		this.left = left;
-		Thread anim = new Thread(() -> {
-			while (!this.stopThread){
-				if (GameScreen.getInstance().isPaused()) continue;
-				try {
+		long[] lastTime = { System.currentTimeMillis() };
+		Scheduler.schedulePeriodic(200, scheduled -> {
+			if (this.stopThread)
+				scheduled.cancel();
+			else if (!GameScreen.getInstance().isPaused()) {
+				long now = System.currentTimeMillis();
+				if (now < lastTime[0] + this.timeOff)
 					this.imageIndex = 0;
-					Thread.sleep(this.timeOff);
+				else {
 					this.imageIndex = 1;
 					this.bullets.add(new Bullet(this.left ? this.x : this.x+this.w, this.y, this.left));
-					Thread.sleep(200);
-				} catch (InterruptedException ex){
-					ex.printStackTrace();
+					lastTime[0] = now;
 				}
 			}
-		}, "shooter");
-		anim.setDaemon(true);
-		anim.start();
+		});
 	}
 	
 	public void setTimeOff(int time){

@@ -1,5 +1,6 @@
 package com.orangomango.food;
 
+import dev.webfx.platform.scheduler.Scheduler;
 import javafx.scene.canvas.*;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -38,17 +39,15 @@ public class Player extends GameObject{
 		if (System.currentTimeMillis() >= this.lastTimeEffect+12000 && !GameScreen.getInstance().getSpecialEffect().areAllFalse()){
 			if (!this.blinking){
 				this.blinking = true;
-				new Thread(() -> {
-					try {
-						for (int i = 0; i < (15000-12000)/250; i++){
-							this.blink = i % 2 == 0;
-							Thread.sleep(250);
-						}
+				int[] i = {0};
+				Scheduler.schedulePeriodic(250, scheduled -> {
+					if (++i[0] < (15000-12000)/250)
+						this.blink = i[0] % 2 == 0;
+					else {
 						this.blinking = false;
-					} catch (InterruptedException ex){
-						ex.printStackTrace();
+						scheduled.cancel();
 					}
-				}).start();
+				});
 			}
 			if (this.blink){
 				gc.setGlobalAlpha(0.6);
@@ -96,15 +95,10 @@ public class Player extends GameObject{
 		}
 		GameScreen.getInstance().deaths++;
 		GameScreen.getInstance().getEffects().add(new Particle(this.gc, this.x, this.y, "circle", 30, false));
-		new Thread(() -> {
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException ex){
-				ex.printStackTrace();
-			}
+		Scheduler.scheduleDelay(500, () -> {
 			this.x = this.onDieX;
 			this.y = this.onDieY;
 			this.died = false;
-		}, "after-die").start();
+		});
 	}
 }

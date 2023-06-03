@@ -1,20 +1,24 @@
 package com.orangomango.food.ui;
 
-import dev.webfx.platform.resource.Resource;
-import javafx.scene.layout.StackPane;
-import javafx.scene.canvas.*;
-import javafx.scene.paint.Color;
-import javafx.animation.*;
-import javafx.util.Duration;
-import javafx.scene.input.KeyCode;
-import javafx.scene.image.*;
-import javafx.scene.text.Font;
-
-import java.util.*;
-import java.io.*;
-
 import com.orangomango.food.*;
 import com.orangomango.food.ui.controls.JoyStick;
+import dev.webfx.platform.resource.Resource;
+import dev.webfx.platform.scheduler.Scheduler;
+import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.util.Duration;
+
+import java.util.*;
 
 public class GameScreen{
 	private volatile List<GameObject> sprites = new ArrayList<>();
@@ -45,84 +49,79 @@ public class GameScreen{
 	public int deaths;
 	private String loadString;
 	private Map<Integer, Integer> spritesID = new HashMap<>();
-	
+
 	private JoyStick joystick;
-	
+
 	private static Font FONT_20 = Font.loadFont(Resource.toUrl("/font/font.ttf", GameScreen.class), 20);
 	private static Font FONT_55 = Font.loadFont(Resource.toUrl("/font/font.ttf", GameScreen.class), 55);
-	
+
 	public GameScreen(int l){
 		this(l, null);
 	}
-	
+
 	public GameScreen(int l, String ll){
 		this.currentLevel = l;
 		this.loadString = ll;
 		GameScreen.instance = this;
-		
-		Thread frameCounter = new Thread(() -> {
-			while (GameScreen.instance != null){
-				try {
-					Thread.sleep(1000);
-					this.currentFPS = this.framesDone;
-					this.framesDone = 0;
-				} catch (InterruptedException ex){
-					ex.printStackTrace();
-				}
+
+		Scheduler.schedulePeriodic(1000, scheduled -> {
+			if (GameScreen.instance != this)
+				scheduled.cancel();
+			else {
+				this.currentFPS = this.framesDone;
+				this.framesDone = 0;
 			}
-		}, "frame-counter");
-		frameCounter.setDaemon(true);
-		frameCounter.start();
+		});
 	}
-	
+
 	public boolean isPaused(){
 		return this.paused;
 	}
-	
+
 	public static GameScreen getInstance(){
 		return GameScreen.instance;
 	}
-	
+
 	public List<GameObject> getSprites(){
 		return this.sprites;
 	}
-	
+
 	public List<Particle> getEffects(){
 		return this.effects;
 	}
-	
+
 	public List<CollectableObject> getCollectables(){
 		return this.collectables;
 	}
-	
+
 	public Map<KeyCode, Boolean> getKeys(){
 		return this.keys;
 	}
-	
+
 	public GraphicsContext getGC(){
 		return this.gc;
 	}
-	
+
 	public Player getPlayer(){
 		return this.player;
 	}
-	
+
 	public SpecialEffect getSpecialEffect(){
 		return this.specialEffect;
 	}
-	
+
 	public Notification getNotification(){
 		return this.notification;
 	}
-	
+
 	public double getLevelWidth(){
 		return this.levelWidth;
 	}
-	
+
 	public double getLevelHeight(){
 		return this.levelHeight;
 	}
-	
+
 	private void loadAngles(int w, int h){
 		this.angles = new int[w][h];
 		Random random = new Random();
@@ -132,7 +131,7 @@ public class GameScreen{
 			}
 		}
 	}
-	
+
 	private void loadLevel(GraphicsContext gc, int level){
 		loadLevel(gc, level, null);
 	}
@@ -158,7 +157,7 @@ public class GameScreen{
 				this.levelWidth = Double.parseDouble(level[0].split("x")[0]);
 				this.levelHeight = Double.parseDouble(level[0].split("x")[1]);
 				this.showCamera = Boolean.parseBoolean(level[0].split("x")[2]);
-				
+
 				for (int i = 1; i < level.length; i++){
 					String line = level[i];
 					int type = Integer.parseInt(line.split(",")[0].split(";")[0]);
@@ -258,16 +257,16 @@ public class GameScreen{
 					}
 					spritesID.put(Integer.parseInt(line.split(",")[0].split(";")[1]), sprites.size()-1);
 				}
-				
+
 				break;
 			case 0:
 				this.levelWidth = 800;
 				this.levelHeight = 800;
 				this.showCamera = true;
-			
+
 				this.player = new Player(gc, 40, 240, Player.SIZE, Player.SIZE);
 				sprites.add(player);
-				
+
 				sprites.add(new Platform(gc, 0, 256, 96, this.levelHeight-256-150, MainApplication.loadImage("ground.png")));
 				sprites.add(new Box(gc, 65, 30));
 				sprites.add(new Box(gc, 65, 0));
@@ -292,29 +291,29 @@ public class GameScreen{
 				sprites.add(new MovablePlatform(gc, 625, 250, Platform.PlatformType.SMALL, 0, 5, 0, 500, 50));
 				sprites.add(new JumpPad(gc, 270, 252));
 				sprites.add(new CheckPoint(gc, 50, 750));
-				
+
 				for (int i = 0; i < 9; i++){
 					if (i % 3 == 0 || i > 6) sprites.add(new Spike(gc, 120+i*25, 375, "cactus"));
 				}
-				
+
 				//sprites.add(new Shooter(gc, 410, 236, true));
 				sprites.add(new Shooter(gc, 460, 236, false));
-				
+
 				sprites.add(laser);
 				sprites.add(new Laser(gc, 500, 20, 30, 30));
-				
+
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 180, 235));
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 320, 235));
-				
+
 				//effects.add(new Particle(gc, 100, 100, "tail", 40, true));
-				
+
 				this.exit = new Exit(gc, 175, 110);
 				break;
 			case 1:
 				this.levelWidth = 800;
 				this.levelHeight = 400;
 				this.showCamera = false;
-				
+
 				this.player = new Player(gc, 20, 240, Player.SIZE, Player.SIZE);
 				sprites.add(new GameText(gc, 35, 190, 300, 25, "You get special effect every 15s based on your dice's position"));
 				sprites.add(this.player);
@@ -331,11 +330,11 @@ public class GameScreen{
 					sprites.add(new Spike(gc, 192+i*25, 375, "fire"));
 				}
 				sprites.add(new Platform(gc, 570, 220, Platform.PlatformType.MEDIUM));
-				
+
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 255, 215));
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 480, 215));
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 490, 40));
-				
+
 				this.exit = new Exit(gc, 270, 40);
 				break;
 			case 2:
@@ -350,17 +349,17 @@ public class GameScreen{
 				this.levelWidth = 800;
 				this.levelHeight = 800;
 				this.showCamera = true;
-				
+
 				this.player = new Player(gc, 5, 700, Player.SIZE, Player.SIZE);
 				this.player.setRespawnX(40);
 				this.player.setRespawnY(240);
 				sprites.add(this.player);
-				
+
 				// Grounds
 				sprites.add(new Platform(gc, 0, 0, 800, 72, MainApplication.loadImage("ground.png")));
 				sprites.add(new Platform(gc, 0, 728, 800, 72, MainApplication.loadImage("ground.png")));
 				sprites.add(new Platform(gc, 0, 512, 290, 72, MainApplication.loadImage("ground.png")));
-				
+
 				sprites.add(new Laser(gc, 20, 584, 30, 30));
 				sprites.add(new Laser(gc, 120, 584, 30, 30));
 				sprites.add(new Laser(gc, 240, 584, 30, 30));
@@ -410,18 +409,18 @@ public class GameScreen{
 				sprites.add(new Shooter(gc, 753, 310, true));
 				sprites.add(new Platform(gc, 580, 268, Platform.PlatformType.SMALL));
 				sprites.add(new Laser(gc, 590, 72, 30, 30));
-				
+
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 13, 255));
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 193, 255));
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 760, 690));
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, gc, 550, 435));
-				
+
 				this.exit = new Exit(gc, 585, 288);
 				break;
 		}
 		loadAngles((int)this.levelWidth/25, (int)this.levelHeight/25);
 	}
-	
+
 	private String[] getLevelData(int n){
 		try {
 			String fileContent = Resource.getText(Resource.toUrl("/levels/level"+n+".lvl", getClass())); // Text returned immediately because embed
@@ -431,14 +430,14 @@ public class GameScreen{
 			return null;
 		}
 	}
-	
+
 	public StackPane getLayout(){
 		StackPane layout = new StackPane();
 		Canvas canvas = new Canvas(MainApplication.WIDTH, MainApplication.HEIGHT);
 		this.gc = canvas.getGraphicsContext2D();
-		
+
 		//String testString = "800x800\n1;0,44.00,116.00,100.00,20.00\n1;1,169.00,141.00,100.00,20.00\n15;2,229.00,102.00,35.00,40.00\n14;3,52.00,93.00,16.00,16.00\n1;4,20.00,228.00,100.00,20.00\n8;5,77.00,202.00,25.00,25.00";
-		
+
 		//loadLevel(gc, -1, testString.split("\n"));
 		if (this.loadString != null){
 			loadLevel(gc, -1, this.loadString.split("\n"));
@@ -446,7 +445,7 @@ public class GameScreen{
 			loadLevel(gc, this.currentLevel);
 		}
 		this.joystick = new JoyStick(gc);
-		
+
 		canvas.setFocusTraversable(true);
 		canvas.setOnMousePressed(e -> {
 			for (int i = 0; i < this.buttons.size(); i++){
@@ -458,11 +457,11 @@ public class GameScreen{
 				handlePress(k, canvas);
 			}
 		});
-		
+
 		this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> update(gc)));
 		loop.setCycleCount(Animation.INDEFINITE);
 		loop.play();
-		
+
 		canvas.setOnKeyPressed(e -> handlePress(e.getCode(), canvas));
 		canvas.setOnKeyReleased(e -> keys.put(e.getCode(), false));
 		canvas.setOnMouseReleased(e -> {
@@ -471,7 +470,7 @@ public class GameScreen{
 				keys.put(k, false);
 			}
 		});
-		
+
 		AnimationTimer fTimer = new AnimationTimer(){
 			@Override
 			public void handle(long time){
@@ -479,13 +478,13 @@ public class GameScreen{
 			}
 		};
 		fTimer.start();
-		
+
 		//MainApplication.sizeOnResize(canvas);
-		
+
 		layout.getChildren().add(canvas);
 		return layout;
 	}
-	
+
 	private void handlePress(KeyCode key, Canvas canvas){
 		if (key == KeyCode.P || key == KeyCode.ESCAPE){
 			this.paused = !this.paused;
@@ -522,7 +521,7 @@ public class GameScreen{
 			keys.put(key, true);
 		}
 	}
-	
+
 	private void clearEverything(){
 		this.loop.stop();
 		for (GameObject go : sprites){
@@ -535,31 +534,21 @@ public class GameScreen{
 		this.player = null;
 		this.exit = null;
 	}
-	
+
 	public void shakeCamera(){
 		if (this.shaking) return;
 		this.shaking = true;
-		new Thread(() -> {
-			try {
-				this.cameraShakeX = -7;
-				Thread.sleep(100);
-				this.cameraShakeX = 0;
-				Thread.sleep(50);
-				this.cameraShakeY = -7;
-				Thread.sleep(100);
-				this.cameraShakeY = 0;
-				this.shaking = false;
-			} catch (InterruptedException ex){
-				ex.printStackTrace();
-			}
-		}, "camera-shake").start();
+		this.cameraShakeX = -7;
+		Scheduler.scheduleDelay(100, () -> this.cameraShakeX = 0);
+		Scheduler.scheduleDelay(150, () -> this.cameraShakeY = -7);
+		Scheduler.scheduleDelay(250, () -> {this.cameraShakeY = 0; this.shaking = false; });
 	}
-	
+
 	private void update(GraphicsContext gc){
 		gc.clearRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
 		gc.setFill(Color.web("#00694F"));
 		gc.fillRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
-		
+
 		if (this.paused){
 			gc.drawImage(this.pausedImage, 0, 0);
 			gc.save();
@@ -577,7 +566,7 @@ public class GameScreen{
 			gc.restore();
 			return;
 		}
-		
+
 		gc.save();
 		if (this.showCamera){
 			gc.scale(MainApplication.SCALE, MainApplication.SCALE);
@@ -585,7 +574,7 @@ public class GameScreen{
 		} else {
 			gc.scale(MainApplication.WIDTH/this.levelWidth, MainApplication.HEIGHT/this.levelHeight);
 		}
-		
+
 		// Make background
 		for (int x = 0; x < this.levelWidth; x += 25){
 			for (int y = 0; y < this.levelHeight; y += 25){
@@ -612,7 +601,7 @@ public class GameScreen{
 				gc.restore();
 			}
 		}
-		
+
 		for (GameObject go : sprites){
 			go.render();
 			if (go instanceof Spike || go instanceof Liquid){
@@ -705,7 +694,7 @@ public class GameScreen{
 			gc.restore();
 		}
 		gc.restore();
-		
+
 		gc.save();
 		gc.scale(MainApplication.SCALE, MainApplication.SCALE);
 
@@ -724,7 +713,7 @@ public class GameScreen{
 		long difference = System.currentTimeMillis()-this.levelStart-this.pausedTime;
 		gc.fillText(String.format("%s:%s\nCoins: %s\nDeaths: %s", difference/60000, difference/1000%60, this.coinsCollected, this.deaths), 695, 30);
 		gc.restore();
-		
+
 		this.notification.render(gc);
 		// For mobile
 		//if (this.showMinimap) this.joystick.render();

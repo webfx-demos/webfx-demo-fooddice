@@ -1,6 +1,7 @@
 package com.orangomango.food;
 
 import dev.webfx.platform.resource.Resource;
+import dev.webfx.platform.scheduler.Scheduler;
 import javafx.scene.canvas.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -14,14 +15,7 @@ public class Notification{
 		this.text = t;
 		this.mustShow = true;
 		MainApplication.playSound(MainApplication.NOTIFICATION_SOUND, false);
-		new Thread(() -> {
-			try {
-				Thread.sleep(millis);
-				this.mustShow = false;
-			} catch (InterruptedException ex){
-				ex.printStackTrace();
-			}
-		}, "notification").start();
+		Scheduler.scheduleDelay(millis, () -> this.mustShow = false);
 	}
 	
 	public void render(GraphicsContext gc){

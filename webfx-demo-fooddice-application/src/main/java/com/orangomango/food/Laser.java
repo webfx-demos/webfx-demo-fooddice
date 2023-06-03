@@ -1,5 +1,6 @@
 package com.orangomango.food;
 
+import dev.webfx.platform.scheduler.Scheduler;
 import javafx.scene.canvas.*;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -17,29 +18,25 @@ public class Laser extends GameObject implements Turnable{
 		super(gc, x, y, w, h);
 		if (w != h) throw new IllegalArgumentException("W and H must be equal");
 		this.solid = true;
-		Thread shoot = new Thread(() -> {
-			while (!this.stopThread){
-				if (!this.on || GameScreen.getInstance().isPaused()) continue;
-				try {
-					this.shooting = true;
-					for (int i = 0; i < 20; i++){
-						this.drawAmount += 0.05;
-						while (GameScreen.getInstance().isPaused()){
-							Thread.sleep(50);
+		int[] i = {0};
+		Scheduler.schedulePeriodic(40, scheduled -> {
+			if (this.stopThread)
+				scheduled.cancel();
+			else if (this.on && !GameScreen.getInstance().isPaused()) {
+				this.shooting = true;
+				if (++i[0] <= 20)
+					this.drawAmount += 0.05;
+				else {
+					if (i[0] >= 20 + 1600 / 40) {
+						this.shooting = false;
+						if (i[0] >= 20 + 1600 / 40 + this.timeOff / 40) {
+							this.drawAmount = 0;
+							i[0] = 0;
 						}
-						Thread.sleep(40);
 					}
-					Thread.sleep(1600);
-					this.shooting = false;
-					Thread.sleep(this.timeOff); // Time off
-					this.drawAmount = 0;
-				} catch (InterruptedException ex){
-					ex.printStackTrace();
 				}
 			}
-		}, "laser");
-		shoot.setDaemon(true);
-		shoot.start();
+		});
 	}
 	
 	public void setTimeOff(int time){

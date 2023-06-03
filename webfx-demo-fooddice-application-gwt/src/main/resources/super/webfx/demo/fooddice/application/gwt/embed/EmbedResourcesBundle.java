@@ -12,11 +12,19 @@ public interface EmbedResourcesBundle extends ClientBundle {
     @Source("dev/webfx/platform/meta/exe/exe.properties")
     TextResource r1();
 
+    @Source("levels/level2.lvl")
+    TextResource r2();
+
+    @Source("levels/level3.lvl")
+    TextResource r3();
+
 
 
     final class ProvidedGwtResourceBundle extends GwtResourceBundleBase {
         public ProvidedGwtResourceBundle() {
             registerResource("dev/webfx/platform/meta/exe/exe.properties", R.r1());
+            registerResource("levels/level2.lvl", R.r2());
+            registerResource("levels/level3.lvl", R.r3());
 
         }
     }

@@ -1,5 +1,6 @@
 package com.orangomango.food;
 
+import dev.webfx.platform.scheduler.Scheduler;
 import javafx.scene.canvas.*;
 import javafx.scene.image.Image;
 
@@ -33,44 +34,40 @@ public class Door extends GameObject implements Turnable{
 	}
 	
 	public void open(){
-		if (this.animating) this.stopCurrentAnimation = true;
-		this.animating = true;
-		new Thread(() -> {
-			for (int i = 0; i < 8; i++){
-				this.imageIndex = i;
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException ex){
-					ex.printStackTrace();
-				}
-				if (this.stopCurrentAnimation){
+		this.imageIndex = 0;
+		if (!this.animating) {
+			this.animating = true;
+			Scheduler.schedulePeriodic(100, scheduled -> {
+				if (!this.stopCurrentAnimation && this.imageIndex < 7)
+					this.imageIndex++;
+				else {
+					if (this.imageIndex == 7) {
+						this.opened = true;
+						this.animating = false;
+					}
 					this.stopCurrentAnimation = false;
-					return;
+					scheduled.cancel();
 				}
-			}
-			this.opened = true;
-			this.animating = false;
-		}, "door-opening").start();
+			});
+		}
 	}
 	
 	public void close(){
-		if (this.animating) this.stopCurrentAnimation = true;
-		this.animating = true;
-		new Thread(() -> {
-			for (int i = 7; i >= 0; i--){
-				this.imageIndex = i;
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException ex){
-					ex.printStackTrace();
-				}
-				if (this.stopCurrentAnimation){
+		this.imageIndex = 7;
+		if (!this.animating) {
+			this.animating = true;
+			Scheduler.schedulePeriodic(100, scheduled -> {
+				if (!this.stopCurrentAnimation && this.imageIndex > 0)
+					this.imageIndex--;
+				else {
+					if (this.imageIndex == 0) {
+						this.opened = false;
+						this.animating = false;
+					}
 					this.stopCurrentAnimation = false;
-					return;
+					scheduled.cancel();
 				}
-			}
-			this.opened = false;
-			this.animating = false;
-		}, "door-closing").start();
+			});
+		}
 	}
 }
