@@ -1,5 +1,6 @@
 package com.orangomango.food;
 
+import dev.webfx.platform.resource.Resource;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -44,19 +45,19 @@ public class MainApplication extends Application{
 	}
 	
 	private static void loadSounds(){
-		BACKGROUND_MUSIC = new Media(MainApplication.class.getResource("/audio/background.mp3").toExternalForm());
-		DIE_SOUND = new Media(MainApplication.class.getResource("/audio/die.wav").toExternalForm());
-		JUMP_SOUND = new Media(MainApplication.class.getResource("/audio/jump.wav").toExternalForm());
-		NOTIFICATION_SOUND = new Media(MainApplication.class.getResource("/audio/notification.wav").toExternalForm());
-		LEVEL_COMPLETE_SOUND = new Media(MainApplication.class.getResource("/audio/level_complete.wav").toExternalForm());
-		CLICK_SOUND = new Media(MainApplication.class.getResource("/audio/click.wav").toExternalForm());
-		CHECKPOINT_SOUND = new Media(MainApplication.class.getResource("/audio/checkpoint.wav").toExternalForm());
-		MOVE_SOUND = new Media(MainApplication.class.getResource("/audio/move.wav").toExternalForm());
-		COIN_SOUND = new Media(MainApplication.class.getResource("/audio/coin.wav").toExternalForm());
+		BACKGROUND_MUSIC = new Media(Resource.toUrl("/audio/background.mp3", MainApplication.class));
+		DIE_SOUND = new Media(Resource.toUrl("/audio/die.wav", MainApplication.class));
+		JUMP_SOUND = new Media(Resource.toUrl("/audio/jump.wav", MainApplication.class));
+		NOTIFICATION_SOUND = new Media(Resource.toUrl("/audio/notification.wav", MainApplication.class));
+		LEVEL_COMPLETE_SOUND = new Media(Resource.toUrl("/audio/level_complete.wav", MainApplication.class));
+		CLICK_SOUND = new Media(Resource.toUrl("/audio/click.wav", MainApplication.class));
+		CHECKPOINT_SOUND = new Media(Resource.toUrl("/audio/checkpoint.wav", MainApplication.class));
+		MOVE_SOUND = new Media(Resource.toUrl("/audio/move.wav", MainApplication.class));
+		COIN_SOUND = new Media(Resource.toUrl("/audio/coin.wav", MainApplication.class));
 	}
 	
 	public static Image loadImage(String name){
-		return new Image(MainApplication.class.getResourceAsStream("/images/"+name));
+		return new Image(Resource.toUrl("/images/"+name, MainApplication.class));
 	}
 	
 	public static void playSound(Media media, boolean rep){

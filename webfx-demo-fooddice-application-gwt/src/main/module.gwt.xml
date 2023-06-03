@@ -85,6 +85,14 @@
     <source path="com/orangomango/food"/>
     <source path="com/orangomango/food/ui"/>
     <source path="com/orangomango/food/ui/controls"/>
+    <resource path="audio"/>
+    <public includes="audio/" path=""/>
+    <resource path="font"/>
+    <public includes="font/" path=""/>
+    <resource path="images"/>
+    <public includes="images/" path=""/>
+    <resource path="levels"/>
+    <public includes="levels/" path=""/>
     <!--=================================< webfx-kit-gwt >==================================-->
     <source path="dev/webfx/kit/launcher/spi/impl/gwt"/>
     <source path="dev/webfx/kit/mapper/spi/impl/gwt"/>

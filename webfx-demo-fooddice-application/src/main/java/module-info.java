@@ -8,11 +8,18 @@ module webfx.demo.fooddice.application {
     requires javafx.controls;
     requires javafx.graphics;
     requires javafx.media;
+    requires webfx.platform.resource;
 
     // Exported packages
     exports com.orangomango.food;
     exports com.orangomango.food.ui;
     exports com.orangomango.food.ui.controls;
+
+    // Resources packages
+    opens audio;
+    opens font;
+    opens images;
+    opens levels;
 
     // Provided services
     provides javafx.application.Application with com.orangomango.food.MainApplication;

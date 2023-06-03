@@ -1,5 +1,6 @@
 package com.orangomango.food.ui;
 
+import dev.webfx.platform.resource.Resource;
 import javafx.scene.layout.StackPane;
 import javafx.scene.canvas.*;
 import javafx.scene.paint.Color;
@@ -88,7 +89,7 @@ public class HelpScreen{
 		}
 		
 		gc.setFill(Color.BLACK);
-		gc.setFont(Font.loadFont(getClass().getResourceAsStream("/font.ttf"), 20));
+		gc.setFont(Font.loadFont(Resource.toUrl("/font/font.ttf", getClass()), 20));
 		gc.fillText("Use A/D or arrow keys to move", 187, 100);
 		gc.fillText("Use ESC or P to pause/resume", 187, 230);
 		gc.fillText("Use K to kill yourself", 550, 75);

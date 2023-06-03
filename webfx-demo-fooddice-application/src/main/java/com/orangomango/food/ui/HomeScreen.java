@@ -1,5 +1,6 @@
 package com.orangomango.food.ui;
 
+import dev.webfx.platform.resource.Resource;
 import javafx.scene.layout.StackPane;
 import javafx.scene.canvas.*;
 import javafx.scene.paint.Color;
@@ -32,7 +33,7 @@ public class HomeScreen{
 		layout.getChildren().add(canvas);
 		
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		gc.setFont(Font.loadFont(getClass().getResourceAsStream("/font.ttf"), 25));
+		gc.setFont(Font.loadFont(Resource.toUrl("/font/font.ttf", getClass()), 25));
 		
 		this.buttons.add(new MenuButton(() -> {
 			this.loop.stop();

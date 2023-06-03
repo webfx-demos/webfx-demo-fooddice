@@ -1,5 +1,6 @@
 package com.orangomango.food.ui;
 
+import dev.webfx.platform.resource.Resource;
 import javafx.scene.layout.StackPane;
 import javafx.scene.canvas.*;
 import javafx.scene.paint.Color;
@@ -47,8 +48,8 @@ public class GameScreen{
 	
 	private JoyStick joystick;
 	
-	private static Font FONT_20 = Font.loadFont(GameScreen.class.getResourceAsStream("/font.ttf"), 20);
-	private static Font FONT_55 = Font.loadFont(GameScreen.class.getResourceAsStream("/font.ttf"), 55);
+	private static Font FONT_20 = Font.loadFont(Resource.toUrl("/font/font.ttf", GameScreen.class), 20);
+	private static Font FONT_55 = Font.loadFont(Resource.toUrl("/font/font.ttf", GameScreen.class), 55);
 	
 	public GameScreen(int l){
 		this(l, null);
@@ -423,12 +424,9 @@ public class GameScreen{
 	
 	private String[] getLevelData(int n){
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/levels/level"+n+".lvl")));
-			List<String> lines = new ArrayList<>();
-			reader.lines().forEach(line -> lines.add(line));
-			reader.close();
-			return lines.toArray(new String[lines.size()]);
-		} catch (IOException ex){
+			String fileContent = Resource.getText(Resource.toUrl("/levels/level"+n+".lvl", getClass())); // Text returned immediately because embed
+			return fileContent.split("\n");
+		} catch (Exception ex){
 			ex.printStackTrace();
 			return null;
 		}

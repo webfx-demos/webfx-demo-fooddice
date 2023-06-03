@@ -77,8 +77,12 @@
                         <list>storage</list>
                     </attachList>
                     <resourcesList>
+                        <list>audio/[^/]+$</list>
                         <list>dev/webfx/platform/meta/exe/[^/]+$</list>
+                        <list>font/[^/]+$</list>
+                        <list>images/[^/]+$</list>
                         <list>images/checkbox/[^/]+$</list>
+                        <list>levels/[^/]+$</list>
                     </resourcesList>
 
                 </configuration>

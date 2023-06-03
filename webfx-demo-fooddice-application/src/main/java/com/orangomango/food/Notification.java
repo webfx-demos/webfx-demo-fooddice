@@ -1,5 +1,6 @@
 package com.orangomango.food;
 
+import dev.webfx.platform.resource.Resource;
 import javafx.scene.canvas.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -7,7 +8,7 @@ import javafx.scene.text.Font;
 public class Notification{
 	private String text = "";
 	private boolean mustShow;
-	private static Font font = Font.loadFont(Notification.class.getResourceAsStream("/font.ttf"), 30);
+	private static Font font = Font.loadFont(Resource.toUrl("/font/font.ttf", Notification.class), 30);
 	
 	public void setText(String t, int millis){
 		this.text = t;
