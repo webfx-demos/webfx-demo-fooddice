@@ -2,6 +2,7 @@ package com.orangomango.food.ui;
 
 import com.orangomango.food.*;
 import com.orangomango.food.ui.controls.JoyStick;
+import dev.webfx.extras.scalepane.ScalePane;
 import dev.webfx.platform.resource.Resource;
 import dev.webfx.platform.scheduler.Scheduler;
 import javafx.animation.Animation;
@@ -13,7 +14,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
@@ -51,6 +51,7 @@ public class GameScreen{
 	private Map<Integer, Integer> spritesID = new HashMap<>();
 
 	private JoyStick joystick;
+	private ScalePane scalePane;
 
 	private static Font FONT_20 = Font.loadFont(Resource.toUrl("/font/font.ttf", GameScreen.class), 20);
 	private static Font FONT_55 = Font.loadFont(Resource.toUrl("/font/font.ttf", GameScreen.class), 55);
@@ -431,8 +432,7 @@ public class GameScreen{
 		}
 	}
 
-	public StackPane getLayout(){
-		StackPane layout = new StackPane();
+	public ScalePane getLayout(){
 		Canvas canvas = new Canvas(MainApplication.WIDTH, MainApplication.HEIGHT);
 		this.gc = canvas.getGraphicsContext2D();
 
@@ -481,12 +481,15 @@ public class GameScreen{
 
 		//MainApplication.sizeOnResize(canvas);
 
-		layout.getChildren().add(canvas);
-		return layout;
+		this.scalePane = new ScalePane(canvas);
+		this.scalePane.setScaleEnabled(false);
+		return this.scalePane;
 	}
 
 	private void handlePress(KeyCode key, Canvas canvas){
-		if (key == KeyCode.P || key == KeyCode.ESCAPE){
+		if (key == KeyCode.S)
+			this.scalePane.setScaleEnabled(!this.scalePane.isScaleEnabled());
+		else if (key == KeyCode.P || key == KeyCode.ESCAPE){
 			this.paused = !this.paused;
 			if (this.paused){
 				this.pausedStart = System.currentTimeMillis();
