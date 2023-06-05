@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class MainApplication extends Application{
@@ -37,7 +38,7 @@ public class MainApplication extends Application{
 		playSound(BACKGROUND_MUSIC, true);
 		MainApplication.stage = stage;
 		HomeScreen gs = new HomeScreen();
-		stage.setScene(new Scene(gs.getLayout(), WIDTH, HEIGHT));
+		stage.setScene(new Scene(gs.getLayout(), WIDTH, HEIGHT, Color.BLACK));
 		stage.setResizable(false);
 		stage.getIcons().add(loadImage("icon.png"));
 		stage.setTitle("Food Dice");
