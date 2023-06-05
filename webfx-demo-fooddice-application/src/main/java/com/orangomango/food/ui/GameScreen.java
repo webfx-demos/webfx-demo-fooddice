@@ -700,7 +700,7 @@ public class GameScreen{
 
 		if (keys.getOrDefault(KeyCode.M, false)){
 			gc.setFill(Color.WHITE);
-			gc.fillText(String.format("Player at X:%.2f Y:%.2f", this.player.getX(), this.player.getY())+"\nCamera available: "+this.showCamera+String.format("\nFPS: %s\nGravity: %.2f\nLevel: %s\nRunning threads: %s", this.currentFPS, this.player.getGravity(), this.currentLevel, Thread.getAllStackTraces().keySet().size()), 50, 30);
+			gc.fillText("Player at X: " + format2d(this.player.getX()) + " Y:" + format2d(this.player.getY()) +"\nCamera available: " + this.showCamera + "\nFPS: " + this.currentFPS + "\nGravity: "+ format2d(this.player.getGravity()) + "\nLevel: " + this.currentLevel /* + "\nRunning threads: " + Thread.getAllStackTraces().keySet().size()*/, 50, 30);
 		}
 
 		gc.save();
@@ -711,12 +711,21 @@ public class GameScreen{
 		gc.setFill(Color.WHITE);
 		gc.setFont(FONT_20);
 		long difference = System.currentTimeMillis()-this.levelStart-this.pausedTime;
-		gc.fillText(String.format("%s:%s\nCoins: %s\nDeaths: %s", difference/60000, difference/1000%60, this.coinsCollected, this.deaths), 695, 30);
+		gc.fillText(difference/60000 + ":" + difference/1000%60 + "\nCoins: " + this.coinsCollected +  "\nDeaths: " + this.deaths, 695, 30);
 		gc.restore();
 
 		this.notification.render(gc);
 		// For mobile
 		//if (this.showMinimap) this.joystick.render();
 		gc.restore();
+	}
+
+	private static String format2d(double d) {
+		String s = String.valueOf(d);
+		int p = s.indexOf('.');
+		if (p == -1) s += ".00";
+		else if (p == s.length() - 2) s += "0";
+		else s = s.substring(0, p + 3);
+		return s;
 	}
 }
