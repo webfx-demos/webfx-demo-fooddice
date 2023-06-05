@@ -1,22 +1,30 @@
 package com.orangomango.food.ui;
 
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.TilePane;
-import javafx.scene.control.*;
-import javafx.scene.canvas.*;
-import javafx.scene.paint.Color;
-import javafx.scene.image.*;
-import javafx.animation.*;
-import javafx.util.Duration;
-import javafx.scene.input.MouseButton;
-import javafx.geometry.Rectangle2D;
-import javafx.geometry.Insets;
-
-import java.util.*;
-import java.io.*;
 import com.orangomango.food.MainApplication;
 import com.orangomango.food.Platform;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.TilePane;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
+import java.io.*;
+import java.util.*;
+
+@interface GwtIncompatible {}
+
+@GwtIncompatible
 public class Editor{
 	private static final String saveDirectory = System.getProperty("user.home")+File.separator+".food-dice";
 	public static String lastFile;

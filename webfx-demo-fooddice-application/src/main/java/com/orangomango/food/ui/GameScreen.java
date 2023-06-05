@@ -493,10 +493,10 @@ public class GameScreen{
 				this.pausedImage = canvas.snapshot(null, new WritableImage(MainApplication.WIDTH, MainApplication.HEIGHT));
 				this.buttons.add(new MenuButton(() -> {
 					clearEverything();
-					if (this.currentLevel < 0){
+					/*if (this.currentLevel < 0){
 						Editor ed = new Editor(Editor.lastFile);
 						MainApplication.stage.getScene().setRoot(ed.getLayout());
-					} else {
+					} else*/ {
 						HomeScreen hs = new HomeScreen();
 						MainApplication.stage.getScene().setRoot(hs.getLayout());
 					}
@@ -636,12 +636,12 @@ public class GameScreen{
 				WinScreen ws = new WinScreen();
 				MainApplication.stage.getScene().setRoot(ws.getLayout());
 				return;
-			} else if (this.currentLevel < 0){
+			} /*else if (this.currentLevel < 0){
 				clearEverything();
 				Editor ed = new Editor(Editor.lastFile);
 				MainApplication.stage.getScene().setRoot(ed.getLayout());
 				return;
-			} else {
+			}*/ else {
 				loadLevel(gc, ++this.currentLevel);
 			}
 		}

@@ -1,17 +1,21 @@
 package com.orangomango.food.ui;
 
+import com.orangomango.food.MainApplication;
 import dev.webfx.platform.resource.Resource;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
-import javafx.scene.canvas.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import javafx.animation.*;
 import javafx.util.Duration;
-import java.util.*;
-import javafx.scene.image.*;
 
-import com.orangomango.food.MainApplication;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeScreen{
 	private Timeline loop;
@@ -50,11 +54,11 @@ public class HomeScreen{
 			CreditsScreen cs = new CreditsScreen();
 			MainApplication.stage.getScene().setRoot(cs.getLayout());
 		}, 430, 230, 75, 75, MainApplication.loadImage("button_credits.png")));
-		this.buttons.add(new MenuButton(() -> {
+		/*this.buttons.add(new MenuButton(() -> {
 			this.loop.stop();
 			Editor ed = new Editor();
 			MainApplication.stage.getScene().setRoot(ed.getLayout());
-		}, 570, 230, 75, 75, MainApplication.loadImage("button_editor.png")));
+		}, 570, 230, 75, 75, MainApplication.loadImage("button_editor.png")));*/
 		
 		update(gc);
 		
@@ -73,7 +77,7 @@ public class HomeScreen{
 		gc.scale(MainApplication.SCALE, MainApplication.SCALE);
 		gc.drawImage(this.logo, 165, 50);
 		gc.translate(0, this.extraY);
-		String[] texts = new String[]{"Levels", "Help", "Credits", "Editor"};
+		String[] texts = new String[]{"Levels", "Help", "Credits"/*, "Editor"*/};
 		int c = 0;
 		for (MenuButton mb : this.buttons){
 			mb.render(gc);
