@@ -1,14 +1,14 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.HomeScreen;
 import dev.webfx.platform.resource.Resource;
+import javafx.animation.Animation;
 import javafx.application.Application;
-import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.media.*;
-import javafx.animation.Animation;
-
-import com.orangomango.food.ui.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 
 public class MainApplication extends Application{
 	public static final int WIDTH = 800;
@@ -57,7 +57,7 @@ public class MainApplication extends Application{
 	}
 	
 	public static Image loadImage(String name){
-		return new Image(Resource.toUrl("/images/"+name, MainApplication.class));
+		return new Image(Resource.toUrl("/images/"+name, MainApplication.class), true);
 	}
 	
 	public static void playSound(Media media, boolean rep){

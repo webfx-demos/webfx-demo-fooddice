@@ -1,13 +1,18 @@
 package com.orangomango.food.ui;
 
-import javafx.scene.layout.StackPane;
-import javafx.scene.canvas.*;
-import javafx.animation.*;
-import javafx.util.Duration;
-import java.util.*;
-import javafx.scene.image.*;
-
 import com.orangomango.food.MainApplication;
+import dev.webfx.kit.util.scene.DeviceSceneUtil;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LevelsScreen{
 	private Timeline loop;
@@ -33,19 +38,20 @@ public class LevelsScreen{
 		buttons.add(new MenuButton(() -> loadLevel(2), 200, 120, 75, 75, MainApplication.loadImage("button_level_2.png")));
 		buttons.add(new MenuButton(() -> loadLevel(3), 300, 120, 75, 75, MainApplication.loadImage("button_level_3.png")));
 		buttons.add(new MenuButton(() -> loadLevel(4), 400, 120, 75, 75, MainApplication.loadImage("button_level_4.png")));
-		
+
+		Image homeImage = MainApplication.loadImage("button_home.png");
 		buttons.add(new MenuButton(() -> {
 			this.loop.stop();
 			HomeScreen hs = new HomeScreen();
 			MainApplication.stage.getScene().setRoot(hs.getLayout());
-		}, 50, 300, 75, 75, MainApplication.loadImage("button_home.png")));
-		
-		update(gc);
-		
-		this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> update(gc)));
-		this.loop.setCycleCount(Animation.INDEFINITE);
-		this.loop.play();
-		
+		}, 50, 300, 75, 75, homeImage));
+
+		DeviceSceneUtil.onImagesLoaded(() -> {
+			this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> update(gc)));
+			this.loop.setCycleCount(Animation.INDEFINITE);
+			this.loop.play();
+		}, background, homeImage);
+
 		return layout;
 	}
 	

@@ -8,6 +8,7 @@ module webfx.demo.fooddice.application {
     requires javafx.controls;
     requires javafx.graphics;
     requires javafx.media;
+    requires webfx.kit.util.scene;
     requires webfx.platform.resource;
     requires webfx.platform.scheduler;
 

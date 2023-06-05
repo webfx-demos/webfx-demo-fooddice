@@ -48,6 +48,12 @@
 
         <dependency>
             <groupId>dev.webfx</groupId>
+            <artifactId>webfx-platform-os-gluon</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.webfx</groupId>
             <artifactId>webfx-platform-resource-gluon</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
@@ -75,6 +81,7 @@
                     <attachList>
                         <list>lifecycle</list>
                         <list>storage</list>
+                        <list>util</list>
                     </attachList>
                     <resourcesList>
                         <list>audio/[^/]+$</list>

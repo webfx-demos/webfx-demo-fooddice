@@ -1,6 +1,7 @@
 package com.orangomango.food.ui;
 
 import com.orangomango.food.MainApplication;
+import dev.webfx.kit.util.scene.DeviceSceneUtil;
 import dev.webfx.platform.resource.Resource;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -38,34 +39,37 @@ public class HomeScreen{
 		
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.setFont(Font.loadFont(Resource.toUrl("/font/font.ttf", getClass()), 25));
-		
+
+		Image playButtonImage = MainApplication.loadImage("button_play.png");
 		this.buttons.add(new MenuButton(() -> {
 			this.loop.stop();
 			LevelsScreen ls = new LevelsScreen();
 			MainApplication.stage.getScene().setRoot(ls.getLayout());
-		}, 160, 230, 75, 75, MainApplication.loadImage("button_play.png")));
+		}, 160, 230, 75, 75, playButtonImage));
+		Image helpButtonImage = MainApplication.loadImage("button_help.png");
 		this.buttons.add(new MenuButton(() -> {
 			this.loop.stop();
 			HelpScreen hs = new HelpScreen();
 			MainApplication.stage.getScene().setRoot(hs.getLayout());
-		}, 290, 230, 75, 75, MainApplication.loadImage("button_help.png")));
+		}, 290, 230, 75, 75, helpButtonImage));
+		Image creditsButtonImage = MainApplication.loadImage("button_credits.png");
 		this.buttons.add(new MenuButton(() -> {
 			this.loop.stop();
 			CreditsScreen cs = new CreditsScreen();
 			MainApplication.stage.getScene().setRoot(cs.getLayout());
-		}, 430, 230, 75, 75, MainApplication.loadImage("button_credits.png")));
+		}, 430, 230, 75, 75, creditsButtonImage));
 		/*this.buttons.add(new MenuButton(() -> {
 			this.loop.stop();
 			Editor ed = new Editor();
 			MainApplication.stage.getScene().setRoot(ed.getLayout());
 		}, 570, 230, 75, 75, MainApplication.loadImage("button_editor.png")));*/
-		
-		update(gc);
-		
-		this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> update(gc)));
-		this.loop.setCycleCount(Animation.INDEFINITE);
-		this.loop.play();
-		
+
+		DeviceSceneUtil.onImagesLoaded(() -> {
+			this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> update(gc)));
+			this.loop.setCycleCount(Animation.INDEFINITE);
+			this.loop.play();
+		}, background, playButtonImage, helpButtonImage, creditsButtonImage);
+
 		return layout;
 	}
 	
