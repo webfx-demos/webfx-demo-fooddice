@@ -45,19 +45,19 @@ public class HomeScreen{
 			this.loop.stop();
 			LevelsScreen ls = new LevelsScreen();
 			MainApplication.stage.getScene().setRoot(ls.getLayout());
-		}, 160, 230, 75, 75, playButtonImage));
+		}, 148, 230, 75, 75, playButtonImage));
 		Image helpButtonImage = MainApplication.loadImage("button_help.png");
 		this.buttons.add(new MenuButton(() -> {
 			this.loop.stop();
 			HelpScreen hs = new HelpScreen();
 			MainApplication.stage.getScene().setRoot(hs.getLayout());
-		}, 290, 230, 75, 75, helpButtonImage));
+		}, 363, 230, 75, 75, helpButtonImage));
 		Image creditsButtonImage = MainApplication.loadImage("button_credits.png");
 		this.buttons.add(new MenuButton(() -> {
 			this.loop.stop();
 			CreditsScreen cs = new CreditsScreen();
 			MainApplication.stage.getScene().setRoot(cs.getLayout());
-		}, 430, 230, 75, 75, creditsButtonImage));
+		}, 578, 230, 75, 75, creditsButtonImage));
 		/*this.buttons.add(new MenuButton(() -> {
 			this.loop.stop();
 			Editor ed = new Editor();
