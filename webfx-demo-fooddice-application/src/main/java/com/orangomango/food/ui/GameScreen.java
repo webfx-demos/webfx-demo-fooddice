@@ -482,13 +482,15 @@ public class GameScreen{
 		//MainApplication.sizeOnResize(canvas);
 
 		this.scalePane = new ScalePane(canvas);
-		this.scalePane.setScaleEnabled(false);
+		this.scalePane.setMaxScale(1);
 		return this.scalePane;
 	}
 
 	private void handlePress(KeyCode key, Canvas canvas){
-		if (key == KeyCode.S)
-			this.scalePane.setScaleEnabled(!this.scalePane.isScaleEnabled());
+		if (key == KeyCode.PLUS || key == KeyCode.ADD)
+			this.scalePane.setMaxScale(scalePane.getScale() * 1.1);
+		else if (key == KeyCode.MINUS || key == KeyCode.SUBTRACT)
+			this.scalePane.setMaxScale(scalePane.getScale() / 1.1);
 		else if (key == KeyCode.P || key == KeyCode.ESCAPE){
 			this.paused = !this.paused;
 			if (this.paused){
