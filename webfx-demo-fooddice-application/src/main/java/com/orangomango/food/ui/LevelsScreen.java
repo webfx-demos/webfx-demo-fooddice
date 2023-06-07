@@ -1,7 +1,6 @@
 package com.orangomango.food.ui;
 
 import com.orangomango.food.MainApplication;
-import dev.webfx.kit.util.scene.DeviceSceneUtil;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -46,11 +45,11 @@ public class LevelsScreen{
 			MainApplication.stage.getScene().setRoot(hs.getLayout());
 		}, 50, 300, 75, 75, homeImage));
 
-		DeviceSceneUtil.onImagesLoaded(() -> {
+		MainApplication.onImagesLoaded(() -> {
 			this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> update(gc)));
 			this.loop.setCycleCount(Animation.INDEFINITE);
 			this.loop.play();
-		}, background, homeImage);
+		});
 
 		return layout;
 	}

@@ -1,7 +1,6 @@
 package com.orangomango.food.ui;
 
 import com.orangomango.food.MainApplication;
-import dev.webfx.kit.util.scene.DeviceSceneUtil;
 import dev.webfx.platform.resource.Resource;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -64,11 +63,11 @@ public class HomeScreen{
 			MainApplication.stage.getScene().setRoot(ed.getLayout());
 		}, 570, 230, 75, 75, MainApplication.loadImage("button_editor.png")));*/
 
-		DeviceSceneUtil.onImagesLoaded(() -> {
+		MainApplication.onImagesLoaded(() -> {
 			this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> update(gc)));
 			this.loop.setCycleCount(Animation.INDEFINITE);
 			this.loop.play();
-		}, background, playButtonImage, helpButtonImage, creditsButtonImage);
+		});
 
 		return layout;
 	}

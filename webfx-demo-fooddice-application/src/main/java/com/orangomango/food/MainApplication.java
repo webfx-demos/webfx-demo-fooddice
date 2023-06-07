@@ -1,6 +1,7 @@
 package com.orangomango.food;
 
 import com.orangomango.food.ui.HomeScreen;
+import dev.webfx.kit.util.scene.DeviceSceneUtil;
 import dev.webfx.platform.resource.Resource;
 import javafx.animation.Animation;
 import javafx.application.Application;
@@ -11,6 +12,9 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainApplication extends Application{
 	public static final int WIDTH = 800;
@@ -57,9 +61,18 @@ public class MainApplication extends Application{
 		MOVE_SOUND = new AudioClip(Resource.toUrl("/audio/move.mp3", MainApplication.class));
 		COIN_SOUND = new AudioClip(Resource.toUrl("/audio/coin.mp3", MainApplication.class));
 	}
+
+	private static final Map<String, Image> imagesCache = new HashMap<>();
 	
 	public static Image loadImage(String name){
-		return new Image(Resource.toUrl("/images/"+name, MainApplication.class), true);
+		Image image = imagesCache.get(name);
+		if (image == null)
+			imagesCache.put(name, image = new Image(Resource.toUrl("/images/"+name, MainApplication.class), true));
+		return image;
+	}
+
+	public static void onImagesLoaded(Runnable runnable){
+		DeviceSceneUtil.onImagesLoaded(runnable, imagesCache.values().toArray(new Image[0]));
 	}
 	
 	public static void playMusic(Media media, boolean rep){

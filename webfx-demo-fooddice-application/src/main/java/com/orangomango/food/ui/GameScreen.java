@@ -483,8 +483,11 @@ public class GameScreen{
 
 		//MainApplication.sizeOnResize(canvas);
 
-		this.scalePane = new ScalePane(canvas);
+		this.scalePane = new ScalePane();
 		this.scalePane.setMaxScale(1);
+
+		MainApplication.onImagesLoaded(() -> scalePane.setNode(canvas));
+
 		return this.scalePane;
 	}
 

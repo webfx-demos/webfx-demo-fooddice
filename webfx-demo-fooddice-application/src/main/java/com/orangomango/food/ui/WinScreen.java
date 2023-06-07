@@ -1,15 +1,14 @@
 package com.orangomango.food.ui;
 
-import dev.webfx.kit.util.scene.DeviceSceneUtil;
+import com.orangomango.food.MainApplication;
 import dev.webfx.platform.resource.Resource;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
-import javafx.scene.canvas.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.image.Image;
 import javafx.scene.text.TextAlignment;
-
-import com.orangomango.food.MainApplication;
 
 public class WinScreen{
 	private Image background = MainApplication.loadImage("background_home.jpg");
@@ -29,7 +28,7 @@ public class WinScreen{
 		}, 50, 300, 75, 75, homeImage);
 		canvas.setOnMousePressed(e -> home.click(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE));
 
-		DeviceSceneUtil.onImagesLoaded(() -> {
+		MainApplication.onImagesLoaded(() -> {
 			gc.drawImage(this.background, 0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
 			gc.scale(MainApplication.SCALE, MainApplication.SCALE);
 			gc.setFont(Font.loadFont(Resource.toUrl("/font/font.ttf", getClass()), 50));
@@ -39,7 +38,7 @@ public class WinScreen{
 			gc.setFont(Font.loadFont(Resource.toUrl("/font/font.ttf", getClass()), 35));
 			gc.fillText("Thanks for playing", 400, 200);
 			home.render(gc);
-		}, background, homeImage);
+		});
 		
 		return layout;
 	}

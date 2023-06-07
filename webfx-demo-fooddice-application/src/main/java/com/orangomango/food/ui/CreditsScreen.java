@@ -1,15 +1,14 @@
 package com.orangomango.food.ui;
 
-import dev.webfx.kit.util.scene.DeviceSceneUtil;
+import com.orangomango.food.MainApplication;
 import dev.webfx.platform.resource.Resource;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
-import javafx.scene.canvas.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import javafx.scene.image.Image;
-
-import com.orangomango.food.MainApplication;
 
 public class CreditsScreen{
 	private Image background = MainApplication.loadImage("background_home.jpg");
@@ -29,7 +28,7 @@ public class CreditsScreen{
 		}, 50, 300, 75, 75, homeImage);
 		canvas.setOnMousePressed(e -> home.click(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE));
 
-		DeviceSceneUtil.onImagesLoaded(() -> {
+		MainApplication.onImagesLoaded(() -> {
 			//gc.setFill(Color.web("#409B85"));
 			//gc.fillRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
 			gc.drawImage(this.background, 0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
@@ -39,7 +38,7 @@ public class CreditsScreen{
 			gc.setFont(Font.loadFont(Resource.toUrl("/font/font.ttf", getClass()), 30));
 			gc.setTextAlign(TextAlignment.CENTER);
 			gc.fillText("Game written in Java\nFramework used: JavaFX\nCode and images made by OrangoMango\nSounds from freesound.org\nGMTK Game Jam 2022\nPost-Jam update v3.0\n...\nhttps://github.com/OrangoMango/FoodDice", 400, 50);
-		}, background, homeImage);
+		});
 
 		return layout;
 	}
