@@ -6,6 +6,7 @@ import javafx.animation.Animation;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -19,14 +20,14 @@ public class MainApplication extends Application{
 	public static Stage stage;
 	
 	public static Media BACKGROUND_MUSIC;
-	public static Media DIE_SOUND;
-	public static Media JUMP_SOUND;
-	public static Media NOTIFICATION_SOUND;
-	public static Media LEVEL_COMPLETE_SOUND;
-	public static Media CLICK_SOUND;
-	public static Media CHECKPOINT_SOUND;
-	public static Media MOVE_SOUND;
-	public static Media COIN_SOUND;
+	public static AudioClip DIE_SOUND;
+	public static AudioClip JUMP_SOUND;
+	public static AudioClip NOTIFICATION_SOUND;
+	public static AudioClip LEVEL_COMPLETE_SOUND;
+	public static AudioClip CLICK_SOUND;
+	public static AudioClip CHECKPOINT_SOUND;
+	public static AudioClip MOVE_SOUND;
+	public static AudioClip COIN_SOUND;
 	
 	public static void main(String[] args){
 		launch(args);
@@ -35,7 +36,7 @@ public class MainApplication extends Application{
 	public void start(Stage stage){
 		loadSounds();
 		
-		playSound(BACKGROUND_MUSIC, true);
+		playMusic(BACKGROUND_MUSIC, true);
 		MainApplication.stage = stage;
 		HomeScreen gs = new HomeScreen();
 		stage.setScene(new Scene(gs.getLayout(), WIDTH, HEIGHT, Color.BLACK));
@@ -47,24 +48,29 @@ public class MainApplication extends Application{
 	
 	private static void loadSounds(){
 		BACKGROUND_MUSIC = new Media(Resource.toUrl("/audio/background.mp3", MainApplication.class));
-		DIE_SOUND = new Media(Resource.toUrl("/audio/die.wav", MainApplication.class));
-		JUMP_SOUND = new Media(Resource.toUrl("/audio/jump.wav", MainApplication.class));
-		NOTIFICATION_SOUND = new Media(Resource.toUrl("/audio/notification.wav", MainApplication.class));
-		LEVEL_COMPLETE_SOUND = new Media(Resource.toUrl("/audio/level_complete.wav", MainApplication.class));
-		CLICK_SOUND = new Media(Resource.toUrl("/audio/click.wav", MainApplication.class));
-		CHECKPOINT_SOUND = new Media(Resource.toUrl("/audio/checkpoint.wav", MainApplication.class));
-		MOVE_SOUND = new Media(Resource.toUrl("/audio/move.wav", MainApplication.class));
-		COIN_SOUND = new Media(Resource.toUrl("/audio/coin.wav", MainApplication.class));
+		DIE_SOUND = new AudioClip(Resource.toUrl("/audio/die.mp3", MainApplication.class));
+		JUMP_SOUND = new AudioClip(Resource.toUrl("/audio/jump.mp3", MainApplication.class));
+		NOTIFICATION_SOUND = new AudioClip(Resource.toUrl("/audio/notification.mp3", MainApplication.class));
+		LEVEL_COMPLETE_SOUND = new AudioClip(Resource.toUrl("/audio/level_complete.mp3", MainApplication.class));
+		CLICK_SOUND = new AudioClip(Resource.toUrl("/audio/click.mp3", MainApplication.class));
+		CHECKPOINT_SOUND = new AudioClip(Resource.toUrl("/audio/checkpoint.mp3", MainApplication.class));
+		MOVE_SOUND = new AudioClip(Resource.toUrl("/audio/move.mp3", MainApplication.class));
+		COIN_SOUND = new AudioClip(Resource.toUrl("/audio/coin.mp3", MainApplication.class));
 	}
 	
 	public static Image loadImage(String name){
 		return new Image(Resource.toUrl("/images/"+name, MainApplication.class), true);
 	}
 	
-	public static void playSound(Media media, boolean rep){
+	public static void playMusic(Media media, boolean rep){
 		MediaPlayer player = new MediaPlayer(media);
 		if (rep) player.setCycleCount(Animation.INDEFINITE);
 		else player.setOnEndOfMedia(() -> player.dispose());
 		player.play();
+	}
+
+	public static void playSound(AudioClip audioClip, boolean rep){
+		if (rep) audioClip.setCycleCount(Animation.INDEFINITE);
+		audioClip.play();
 	}
 }
