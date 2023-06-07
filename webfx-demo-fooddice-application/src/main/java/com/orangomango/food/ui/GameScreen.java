@@ -15,6 +15,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
@@ -463,8 +464,8 @@ public class GameScreen{
 		loop.setCycleCount(Animation.INDEFINITE);
 		loop.play();
 
-		canvas.setOnKeyPressed(e -> handlePress(e.getCode(), canvas));
-		canvas.setOnKeyReleased(e -> keys.put(e.getCode(), false));
+		canvas.setOnKeyPressed(e -> handlePress(toKeyCode(e), canvas));
+		canvas.setOnKeyReleased(e -> keys.put(toKeyCode(e), false));
 		canvas.setOnMouseReleased(e -> {
 			KeyCode k = this.joystick.clicked(e.getX(), e.getY());
 			if (k != null){
@@ -485,6 +486,29 @@ public class GameScreen{
 		this.scalePane = new ScalePane(canvas);
 		this.scalePane.setMaxScale(1);
 		return this.scalePane;
+	}
+
+	private KeyCode toKeyCode(KeyEvent keyEvent) {
+		KeyCode keyCode = null;
+		// The HelpScreen tells the users to press keys such as 'A' or 'M', but the keyCode returned by JavaFX is the
+		// physical key, so if the user presses what he sees as 'A' on an AZERTY keyboard, the KeyCode received here
+		// will be actually Q and not A. The user would actually need to press what he sees as 'Q' to generate the
+		// keyCode 'A' expected by the game. Same issue with 'M' and '?' on AZERTY keyboards. To remove this confusion,
+		// we prioritize the text property of the KeyEvent that better matches what the user sees on his keyboard.
+		String letterText = keyEvent.getText(); // May be null for non letter keys such as arrows
+		if (letterText != null) {
+			// Checking if there is a KeyCode associated with that letter
+			KeyCode letterCode = KeyCode.getKeyCode(letterText.toUpperCase());
+			// If yes, this is the keyCode that we take (should match what the user sees on his keyboard)
+			if (letterCode != null) {
+				keyCode = letterCode;
+			}
+		}
+		// If we didn't find a KeyCode with the previous code (ex: arrows), we just take the physical KeyCode from
+		// the KeyEvent
+		if (keyCode == null)
+			keyCode = keyEvent.getCode();
+		return keyCode;
 	}
 
 	private void handlePress(KeyCode key, Canvas canvas){
