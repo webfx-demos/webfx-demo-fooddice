@@ -705,7 +705,7 @@ public class GameScreen{
 
 		if (keys.getOrDefault(KeyCode.M, false)){
 			gc.setFill(Color.WHITE);
-			gc.fillText("Player at X: " + format2d(this.player.getX()) + " Y:" + format2d(this.player.getY()) +"\nCamera available: " + this.showCamera + "\nFPS: " + this.currentFPS + "\nGravity: "+ format2d(this.player.getGravity()) + "\nLevel: " + this.currentLevel /* + "\nRunning threads: " + Thread.getAllStackTraces().keySet().size()*/, 50, 30);
+			gc.fillText("Player at X: " + format2d(this.player.getX()) + " Y:" + format2d(this.player.getY()) +"\nCamera available: " + this.showCamera + "\nFPS: " + this.currentFPS + "\nGravity: "+ format2d(this.player.getGravity()) + "\nLevel: " + this.currentLevel + "\nRunning tasks: " + Scheduler.tasksCount(), 50, 30);
 		}
 
 		gc.save();
