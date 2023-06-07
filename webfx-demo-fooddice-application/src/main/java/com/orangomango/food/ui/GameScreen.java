@@ -3,6 +3,7 @@ package com.orangomango.food.ui;
 import com.orangomango.food.*;
 import com.orangomango.food.ui.controls.JoyStick;
 import dev.webfx.extras.scalepane.ScalePane;
+import dev.webfx.platform.os.OperatingSystem;
 import dev.webfx.platform.resource.Resource;
 import dev.webfx.platform.scheduler.Scheduler;
 import javafx.animation.Animation;
@@ -721,7 +722,8 @@ public class GameScreen{
 
 		this.notification.render(gc);
 		// For mobile
-		//if (this.showMinimap) this.joystick.render();
+		if (OperatingSystem.isMobile())
+			this.joystick.render();
 		gc.restore();
 	}
 

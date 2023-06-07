@@ -10,6 +10,7 @@ module webfx.demo.fooddice.application {
     requires javafx.media;
     requires webfx.extras.scalepane;
     requires webfx.kit.util.scene;
+    requires webfx.platform.os;
     requires webfx.platform.resource;
     requires webfx.platform.scheduler;
 
