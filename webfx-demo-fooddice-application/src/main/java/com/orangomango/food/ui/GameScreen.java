@@ -487,11 +487,11 @@ public class GameScreen{
 
 		this.scalePane = new ScalePane();
 		// For mobiles, we auto-scale to the whole window (which is the default behavior of ScalePane) because users
-		// have no keyboard, but for desktops & laptops, we start with scale 1, and they can use the +/- keys to adjust
+		// have no keyboard, but for desktops & laptops, we start with scale 2, and they can use the +/- keys to adjust
 		// to their preferred scale.
 		if (!OperatingSystem.isMobile()) {
 			String scale = LocalStorage.getItem("scale");
-			this.scalePane.setMaxScale(scale == null ? 1 : Double.parseDouble(scale));
+			this.scalePane.setMaxScale(scale == null ? 2 : Double.parseDouble(scale));
 		}
 		// Restoring showInfo if persisted
 		String showInfo = LocalStorage.getItem("showInfo");
