@@ -485,7 +485,11 @@ public class GameScreen{
 		//MainApplication.sizeOnResize(canvas);
 
 		this.scalePane = new ScalePane();
-		this.scalePane.setMaxScale(1);
+		// For mobiles, we auto-scale to the whole window (which is the default behavior of ScalePane) because users
+		// have no keyboard, but for desktops & laptops, we start with scale 1, and they can use the +/- keys to adjust
+		// to their preferred scale.
+		if (!OperatingSystem.isMobile())
+			this.scalePane.setMaxScale(1);
 
 		MainApplication.onImagesLoaded(() -> scalePane.setNode(canvas));
 
