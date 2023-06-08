@@ -51,6 +51,7 @@ public class GameScreen{
 	public int deaths;
 	private String loadString;
 	private Map<Integer, Integer> spritesID = new HashMap<>();
+	private boolean showInfo;
 
 	private JoyStick joystick;
 	private ScalePane scalePane;
@@ -519,6 +520,8 @@ public class GameScreen{
 			this.scalePane.setMaxScale(scalePane.getScale() * 1.1);
 		else if (key == KeyCode.MINUS || key == KeyCode.SUBTRACT)
 			this.scalePane.setMaxScale(scalePane.getScale() / 1.1);
+		else if (key == KeyCode.I)
+			this.showInfo = !this.showInfo;
 		else if (key == KeyCode.P || key == KeyCode.ESCAPE){
 			this.paused = !this.paused;
 			if (this.paused){
@@ -678,7 +681,7 @@ public class GameScreen{
 				loadLevel(gc, ++this.currentLevel);
 			}
 		}
-		if (keys.getOrDefault(KeyCode.A, false) || keys.getOrDefault(KeyCode.LEFT, false)){
+		if (keys.getOrDefault(KeyCode.S, false) || keys.getOrDefault(KeyCode.LEFT, false)){
 			this.player.moveLeft(Player.X_SPEED);
 		}
 		if (keys.getOrDefault(KeyCode.D, false) || keys.getOrDefault(KeyCode.RIGHT, false)){
@@ -731,7 +734,7 @@ public class GameScreen{
 		gc.save();
 		gc.scale(MainApplication.SCALE, MainApplication.SCALE);
 
-		if (keys.getOrDefault(KeyCode.M, false)){
+		if (this.showInfo){
 			gc.setFill(Color.WHITE);
 			gc.fillText("Player at X: " + format2d(this.player.getX()) + " Y:" + format2d(this.player.getY()) +"\nCamera available: " + this.showCamera + "\nFPS: " + this.currentFPS + "\nGravity: "+ format2d(this.player.getGravity()) + "\nLevel: " + this.currentLevel + "\nRunning tasks: " + Scheduler.tasksCount(), 50, 30);
 		}

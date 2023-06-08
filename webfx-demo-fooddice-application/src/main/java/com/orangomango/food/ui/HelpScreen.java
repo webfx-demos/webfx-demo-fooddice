@@ -97,11 +97,11 @@ public class HelpScreen{
 		
 		gc.setFill(Color.BLACK);
 		gc.setFont(Font.loadFont(Resource.toUrl("/font/font.ttf", getClass()), 20));
-		gc.fillText("Use A/D or arrow keys to move", 187, 100);
+		gc.fillText("Use S/D or arrow keys to move", 187, 100);
 		gc.fillText("Use ESC or P to pause/resume", 187, 230);
 		gc.fillText("Use K to kill yourself", 550, 75);
 		gc.fillText("Use L to reload the level", 550, 130);
-		gc.fillText("Use M to toggle game info", 227, 330);
+		gc.fillText("Use I to toggle game info", 227, 330);
 		gc.fillText("Load the test level", 550, 240);
 		gc.fillText("View nearest bottom object", 550, 290);
 		gc.fillText("View player hitboxes", 550, 335);

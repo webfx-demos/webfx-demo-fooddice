@@ -44,7 +44,7 @@ public class HomeScreen{
 			this.loop.stop();
 			LevelsScreen ls = new LevelsScreen();
 			MainApplication.stage.getScene().setRoot(ls.getLayout());
-		}, 148, 230, 75, 75, playButtonImage));
+		}, 168, 230, 75, 75, playButtonImage));
 		Image helpButtonImage = MainApplication.loadImage("button_help.png");
 		this.buttons.add(new MenuButton(() -> {
 			this.loop.stop();
@@ -56,7 +56,7 @@ public class HomeScreen{
 			this.loop.stop();
 			CreditsScreen cs = new CreditsScreen();
 			MainApplication.stage.getScene().setRoot(cs.getLayout());
-		}, 578, 230, 75, 75, creditsButtonImage));
+		}, 558, 230, 75, 75, creditsButtonImage));
 		/*this.buttons.add(new MenuButton(() -> {
 			this.loop.stop();
 			Editor ed = new Editor();
