@@ -44,8 +44,8 @@ public class JoyStick{
 		Rectangle2D pause = new Rectangle2D(WIDTH-270, 25, 35, 35);
 		Rectangle2D map = new Rectangle2D(WIDTH-225, 25, 35, 35);
 		Rectangle2D kill = new Rectangle2D(WIDTH-180, 25, 35, 35);
-		if (moveLeft.contains(x, y)) return KeyCode.A;
-		if (moveRight.contains(x, y)) return KeyCode.D;
+		if (moveLeft.contains(x, y)) return KeyCode.S;
+		if (moveRight.contains(x, y)) return KeyCode.F;
 		if (jump.contains(x, y)) return KeyCode.SPACE;
 		if (pause.contains(x, y)) return KeyCode.P;
 		if (map.contains(x, y)) return KeyCode.M;
