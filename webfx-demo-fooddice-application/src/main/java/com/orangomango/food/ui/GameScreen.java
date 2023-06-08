@@ -6,6 +6,7 @@ import dev.webfx.extras.scalepane.ScalePane;
 import dev.webfx.platform.os.OperatingSystem;
 import dev.webfx.platform.resource.Resource;
 import dev.webfx.platform.scheduler.Scheduler;
+import dev.webfx.platform.storage.LocalStorage;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
@@ -488,8 +489,10 @@ public class GameScreen{
 		// For mobiles, we auto-scale to the whole window (which is the default behavior of ScalePane) because users
 		// have no keyboard, but for desktops & laptops, we start with scale 1, and they can use the +/- keys to adjust
 		// to their preferred scale.
-		if (!OperatingSystem.isMobile())
-			this.scalePane.setMaxScale(1);
+		if (!OperatingSystem.isMobile()) {
+			String scale = LocalStorage.getItem("scale");
+			this.scalePane.setMaxScale(scale == null ? 1 : Double.parseDouble(scale));
+		}
 
 		MainApplication.onImagesLoaded(() -> scalePane.setNode(canvas));
 
@@ -519,11 +522,16 @@ public class GameScreen{
 		return keyCode;
 	}
 
+	private void setScale(double newScale) {
+		this.scalePane.setMaxScale(newScale);
+		LocalStorage.setItem("scale", String.valueOf(newScale));
+	}
+
 	private void handlePress(KeyCode key, Canvas canvas){
 		if (key == KeyCode.PLUS || key == KeyCode.ADD)
-			this.scalePane.setMaxScale(scalePane.getScale() * 1.1);
+			setScale(scalePane.getScale() * 1.1);
 		else if (key == KeyCode.MINUS || key == KeyCode.SUBTRACT)
-			this.scalePane.setMaxScale(scalePane.getScale() / 1.1);
+			setScale(scalePane.getScale() / 1.1);
 		else if (key == KeyCode.I)
 			this.showInfo = !this.showInfo;
 		else if (key == KeyCode.P || key == KeyCode.ESCAPE){

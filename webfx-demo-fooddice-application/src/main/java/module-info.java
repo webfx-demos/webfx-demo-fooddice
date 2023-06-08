@@ -13,6 +13,7 @@ module webfx.demo.fooddice.application {
     requires webfx.platform.os;
     requires webfx.platform.resource;
     requires webfx.platform.scheduler;
+    requires webfx.platform.storage;
 
     // Exported packages
     exports com.orangomango.food;
