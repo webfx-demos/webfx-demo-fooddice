@@ -681,13 +681,13 @@ public class GameScreen{
 				loadLevel(gc, ++this.currentLevel);
 			}
 		}
-		if (keys.getOrDefault(KeyCode.S, false) || keys.getOrDefault(KeyCode.LEFT, false)){
+		if (keys.getOrDefault(KeyCode.LEFT, false) || keys.getOrDefault(KeyCode.S, false)){
 			this.player.moveLeft(Player.X_SPEED);
 		}
-		if (keys.getOrDefault(KeyCode.D, false) || keys.getOrDefault(KeyCode.RIGHT, false)){
+		if (keys.getOrDefault(KeyCode.RIGHT, false) || keys.getOrDefault(KeyCode.F, false)){
 			this.player.moveRight(Player.X_SPEED);
 		}
-		if (keys.getOrDefault(KeyCode.SPACE, false)){
+		if (keys.getOrDefault(KeyCode.SPACE, false) || keys.getOrDefault(KeyCode.UP, false)){
 			this.player.moveUp(this.specialEffect.specialJump ? Player.Y_SPEED+50 : Player.Y_SPEED);
 		}
 		if (keys.getOrDefault(KeyCode.K, false)){
