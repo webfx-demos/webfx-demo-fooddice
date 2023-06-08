@@ -493,6 +493,10 @@ public class GameScreen{
 			String scale = LocalStorage.getItem("scale");
 			this.scalePane.setMaxScale(scale == null ? 1 : Double.parseDouble(scale));
 		}
+		// Restoring showInfo if persisted
+		String showInfo = LocalStorage.getItem("showInfo");
+		if (showInfo != null)
+			this.showInfo = Boolean.parseBoolean(showInfo);
 
 		MainApplication.onImagesLoaded(() -> scalePane.setNode(canvas));
 
@@ -527,13 +531,18 @@ public class GameScreen{
 		LocalStorage.setItem("scale", String.valueOf(newScale));
 	}
 
+	private void setShowInfo(boolean newShowInfo) {
+		this.showInfo = newShowInfo;
+		LocalStorage.setItem("showInfo", String.valueOf(newShowInfo));
+	}
+
 	private void handlePress(KeyCode key, Canvas canvas){
 		if (key == KeyCode.PLUS || key == KeyCode.ADD)
 			setScale(scalePane.getScale() * 1.1);
 		else if (key == KeyCode.MINUS || key == KeyCode.SUBTRACT)
 			setScale(scalePane.getScale() / 1.1);
 		else if (key == KeyCode.I)
-			this.showInfo = !this.showInfo;
+			setShowInfo(!this.showInfo);
 		else if (key == KeyCode.P || key == KeyCode.ESCAPE){
 			this.paused = !this.paused;
 			if (this.paused){
