@@ -5,7 +5,6 @@ import dev.webfx.platform.resource.Resource;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
@@ -13,18 +12,15 @@ import javafx.scene.text.TextAlignment;
 public class WinScreen{
 	private Image background = MainApplication.loadImage("background_home.jpg");
 
-	public StackPane getLayout(){
-		StackPane layout = new StackPane();
-		
+	public Canvas getLayout(){
 		Canvas canvas = new Canvas(MainApplication.WIDTH, MainApplication.HEIGHT);
-		layout.getChildren().add(canvas);
-		
+
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 
 		Image homeImage = MainApplication.loadImage("button_home.png");
 		MenuButton home = new MenuButton(() -> {
 			HomeScreen hs = new HomeScreen();
-			MainApplication.stage.getScene().setRoot(hs.getLayout());
+			MainApplication.setScreen(hs.getLayout());
 		}, 50, 300, 75, 75, homeImage);
 		canvas.setOnMousePressed(e -> home.click(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE));
 
@@ -40,6 +36,6 @@ public class WinScreen{
 			home.render(gc);
 		});
 		
-		return layout;
+		return canvas;
 	}
 }

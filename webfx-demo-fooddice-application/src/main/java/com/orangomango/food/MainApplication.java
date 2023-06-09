@@ -1,12 +1,17 @@
 package com.orangomango.food;
 
 import com.orangomango.food.ui.HomeScreen;
+import dev.webfx.extras.scalepane.ScalePane;
 import dev.webfx.kit.util.scene.DeviceSceneUtil;
+import dev.webfx.platform.os.OperatingSystem;
 import dev.webfx.platform.resource.Resource;
+import dev.webfx.platform.storage.LocalStorage;
 import javafx.animation.Animation;
 import javafx.application.Application;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -22,7 +27,8 @@ public class MainApplication extends Application{
 	public static final double SCALE = 1;
 	public static final int FPS = 40;
 	public static Stage stage;
-	
+	private static ScalePane scalePane;
+
 	public static Media BACKGROUND_MUSIC;
 	public static AudioClip DIE_SOUND;
 	public static AudioClip JUMP_SOUND;
@@ -42,14 +48,54 @@ public class MainApplication extends Application{
 		
 		playMusic(BACKGROUND_MUSIC, true);
 		MainApplication.stage = stage;
+		MainApplication.scalePane = new ScalePane();
+		// For mobiles, we auto-scale to the whole window (which is the default behavior of ScalePane) because users
+		// have no keyboard, but for desktops & laptops, we start with scale 2, and they can use the +/- keys to adjust
+		// to their preferred scale.
+		if (!OperatingSystem.isMobile()) {
+			String scale = LocalStorage.getItem("scale");
+			MainApplication.scalePane.setMaxScale(scale == null ? 2 : Double.parseDouble(scale));
+		}
 		HomeScreen gs = new HomeScreen();
-		stage.setScene(new Scene(gs.getLayout(), WIDTH, HEIGHT, Color.BLACK));
+		setScreen(gs.getLayout());
+		Scene scene = new Scene(MainApplication.scalePane, WIDTH, HEIGHT, Color.BLACK);
+		scene.setOnKeyPressed(e -> handleScalePress(e.getCode()));
+		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.getIcons().add(loadImage("icon.png"));
 		stage.setTitle("Food Dice");
 		stage.show();
 	}
-	
+
+	public static void setScreen(Node screenNode) {
+		MainApplication.onImagesLoaded(() -> scalePane.setNode(screenNode));
+	}
+
+	public static void setScale(double newScale) {
+		MainApplication.scalePane.setMaxScale(newScale);
+		LocalStorage.setItem("scale", String.valueOf(newScale));
+	}
+
+	public static void increaseScale() {
+		setScale(scalePane.getScale() * 1.1);
+	}
+
+	public static void decreaseScale() {
+		setScale(scalePane.getScale() / 1.1);
+	}
+
+	public static boolean handleScalePress(KeyCode key) {
+		if (key == KeyCode.PLUS || key == KeyCode.ADD) {
+			increaseScale();
+			return true;
+		}
+		if (key == KeyCode.MINUS || key == KeyCode.SUBTRACT) {
+			decreaseScale();
+			return true;
+		}
+		return false;
+	}
+
 	private static void loadSounds(){
 		BACKGROUND_MUSIC = new Media(Resource.toUrl("/audio/background.mp3", MainApplication.class));
 		DIE_SOUND = new AudioClip(Resource.toUrl("/audio/die.mp3", MainApplication.class));

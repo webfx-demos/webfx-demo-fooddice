@@ -7,7 +7,6 @@ import javafx.animation.Timeline;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -20,17 +19,14 @@ public class LevelsScreen{
 	private boolean forward = true;
 	private double extraY = 1;
 
-	public StackPane getLayout(){
-		StackPane layout = new StackPane();
-		
+	public Canvas getLayout(){
 		Canvas canvas = new Canvas(MainApplication.WIDTH, MainApplication.HEIGHT);
 		canvas.setOnMousePressed(e -> {
 			for (MenuButton mb : this.buttons){
 				mb.click(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE);
 			}
 		});
-		layout.getChildren().add(canvas);
-		
+
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		
 		buttons.add(new MenuButton(() -> loadLevel(1), 100, 120, 75, 75, MainApplication.loadImage("button_level_1.png")));
@@ -42,7 +38,7 @@ public class LevelsScreen{
 		buttons.add(new MenuButton(() -> {
 			this.loop.stop();
 			HomeScreen hs = new HomeScreen();
-			MainApplication.stage.getScene().setRoot(hs.getLayout());
+			MainApplication.setScreen(hs.getLayout());
 		}, 50, 300, 75, 75, homeImage));
 
 		MainApplication.onImagesLoaded(() -> {
@@ -51,13 +47,13 @@ public class LevelsScreen{
 			this.loop.play();
 		});
 
-		return layout;
+		return canvas;
 	}
 	
 	private void loadLevel(int l){
 		this.loop.stop();
 		GameScreen gs = new GameScreen(l);
-		MainApplication.stage.getScene().setRoot(gs.getLayout());
+		MainApplication.setScreen(gs.getLayout());
 	}
 	
 	private void update(GraphicsContext gc){

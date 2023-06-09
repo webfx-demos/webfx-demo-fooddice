@@ -8,7 +8,6 @@ import javafx.animation.Timeline;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
@@ -25,17 +24,14 @@ public class HomeScreen{
 	private Image background = MainApplication.loadImage("background_home.jpg");
 	private Image logo = MainApplication.loadImage("logo.png");
 	
-	public StackPane getLayout(){		
-		StackPane layout = new StackPane();
-		
+	public Canvas getLayout(){
 		Canvas canvas = new Canvas(MainApplication.WIDTH, MainApplication.HEIGHT);
 		canvas.setOnMousePressed(e -> {
 			for (MenuButton mb : this.buttons){
 				mb.click(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE);
 			}
 		});
-		layout.getChildren().add(canvas);
-		
+
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.setFont(Font.loadFont(Resource.toUrl("/font/font.ttf", getClass()), 25));
 
@@ -43,19 +39,19 @@ public class HomeScreen{
 		this.buttons.add(new MenuButton(() -> {
 			this.loop.stop();
 			LevelsScreen ls = new LevelsScreen();
-			MainApplication.stage.getScene().setRoot(ls.getLayout());
+			MainApplication.setScreen(ls.getLayout());
 		}, 168, 230, 75, 75, playButtonImage));
 		Image helpButtonImage = MainApplication.loadImage("button_help.png");
 		this.buttons.add(new MenuButton(() -> {
 			this.loop.stop();
 			HelpScreen hs = new HelpScreen();
-			MainApplication.stage.getScene().setRoot(hs.getLayout());
+			MainApplication.setScreen(hs.getLayout());
 		}, 363, 230, 75, 75, helpButtonImage));
 		Image creditsButtonImage = MainApplication.loadImage("button_credits.png");
 		this.buttons.add(new MenuButton(() -> {
 			this.loop.stop();
 			CreditsScreen cs = new CreditsScreen();
-			MainApplication.stage.getScene().setRoot(cs.getLayout());
+			MainApplication.setScreen(cs.getLayout());
 		}, 558, 230, 75, 75, creditsButtonImage));
 		/*this.buttons.add(new MenuButton(() -> {
 			this.loop.stop();
@@ -69,7 +65,7 @@ public class HomeScreen{
 			this.loop.play();
 		});
 
-		return layout;
+		return canvas;
 	}
 	
 	private void update(GraphicsContext gc){

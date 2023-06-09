@@ -2,7 +2,6 @@ package com.orangomango.food.ui;
 
 import com.orangomango.food.*;
 import com.orangomango.food.ui.controls.JoyStick;
-import dev.webfx.extras.scalepane.ScalePane;
 import dev.webfx.platform.os.OperatingSystem;
 import dev.webfx.platform.resource.Resource;
 import dev.webfx.platform.scheduler.Scheduler;
@@ -55,7 +54,6 @@ public class GameScreen{
 	private boolean showInfo;
 
 	private JoyStick joystick;
-	private ScalePane scalePane;
 
 	private static Font FONT_20 = Font.loadFont(Resource.toUrl("/font/font.ttf", GameScreen.class), 20);
 	private static Font FONT_55 = Font.loadFont(Resource.toUrl("/font/font.ttf", GameScreen.class), 55);
@@ -436,7 +434,7 @@ public class GameScreen{
 		}
 	}
 
-	public ScalePane getLayout(){
+	public Canvas getLayout(){
 		Canvas canvas = new Canvas(MainApplication.WIDTH, MainApplication.HEIGHT);
 		this.gc = canvas.getGraphicsContext2D();
 
@@ -485,22 +483,12 @@ public class GameScreen{
 
 		//MainApplication.sizeOnResize(canvas);
 
-		this.scalePane = new ScalePane();
-		// For mobiles, we auto-scale to the whole window (which is the default behavior of ScalePane) because users
-		// have no keyboard, but for desktops & laptops, we start with scale 2, and they can use the +/- keys to adjust
-		// to their preferred scale.
-		if (!OperatingSystem.isMobile()) {
-			String scale = LocalStorage.getItem("scale");
-			this.scalePane.setMaxScale(scale == null ? 2 : Double.parseDouble(scale));
-		}
 		// Restoring showInfo if persisted
 		String showInfo = LocalStorage.getItem("showInfo");
 		if (showInfo != null)
 			this.showInfo = Boolean.parseBoolean(showInfo);
 
-		MainApplication.onImagesLoaded(() -> scalePane.setNode(canvas));
-
-		return this.scalePane;
+		return canvas;
 	}
 
 	private KeyCode toKeyCode(KeyEvent keyEvent) {
@@ -526,22 +514,15 @@ public class GameScreen{
 		return keyCode;
 	}
 
-	private void setScale(double newScale) {
-		this.scalePane.setMaxScale(newScale);
-		LocalStorage.setItem("scale", String.valueOf(newScale));
-	}
-
 	private void setShowInfo(boolean newShowInfo) {
 		this.showInfo = newShowInfo;
 		LocalStorage.setItem("showInfo", String.valueOf(newShowInfo));
 	}
 
 	private void handlePress(KeyCode key, Canvas canvas){
-		if (key == KeyCode.PLUS || key == KeyCode.ADD)
-			setScale(scalePane.getScale() * 1.1);
-		else if (key == KeyCode.MINUS || key == KeyCode.SUBTRACT)
-			setScale(scalePane.getScale() / 1.1);
-		else if (key == KeyCode.I)
+		if (MainApplication.handleScalePress(key))
+			return;
+		if (key == KeyCode.I)
 			setShowInfo(!this.showInfo);
 		else if (key == KeyCode.P || key == KeyCode.ESCAPE){
 			this.paused = !this.paused;
@@ -555,7 +536,7 @@ public class GameScreen{
 						MainApplication.stage.getScene().setRoot(ed.getLayout());
 					} else*/ {
 						HomeScreen hs = new HomeScreen();
-						MainApplication.stage.getScene().setRoot(hs.getLayout());
+						MainApplication.setScreen(hs.getLayout());
 					}
 				}, 250, 200, 75, 75, MainApplication.loadImage("button_home.png")));
 				this.buttons.add(new MenuButton(() -> {
@@ -691,7 +672,7 @@ public class GameScreen{
 			if (this.currentLevel == 4){ // Final level
 				clearEverything();
 				WinScreen ws = new WinScreen();
-				MainApplication.stage.getScene().setRoot(ws.getLayout());
+				MainApplication.setScreen(ws.getLayout());
 				return;
 			} /*else if (this.currentLevel < 0){
 				clearEverything();

@@ -474,7 +474,7 @@ public class Editor{
 				this.loop.stop();
 				this.saveFile();
 				GameScreen gs = new GameScreen(-1, this.save());
-				MainApplication.stage.getScene().setRoot(gs.getLayout());
+				MainApplication.setScreen(gs.getLayout());
 			} else {
 				Alert alert = new Alert(Alert.AlertType.ERROR);
 				alert.setHeaderText("Error");
@@ -512,7 +512,7 @@ public class Editor{
 			lastFile = null;
 			this.loop.stop();
 			HomeScreen hs = new HomeScreen();
-			MainApplication.stage.getScene().setRoot(hs.getLayout());
+			MainApplication.setScreen(hs.getLayout());
 		});
 	}
 	

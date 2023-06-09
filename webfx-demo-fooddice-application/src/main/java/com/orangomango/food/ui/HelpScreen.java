@@ -8,7 +8,6 @@ import javafx.animation.Timeline;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
@@ -37,18 +36,15 @@ public class HelpScreen{
 		this.images[12] = MainApplication.loadImage("key_m.png");
 	}
 
-	public StackPane getLayout(){
-		StackPane layout = new StackPane();
-		
+	public Canvas getLayout(){
 		Canvas canvas = new Canvas(MainApplication.WIDTH, MainApplication.HEIGHT);
-		layout.getChildren().add(canvas);
-		
+
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 
 		Image homeButtonImage = MainApplication.loadImage("button_home.png");
 		this.home = new MenuButton(() -> {
 			HomeScreen hs = new HomeScreen();
-			MainApplication.stage.getScene().setRoot(hs.getLayout());
+			MainApplication.setScreen(hs.getLayout());
 		}, 50, 300, 75, 75, homeButtonImage);
 		canvas.setOnMousePressed(e -> home.click(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE));
 
@@ -58,7 +54,7 @@ public class HelpScreen{
 			this.loop.play();
 		});
 
-		return layout;
+		return canvas;
 	}
 	
 	private void update(GraphicsContext gc){
