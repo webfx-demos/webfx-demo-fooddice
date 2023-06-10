@@ -21,8 +21,8 @@ public class HelpScreen{
 	private Image background = MainApplication.loadImage("background_home.jpg");
 	
 	public HelpScreen(){
-		this.images[0] = MainApplication.loadImage("key_a.png");
-		this.images[1] = MainApplication.loadImage("key_d.png");
+		this.images[0] = MainApplication.loadImage("key_s.png");
+		this.images[1] = MainApplication.loadImage("key_f.png");
 		this.images[2] = MainApplication.loadImage("key_left.png");
 		this.images[3] = MainApplication.loadImage("key_right.png");
 		this.images[4] = MainApplication.loadImage("key_esc.png");
@@ -33,7 +33,7 @@ public class HelpScreen{
 		this.images[9] = MainApplication.loadImage("key_f2.png");
 		this.images[10] = MainApplication.loadImage("key_f3.png");
 		this.images[11] = MainApplication.loadImage("key_f4.png");
-		this.images[12] = MainApplication.loadImage("key_m.png");
+		this.images[12] = MainApplication.loadImage("key_i.png");
 	}
 
 	public Canvas getLayout(){
