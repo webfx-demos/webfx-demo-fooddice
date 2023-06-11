@@ -40,24 +40,25 @@ public class HomeScreen{
 			this.loop.stop();
 			LevelsScreen ls = new LevelsScreen();
 			MainApplication.setScreen(ls.getLayout());
-		}, 168, 230, 75, 75, playButtonImage));
+		}, 160, 230, 75, 75, playButtonImage));
 		Image helpButtonImage = MainApplication.loadImage("button_help.png");
 		this.buttons.add(new MenuButton(() -> {
 			this.loop.stop();
 			HelpScreen hs = new HelpScreen();
 			MainApplication.setScreen(hs.getLayout());
-		}, 363, 230, 75, 75, helpButtonImage));
+		}, 290, 230, 75, 75, helpButtonImage));
 		Image creditsButtonImage = MainApplication.loadImage("button_credits.png");
 		this.buttons.add(new MenuButton(() -> {
 			this.loop.stop();
 			CreditsScreen cs = new CreditsScreen();
 			MainApplication.setScreen(cs.getLayout());
-		}, 558, 230, 75, 75, creditsButtonImage));
-		/*this.buttons.add(new MenuButton(() -> {
+		}, 430, 230, 75, 75, creditsButtonImage));
+		Image editorButtonImage = MainApplication.loadImage("button_editor.png");
+		this.buttons.add(new MenuButton(() -> {
 			this.loop.stop();
-			Editor ed = new Editor();
-			MainApplication.stage.getScene().setRoot(ed.getLayout());
-		}, 570, 230, 75, 75, MainApplication.loadImage("button_editor.png")));*/
+			NoEditor ed = new NoEditor();
+			MainApplication.setScreen(ed.getLayout());
+		}, 570, 230, 75, 75, editorButtonImage));
 
 		MainApplication.onImagesLoaded(() -> {
 			this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> update(gc)));
@@ -76,7 +77,7 @@ public class HomeScreen{
 		gc.scale(MainApplication.SCALE, MainApplication.SCALE);
 		gc.drawImage(this.logo, 165, 50);
 		gc.translate(0, this.extraY);
-		String[] texts = new String[]{"Levels", "Help", "Credits"/*, "Editor"*/};
+		String[] texts = new String[]{"Levels", "Help", "Credits", "Editor"};
 		int c = 0;
 		for (MenuButton mb : this.buttons){
 			mb.render(gc);
