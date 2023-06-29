@@ -1,6 +1,6 @@
 package com.orangomango.food;
 
-import javafx.scene.canvas.*;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class Exit{
@@ -17,8 +17,6 @@ public class Exit{
 	}
 	
 	public void render(){
-		//gc.setFill(Color.BLUE);
-		//gc.fillRect(this.x, this.y, WIDTH, HEIGHT);
 		gc.drawImage(this.image, this.x, this.y, WIDTH, HEIGHT);
 	}
 }

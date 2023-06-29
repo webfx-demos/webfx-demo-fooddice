@@ -1,20 +1,12 @@
 package com.orangomango.food.ui;
 
-import com.orangomango.food.MainApplication;
-import dev.webfx.platform.resource.Resource;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.canvas.*;
+import javafx.animation.*;
 import javafx.util.Duration;
+import javafx.scene.image.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import com.orangomango.food.MainApplication;
 
 public class HomeScreen{
 	private Timeline loop;
@@ -25,47 +17,47 @@ public class HomeScreen{
 	private Image logo = MainApplication.loadImage("logo.png");
 	
 	public Canvas getLayout(){
+		//StackPane layout = new StackPane();
+		
 		Canvas canvas = new Canvas(MainApplication.WIDTH, MainApplication.HEIGHT);
 		canvas.setOnMousePressed(e -> {
 			for (MenuButton mb : this.buttons){
 				mb.click(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE);
 			}
 		});
-
+		//layout.getChildren().add(canvas);
+		
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		gc.setFont(Font.loadFont(Resource.toUrl("/font/font.ttf", getClass()), 25));
-
-		Image playButtonImage = MainApplication.loadImage("button_play.png");
-		this.buttons.add(new MenuButton(() -> {
+		gc.setFont(MainApplication.getFont(25));
+		
+		this.buttons.add(new MenuButton("Levels", () -> {
 			this.loop.stop();
 			LevelsScreen ls = new LevelsScreen();
 			MainApplication.setScreen(ls.getLayout());
-		}, 160, 230, 75, 75, playButtonImage));
-		Image helpButtonImage = MainApplication.loadImage("button_help.png");
-		this.buttons.add(new MenuButton(() -> {
+		}, 160, 230, 75, 75, MainApplication.loadImage("button_play.png")));
+		this.buttons.add(new MenuButton("Help", () -> {
 			this.loop.stop();
 			HelpScreen hs = new HelpScreen();
 			MainApplication.setScreen(hs.getLayout());
-		}, 290, 230, 75, 75, helpButtonImage));
-		Image creditsButtonImage = MainApplication.loadImage("button_credits.png");
-		this.buttons.add(new MenuButton(() -> {
+		}, 290, 230, 75, 75, MainApplication.loadImage("button_help.png")));
+		this.buttons.add(new MenuButton("Credits", () -> {
 			this.loop.stop();
 			CreditsScreen cs = new CreditsScreen();
 			MainApplication.setScreen(cs.getLayout());
-		}, 430, 230, 75, 75, creditsButtonImage));
-		Image editorButtonImage = MainApplication.loadImage("button_editor.png");
-		this.buttons.add(new MenuButton(() -> {
+		}, 430, 230, 75, 75, MainApplication.loadImage("button_credits.png")));
+		this.buttons.add(new MenuButton("Editor", () -> {
 			this.loop.stop();
 			NoEditor ed = new NoEditor();
 			MainApplication.setScreen(ed.getLayout());
-		}, 570, 230, 75, 75, editorButtonImage));
-
+		}, 570, 230, 75, 75, MainApplication.loadImage("button_editor.png")));
+		
 		MainApplication.onImagesLoaded(() -> {
+			update(gc);
 			this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> update(gc)));
 			this.loop.setCycleCount(Animation.INDEFINITE);
 			this.loop.play();
 		});
-
+		
 		return canvas;
 	}
 	
@@ -77,13 +69,8 @@ public class HomeScreen{
 		gc.scale(MainApplication.SCALE, MainApplication.SCALE);
 		gc.drawImage(this.logo, 165, 50);
 		gc.translate(0, this.extraY);
-		String[] texts = new String[]{"Levels", "Help", "Credits", "Editor"};
-		int c = 0;
 		for (MenuButton mb : this.buttons){
 			mb.render(gc);
-			gc.setFill(Color.BLACK);
-			gc.setTextAlign(TextAlignment.CENTER);
-			gc.fillText(texts[c++], mb.getX(), mb.getY()+30);
 		}
 		gc.restore();
 		

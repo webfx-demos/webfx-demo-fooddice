@@ -1,39 +1,33 @@
 package com.orangomango.food;
 
 import dev.webfx.platform.scheduler.Scheduler;
-import javafx.scene.canvas.*;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class Door extends GameObject implements Turnable{
 	private boolean opened;
-	private Image[] images = new Image[8];
+	private static Image[] IMAGES = new Image[8];
 	private boolean animating;
 	private volatile boolean stopCurrentAnimation;
 
-	public Door(GraphicsContext gc, double x, double y){
-		super(gc, x, y, 20, 50);
+	static {
 		for (int i = 0; i < 8; i++){
-			this.images[i] = MainApplication.loadImage("door_"+i+".png");
+			IMAGES[i] = MainApplication.loadImage("door_"+i+".png");
 		}
+	}
+
+	public Door(GraphicsContext gc, double x, double y){
+		super(gc, x, y, IMAGES[0].getWidth(), IMAGES[0].getHeight());
 	}
 	
 	@Override
 	public void render(){
 		this.solid = !this.opened;
-		gc.drawImage(this.images[this.imageIndex], this.x, this.y, this.w, this.h);
+		gc.drawImage(IMAGES[this.imageIndex], this.x, this.y, this.w, this.h);
 	}
 	
 	@Override
 	public void turnOn(){
-		this.open();
-	}
-	
-	@Override
-	public void turnOff(){
-		this.close();
-	}
-	
-	public void open(){
 		this.imageIndex = 0;
 		if (!this.animating) {
 			this.animating = true;
@@ -52,7 +46,8 @@ public class Door extends GameObject implements Turnable{
 		}
 	}
 	
-	public void close(){
+	@Override
+	public void turnOff(){
 		this.imageIndex = 7;
 		if (!this.animating) {
 			this.animating = true;

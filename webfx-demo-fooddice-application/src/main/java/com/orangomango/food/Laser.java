@@ -1,7 +1,7 @@
 package com.orangomango.food;
 
 import dev.webfx.platform.scheduler.Scheduler;
-import javafx.scene.canvas.*;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
@@ -9,14 +9,13 @@ import com.orangomango.food.ui.GameScreen;
 
 public class Laser extends GameObject implements Turnable{
 	private volatile boolean shooting = false;
-	private Image image = MainApplication.loadImage("laser.png");
-	private double drawAmount;
+	private static Image IMAGE = MainApplication.loadImage("laser.png");
+	private volatile double drawAmount;
 	private volatile boolean on = true;
 	private int timeOff = 1400;
 	
-	public Laser(GraphicsContext gc, double x, double y, double w, double h){
-		super(gc, x, y, w, h);
-		if (w != h) throw new IllegalArgumentException("W and H must be equal");
+	public Laser(GraphicsContext gc, double x, double y){
+		super(gc, x, y, IMAGE.getWidth(), IMAGE.getHeight());
 		this.solid = true;
 		int[] i = {0};
 		Scheduler.schedulePeriodic(40, scheduled -> {
@@ -56,7 +55,7 @@ public class Laser extends GameObject implements Turnable{
 	
 	@Override
 	public void render(){
-		gc.drawImage(this.image, this.x, this.y, this.w, this.h);
+		gc.drawImage(IMAGE, this.x, this.y, this.w, this.h);
 		if (this.shooting){
 			GameObject found = getNearestBottomObject(GameScreen.getInstance().getPlayer());
 			gc.setFill(Color.RED);

@@ -1,21 +1,19 @@
 package com.orangomango.food.ui;
 
-import com.orangomango.food.MainApplication;
-import dev.webfx.platform.resource.Resource;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
+import javafx.scene.canvas.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
+import javafx.animation.*;
 import javafx.util.Duration;
+import javafx.scene.text.Font;
+import javafx.scene.image.Image;
+
+import com.orangomango.food.MainApplication;
 
 public class HelpScreen{
 	private Timeline loop;
 	private MenuButton home;
-	private Image[] images = new Image[13];
+	private Image[] images = new Image[14];
 	private boolean forward = true;
 	private double extraY = 1;
 	private Image background = MainApplication.loadImage("background_home.jpg");
@@ -34,18 +32,21 @@ public class HelpScreen{
 		this.images[10] = MainApplication.loadImage("key_f3.png");
 		this.images[11] = MainApplication.loadImage("key_f4.png");
 		this.images[12] = MainApplication.loadImage("key_i.png");
+		this.images[13] = MainApplication.loadImage("key_up.png");
 	}
 
 	public Canvas getLayout(){
+		//StackPane layout = new StackPane();
+		
 		Canvas canvas = new Canvas(MainApplication.WIDTH, MainApplication.HEIGHT);
-
+		//layout.getChildren().add(canvas);
+		
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-
-		Image homeButtonImage = MainApplication.loadImage("button_home.png");
-		this.home = new MenuButton(() -> {
+		
+		this.home = new MenuButton("", () -> {
 			HomeScreen hs = new HomeScreen();
 			MainApplication.setScreen(hs.getLayout());
-		}, 50, 300, 75, 75, homeButtonImage);
+		}, 50, 300, 75, 75, MainApplication.loadImage("button_home.png"));
 		canvas.setOnMousePressed(e -> home.click(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE));
 
 		MainApplication.onImagesLoaded(() -> {
@@ -58,10 +59,6 @@ public class HelpScreen{
 	}
 	
 	private void update(GraphicsContext gc){
-		if (this.loop != null && gc.getCanvas().getScene() == null) {
-			loop.stop();
-			return;
-		}
 		gc.clearRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
 		//gc.setFill(Color.web("#409B85"));
 		//gc.fillRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
@@ -69,11 +66,14 @@ public class HelpScreen{
 		gc.save();
 		gc.scale(MainApplication.SCALE, MainApplication.SCALE);
 		this.home.render(gc);
-		
+
+		// TODO add spacebar key image
+
 		gc.drawImage(this.images[0], 75, 55+this.extraY);
 		gc.drawImage(this.images[1], 120, 55+this.extraY);
-		gc.drawImage(this.images[2], 75, 110+this.extraY);
-		gc.drawImage(this.images[3], 120, 110+this.extraY);
+		gc.drawImage(this.images[2], 40, 110+this.extraY);
+		gc.drawImage(this.images[3], 85, 110+this.extraY);
+		gc.drawImage(this.images[13], 130, 110+this.extraY);
 		gc.drawImage(this.images[4], 75, 200+this.extraY);
 		gc.drawImage(this.images[5], 130, 200+this.extraY);
 		gc.drawImage(this.images[6], 500, 55+this.extraY);
@@ -92,9 +92,8 @@ public class HelpScreen{
 		}
 		
 		gc.setFill(Color.BLACK);
-		gc.setFont(Font.loadFont(Resource.toUrl("/font/font.ttf", getClass()), 20));
-		gc.fillText("Use S/F or arrow keys to move", 187, 80);
-		gc.fillText("Use space or up arrow to jump", 187, 135);
+		gc.setFont(MainApplication.getFont(20));
+		gc.fillText("Use S/F or arrow keys to move\nSpace or up arrow to jump", 187, 85);
 		gc.fillText("Use ESC or P to pause/resume", 187, 230);
 		gc.fillText("Use K to kill yourself", 550, 75);
 		gc.fillText("Use L to reload the level", 550, 130);

@@ -8,6 +8,7 @@ import dev.webfx.platform.resource.Resource;
 import dev.webfx.platform.storage.LocalStorage;
 import javafx.animation.Animation;
 import javafx.application.Application;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -16,6 +17,7 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.HashMap;
@@ -26,7 +28,7 @@ public class MainApplication extends Application{
 	public static final int HEIGHT = 400;
 	public static final double SCALE = 1;
 	public static final int FPS = 40;
-	public static Stage stage;
+	private static Stage stage;
 	private static ScalePane scalePane;
 
 	public static Media BACKGROUND_MUSIC;
@@ -38,14 +40,15 @@ public class MainApplication extends Application{
 	public static AudioClip CHECKPOINT_SOUND;
 	public static AudioClip MOVE_SOUND;
 	public static AudioClip COIN_SOUND;
-	
+	public static AudioClip PORTAL_SOUND;
+
 	public static void main(String[] args){
 		launch(args);
 	}
 	
 	public void start(Stage stage){
 		loadSounds();
-		
+
 		playMusic(BACKGROUND_MUSIC, true);
 		MainApplication.stage = stage;
 		MainApplication.scalePane = new ScalePane();
@@ -65,6 +68,9 @@ public class MainApplication extends Application{
 		stage.getIcons().add(loadImage("icon.png"));
 		stage.setTitle("Food Dice");
 		stage.show();
+
+		// These images must be preloaded, because they are used by game objects that access their size in the constructor (see Player for example)
+		loadImages("player_1.png", "shooter_0.png", "laser.png", "activatorpad_0.png", "box.png", "checkpoint_on.png", "door_0.png", "fallingBlock.png", "jumppad.png", "portal.png", "propeller.png", "rotatingPlatform.png", "fire_0.png", "cactus_0.png", "spike.png");
 	}
 
 	public static void setScreen(Node screenNode) {
@@ -106,15 +112,21 @@ public class MainApplication extends Application{
 		CHECKPOINT_SOUND = new AudioClip(Resource.toUrl("/audio/checkpoint.mp3", MainApplication.class));
 		MOVE_SOUND = new AudioClip(Resource.toUrl("/audio/move.mp3", MainApplication.class));
 		COIN_SOUND = new AudioClip(Resource.toUrl("/audio/coin.mp3", MainApplication.class));
+		PORTAL_SOUND = new AudioClip(Resource.toUrl("/audio/portal.mp3", MainApplication.class));
 	}
 
 	private static final Map<String, Image> imagesCache = new HashMap<>();
-	
+
 	public static Image loadImage(String name){
 		Image image = imagesCache.get(name);
 		if (image == null)
 			imagesCache.put(name, image = new Image(Resource.toUrl("/images/"+name, MainApplication.class), true));
 		return image;
+	}
+
+	public static void loadImages(String... names) {
+		for (String name: names)
+			loadImage(name);
 	}
 
 	public static void onImagesLoaded(Runnable runnable){
@@ -132,4 +144,24 @@ public class MainApplication extends Application{
 		if (rep) audioClip.setCycleCount(Animation.INDEFINITE);
 		audioClip.play();
 	}
+
+	/**
+	 * Clockwise: positive rot
+	 * Counterclockwise: negative rot
+	 */
+	public static Point2D rotatePoint(Point2D point, double rot, double px, double py){
+		rot = Math.toRadians(rot);
+		double x = point.getX();
+		double y = point.getY();
+		x -= px;
+		y -= py;
+		double nx = x*Math.cos(rot)-y*Math.sin(rot);
+		double ny = y*Math.cos(rot)+x*Math.sin(rot);
+		return new Point2D(nx+px, ny+py);
+	}
+
+	public static Font getFont(double size) {
+		return Font.loadFont(Resource.toUrl("/font/font.ttf", Application.class), size);
+	}
+
 }

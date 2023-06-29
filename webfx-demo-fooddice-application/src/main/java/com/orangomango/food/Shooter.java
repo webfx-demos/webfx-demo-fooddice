@@ -1,7 +1,7 @@
 package com.orangomango.food;
 
 import dev.webfx.platform.scheduler.Scheduler;
-import javafx.scene.canvas.*;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.animation.*;
 import javafx.util.Duration;
@@ -9,7 +9,7 @@ import javafx.util.Duration;
 import java.util.*;
 import com.orangomango.food.ui.GameScreen;
 
-public class Shooter extends GameObject{
+public class Shooter extends GameObject implements Turnable{
 	private static class Bullet{
 		private double x, y;
 		private boolean left;
@@ -37,23 +37,24 @@ public class Shooter extends GameObject{
 		}
 	}
 	
-	private static final double SIZE = 20;
-	private Image[] images = new Image[2];
 	private boolean left;
 	private List<Bullet> bullets = new ArrayList<>();
 	private int timeOff = 1300;
+	private static Image[][] IMAGES = new Image[][]{new Image[]{MainApplication.loadImage("shooter_0.png"), MainApplication.loadImage("shooter_1.png")},
+													new Image[]{MainApplication.loadImage("shooter2_0.png"), MainApplication.loadImage("shooter2_1.png")}};
+	private Image[] images;
+	private volatile boolean on = true;
 	
 	public Shooter(GraphicsContext gc, double x, double y, boolean left){
-		super(gc, x, y, SIZE, SIZE);
-		this.images[0] = MainApplication.loadImage("shooter.png");
-		this.images[1] = MainApplication.loadImage("shooter_1.png");
+		super(gc, x, y, IMAGES[0][0].getWidth(), IMAGES[0][0].getHeight());
 		this.solid = true;
+		this.images = IMAGES[0];
 		this.left = left;
 		long[] lastTime = { System.currentTimeMillis() };
 		Scheduler.schedulePeriodic(200, scheduled -> {
 			if (this.stopThread)
 				scheduled.cancel();
-			else if (!GameScreen.getInstance().isPaused()) {
+			else if (this.on && !GameScreen.getInstance().isPaused()) {
 				long now = System.currentTimeMillis();
 				if (now < lastTime[0] + this.timeOff)
 					this.imageIndex = 0;
@@ -64,18 +65,33 @@ public class Shooter extends GameObject{
 				}
 			}
 		});
+
 	}
 	
 	public void setTimeOff(int time){
 		this.timeOff = time;
 	}
 	
+	public void changeImages(int index){
+		this.images = IMAGES[index];
+	}
+	
+	@Override
+	public void turnOn(){
+		this.on = true;
+	}
+	
+	@Override
+	public void turnOff(){
+		this.on = false;
+	}
+	
 	@Override
 	public void render(){
 		if (this.left){
-			gc.drawImage(this.images[this.imageIndex], this.x, this.y, SIZE, SIZE);
+			gc.drawImage(this.images[this.imageIndex], this.x, this.y, this.w, this.h);
 		} else {
-			gc.drawImage(this.images[this.imageIndex], this.x+SIZE, this.y, -SIZE, SIZE);
+			gc.drawImage(this.images[this.imageIndex], this.x+this.w, this.y, -this.w, this.h);
 		}
 		for (int i = 0; i < this.bullets.size(); i++){
 			Bullet b = this.bullets.get(i);

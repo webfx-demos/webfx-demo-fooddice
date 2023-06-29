@@ -1,14 +1,15 @@
 package com.orangomango.food;
 
-import com.orangomango.food.ui.GameScreen;
 import dev.webfx.platform.scheduler.Scheduled;
 import dev.webfx.platform.scheduler.Scheduler;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.animation.*;
 import javafx.util.Duration;
+import javafx.geometry.Rectangle2D;
+import javafx.geometry.Point2D;
+
+import java.util.*;
+import com.orangomango.food.ui.GameScreen;
 
 public abstract class GameObject{
 	protected double x, y, w, h;
@@ -28,6 +29,7 @@ public abstract class GameObject{
 	private boolean soundAllowed = true;
 	protected volatile boolean stopThread;
 	private Timeline an, gr;
+	private boolean renderingEnabled = true;
 	
 	public GameObject(GraphicsContext gc, double x, double y, double w, double h){
 		this.gc = gc;
@@ -41,10 +43,6 @@ public abstract class GameObject{
 	}
 	
 	public abstract void render();
-	
-	public boolean isEffectAvailable(){
-		return this.loadEffect;
-	}
 	
 	public void destroy(){
 		this.stopThread = true;
@@ -114,6 +112,14 @@ public abstract class GameObject{
 		return this.h;
 	}
 	
+	public void disableRendering(){
+		this.renderingEnabled = false;
+	}
+	
+	public boolean isRenderingEnabled(){
+		return this.renderingEnabled;
+	}
+	
 	protected void startImageAnimation(int millis, int max, boolean rev){
 		this.an = new Timeline(new KeyFrame(Duration.millis(millis), e -> {
 			if (GameScreen.getInstance().isPaused()) return;
@@ -134,7 +140,7 @@ public abstract class GameObject{
 	
 	public void makeGravity(){
 		if (this.gravityActivated){
-			throw new IllegalArgumentException("Gravity already activated");
+			throw new IllegalStateException("Gravity already activated");
 		}
 		this.gravityActivated = true;
 		this.gr = new Timeline(new KeyFrame(Duration.millis(1000.0/60), e -> {
@@ -152,7 +158,7 @@ public abstract class GameObject{
 				if (foundNearest != null){
 					this.y = foundNearest.getY()-this.h;
 				} else {
-					//this.y = GameScreen.getInstance().getLevelHeight()-this.h;
+					this.y = GameScreen.getInstance().getLevelHeight()-this.h;
 				}
 			} else {
 				if (this instanceof Player && GameScreen.getInstance().getSpecialEffect().slowFall){
@@ -168,47 +174,14 @@ public abstract class GameObject{
 		gr.play();
 	}
 	
-	/*public GameObject getNearestTopObject(){
-		GameObject found = null;
-		for (GameObject go : GameScreen.getInstance().getSprites()){
-			if (go == this) continue;
-			Rectangle2D thisColl = new Rectangle2D(this.x-10, this.y-Player.Y_SPEED, this.w+20, this.h+Player.X_SPEED);
-			Rectangle2D otherColl = new Rectangle2D(go.getX(), go.getY(), go.getWidth(), go.getHeight());
-			if (go.getY()+go.getHeight() < this.y && thisColl.intersects(otherColl)){
-				if (found == null || go.getY() > found.getY()){
-					found = go;
-				}
-			}
-		}
-		return found;
-	}*/
-	
 	public GameObject getNearestBottomObject(GameObject exclude){
 		GameObject found = null;
 		for (GameObject go : GameScreen.getInstance().getSprites()){
 			if (go == exclude || !go.isSolid()) continue;
-			try {
-				Rectangle2D thisColl = new Rectangle2D(this.x, this.y, this.w, this.h+GameScreen.getInstance().getLevelHeight());
-				Rectangle2D otherColl = new Rectangle2D(go.getX(), go.getY(), go.getWidth(), go.getHeight());
-				if (go.getY() >= this.y+this.h && thisColl.intersects(otherColl)){
-					if (found == null || go.getY() < found.getY()){
-						found = go;
-					}
-				}
-			} catch (IllegalArgumentException ex){
-			}
-		}
-		return found;
-	}
-	
-	/*public GameObject getNearestLeftObject(){
-		GameObject found = null;
-		for (GameObject go : GameScreen.getInstance().getSprites()){
-			if (go == this) continue;
-			Rectangle2D thisColl = new Rectangle2D(this.x-Player.X_SPEED, this.y, this.w+Player.X_SPEED, this.h);
+			Rectangle2D thisColl = new Rectangle2D(this.x, this.y, this.w, this.h+GameScreen.getInstance().getLevelHeight());
 			Rectangle2D otherColl = new Rectangle2D(go.getX(), go.getY(), go.getWidth(), go.getHeight());
-			if (go.getX()+go.getWidth() < this.x+this.w && thisColl.intersects(otherColl)){
-				if (found == null || go.getX() > found.getX()){
+			if (go.getY() >= this.y+this.h && thisColl.intersects(otherColl)){
+				if (found == null || go.getY() < found.getY()){
 					found = go;
 				}
 			}
@@ -216,35 +189,52 @@ public abstract class GameObject{
 		return found;
 	}
 	
-	public GameObject getNearestRightObject(){
-		GameObject found = null;
-		for (GameObject go : GameScreen.getInstance().getSprites()){
-			if (go == this) continue;
-			Rectangle2D thisColl = new Rectangle2D(this.x, this.y, this.w+Player.X_SPEED, this.h);
-			Rectangle2D otherColl = new Rectangle2D(go.getX(), go.getY(), go.getWidth(), go.getHeight());
-			if (go.getX() > this.x && thisColl.intersects(otherColl)){
-				if (found == null || go.getX() < found.getX()){
-					found = go;
-				}
+	protected boolean collidedConvex(Point2D[] tv, Point2D[] ov){
+		List<Point2D[]> edges = new ArrayList<>();
+		for (int i = 0; i < tv.length; i++){
+			Point2D a = tv[i];
+			Point2D b = tv[(i+1)%tv.length];
+			edges.add(new Point2D[]{a, b});
+		}
+		for (int i = 0; i < ov.length; i++){
+			Point2D a = ov[i];
+			Point2D b = ov[(i+1)%ov.length];
+			edges.add(new Point2D[]{a, b});
+		}
+
+		for (Point2D[] edge : edges){
+			Point2D vector = edge[1].subtract(edge[0]);
+			Point2D axis = new Point2D(-vector.getY(), vector.getX());
+			List<Double> proj1 = new ArrayList<>();
+			List<Double> proj2 = new ArrayList<>();
+			for (Point2D v : tv){
+				proj1.add(axis.dotProduct(v));
+			}
+			for (Point2D v : ov){
+				proj2.add(axis.dotProduct(v));
+			}
+			double min1 = Collections.min(proj1);
+			double min2 = Collections.min(proj2);
+			double max1 = Collections.max(proj1);
+			double max2 = Collections.max(proj2);
+			if (!(min1 <= max2 && max1 >= min2)){
+				return false;
 			}
 		}
-		return found;
-	}*/
+		return true;
+	}
 	
 	public boolean collided(double x, double y, double w, double h){
-		Rectangle2D playerCollision = new Rectangle2D(x, y, w, h);
+		Rectangle2D otherCollision = new Rectangle2D(x, y, w, h);
 		Rectangle2D thisCollision = new Rectangle2D(this.x, this.y, this.w, this.h);
-		return playerCollision.intersects(thisCollision);
+		return thisCollision.intersects(otherCollision);
 	}
 	
 	public boolean collided(GameObject go){
 		return collided(go.getX(), go.getY(), go.getWidth(), go.getHeight());
 	}
 	
-	/**
-	 * This method checks collision between solid objects. It's useful to setup the correct gravity
-	 */
-	public boolean checkCollision(double px, double py, double pw, double ph){
+	private boolean checkCollision(double px, double py, double pw, double ph){
 		for (GameObject ob : GameScreen.getInstance().getSprites()){
 			if (ob.isSolid() && ob != this){
 				if (ob.collided(px, py, pw, ph)){
@@ -270,6 +260,17 @@ public abstract class GameObject{
 	// This method should be overridden by the player class
 	protected void setRandomDiceFace(){
 	}
+
+	/*protected void runThread(Runnable r){
+		Thread t = new Thread(() -> {
+			while (!this.stopThread){
+				if (GameScreen.getInstance().isPaused()) continue;
+				r.run();
+			}
+		});
+		t.setDaemon(true);
+		t.start();
+	}*/
 	
 	private void playMoveSound(){
 		if (!this.soundAllowed) return;

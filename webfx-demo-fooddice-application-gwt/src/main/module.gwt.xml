@@ -22,14 +22,6 @@
     <source path="javafx/collections/transformation"/>
     <source path="javafx/event"/>
     <source path="javafx/util"/>
-    <!--=========================< webfx-kit-javafxcontrols-emul >==========================-->
-    <source path="com/sun/javafx/scene/control"/>
-    <source path="com/sun/javafx/scene/control/behavior"/>
-    <source path="com/sun/javafx/scene/control/skin"/>
-    <source path="javafx/scene/control"/>
-    <source path="javafx/scene/control/skin"/>
-    <resource path="images/checkbox"/>
-    <public includes="images/checkbox/" path=""/>
     <!--=========================< webfx-kit-javafxgraphics-emul >==========================-->
     <source path="com/sun/javafx/application"/>
     <source path="com/sun/javafx/cursor"/>
@@ -98,12 +90,6 @@
     <!--=================================< webfx-kit-gwt >==================================-->
     <source path="dev/webfx/kit/launcher/spi/impl/gwt"/>
     <source path="dev/webfx/kit/mapper/spi/impl/gwt"/>
-    <!--======================< webfx-kit-javafxcontrols-peers-base >=======================-->
-    <source path="dev/webfx/kit/mapper/peers/javafxcontrols/base"/>
-    <!--=======================< webfx-kit-javafxcontrols-peers-gwt >=======================-->
-    <source path="dev/webfx/kit/mapper/peers/javafxcontrols/gwt/html"/>
-    <!--=====================< webfx-kit-javafxcontrols-registry-gwt >======================-->
-    <source path="dev/webfx/kit/registry/javafxcontrols"/>
     <!--=========================< webfx-kit-javafxgraphics-peers >=========================-->
     <source path="dev/webfx/kit/mapper/peers/javafxgraphics"/>
     <source path="dev/webfx/kit/mapper/peers/javafxgraphics/markers"/>
@@ -130,6 +116,8 @@
     <source path="dev/webfx/kit/util/properties/conversion"/>
     <!--==============================< webfx-kit-util-scene >==============================-->
     <source path="dev/webfx/kit/util/scene"/>
+    <!--============================< webfx-lib-javacupruntime >============================-->
+    <source path="java_cup/runtime"/>
     <!--==============================< webfx-platform-boot >===============================-->
     <source path="dev/webfx/platform/boot"/>
     <source path="dev/webfx/platform/boot/spi"/>
@@ -146,6 +134,15 @@
     <source path="emul/java/util"/>
     <source path="emul/java/util/function"/>
     <source path="emul/java/util/regex"/>
+    <!--==============================< webfx-platform-json >===============================-->
+    <source path="dev/webfx/platform/json"/>
+    <source path="dev/webfx/platform/json/parser"/>
+    <source path="dev/webfx/platform/json/parser/javacup"/>
+    <source path="dev/webfx/platform/json/parser/jflex"/>
+    <source path="dev/webfx/platform/json/spi"/>
+    <source path="dev/webfx/platform/json/spi/impl/listmap"/>
+    <!--============================< webfx-platform-json-gwt >=============================-->
+    <source path="dev/webfx/platform/json/spi/impl/gwt"/>
     <!--==============================< webfx-platform-meta >===============================-->
     <source path="dev/webfx/platform/meta"/>
     <!--===============================< webfx-platform-os >================================-->

@@ -23,7 +23,7 @@ public class NoEditor{
 		Rectangle2D bt = new Rectangle2D(50, 300, 75, 75);
 
 		Image homeImage = MainApplication.loadImage("button_home.png");
-		MenuButton home = new MenuButton(() -> {
+		MenuButton home = new MenuButton("", () -> {
 			HomeScreen hs = new HomeScreen();
 			MainApplication.setScreen(hs.getLayout());
 		}, bt.getMinX(), bt.getMinY(), bt.getWidth(), bt.getHeight(), homeImage);
@@ -47,11 +47,11 @@ public class NoEditor{
 		MainApplication.onImagesLoaded(() -> {
 			gc.drawImage(this.background, 0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
 			gc.scale(MainApplication.SCALE, MainApplication.SCALE);
-			gc.setFont(Font.loadFont(Resource.toUrl("/font/font.ttf", getClass()), 50));
+			gc.setFont(MainApplication.getFont(50));
 			gc.setFill(Color.BLACK);
 			gc.setTextAlign(TextAlignment.CENTER);
 			gc.fillText("Editor not available", 400, 100);
-			gc.setFont(Font.loadFont(Resource.toUrl("/font/font.ttf", getClass()), 35));
+			gc.setFont(MainApplication.getFont(35));
 			gc.fillText("Please download the game\nin order to use the editor", 400, 200);
 			home.render(gc);
 		});

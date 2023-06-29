@@ -1,8 +1,6 @@
 package com.orangomango.food;
 
-import javafx.scene.canvas.*;
-import javafx.scene.paint.Color;
-import javafx.geometry.Rectangle2D;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class Platform extends GameObject{
@@ -50,9 +48,6 @@ public class Platform extends GameObject{
 	
 	@Override
 	public void render(){
-		//gc.setFill(Color.BLUE);
-		//gc.fillRect(this.x, this.y, this.w, this.h);
-		
 		if (this.repeat){
 			for (int i = 0; i < this.h/32; i++){
 				for (int j = 0; j < this.w/32; j++){
@@ -64,8 +59,5 @@ public class Platform extends GameObject{
 		} else {
 			gc.drawImage(this.type, this.x, this.y, this.w, this.h);
 		}
-		
-		//gc.setStroke(Color.BLACK);
-		//gc.strokeText(String.format("%s %s", this.x, this.y), this.x, this.y+this.h+15);
 	}
 }

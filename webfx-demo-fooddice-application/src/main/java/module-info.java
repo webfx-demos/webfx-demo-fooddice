@@ -5,11 +5,11 @@ module webfx.demo.fooddice.application {
     // Direct dependencies modules
     requires java.base;
     requires javafx.base;
-    requires javafx.controls;
     requires javafx.graphics;
     requires javafx.media;
     requires webfx.extras.scalepane;
     requires webfx.kit.util.scene;
+    requires webfx.platform.json;
     requires webfx.platform.os;
     requires webfx.platform.resource;
     requires webfx.platform.scheduler;

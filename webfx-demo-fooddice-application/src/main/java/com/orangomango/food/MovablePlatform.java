@@ -1,8 +1,9 @@
 package com.orangomango.food;
 
-import com.orangomango.food.ui.GameScreen;
 import dev.webfx.platform.scheduler.Scheduler;
 import javafx.scene.canvas.GraphicsContext;
+
+import com.orangomango.food.ui.GameScreen;
 
 public class MovablePlatform extends Platform implements Turnable{
 	private double xSpeed, ySpeed, xMax, yMax;
@@ -20,7 +21,7 @@ public class MovablePlatform extends Platform implements Turnable{
 		this.startX = this.x;
 		this.startY = this.y;
 		this.time = time;
-		
+		this.solid = true;
 		startLoop();
 	}
 	
@@ -49,26 +50,28 @@ public class MovablePlatform extends Platform implements Turnable{
 	}
 	
 	private void startLoop(){
-		if (!this.stopThread) {
-			if (!GameScreen.getInstance().isPaused() && this.on) {
-				double xMove = this.forward ? this.xSpeed : -this.xSpeed;
-				double yMove = this.forward ? this.ySpeed : -this.ySpeed;
-				Player player = GameScreen.getInstance().getPlayer();
-				if (player == null) return;
-				if (player.collided(this.x, this.y - 4, this.w, 4)) {
-					player.setX(player.getX() + xMove);
-					player.setY(player.getY() + yMove);
-				}
-				this.x += xMove;
-				this.y += yMove;
-				if ((this.x == this.startX + this.xMax && this.xSpeed != 0) || (this.y == this.startY + this.yMax && this.ySpeed != 0)) {
-					this.forward = false;
-				} else if ((this.x == this.startX && this.xSpeed != 0) || (this.y == this.startY && this.ySpeed != 0)) {
-					this.forward = true;
-				}
+		Scheduler.schedulePeriodic(this.time, scheduled -> {
+			if (this.stopThread) {
+				scheduled.cancel();
+				return;
 			}
-			Scheduler.scheduleDelay(this.time, this::startLoop);
-		}
+			if (!this.on || GameScreen.getInstance().isPaused()) return;
+			double xMove = this.forward ? this.xSpeed : -this.xSpeed;
+			double yMove = this.forward ? this.ySpeed : -this.ySpeed;
+			Player player = GameScreen.getInstance().getPlayer();
+			if (player == null) return;
+			if (player.collided(this.x, this.y-4, this.w, 4)){
+				player.setX(player.getX()+xMove);
+				player.setY(player.getY()+yMove);
+			}
+			this.x += xMove;
+			this.y += yMove;
+			if ((this.x == this.startX+this.xMax && this.xSpeed != 0) || (this.y == this.startY+this.yMax && this.ySpeed != 0)){
+				this.forward = false;
+			} else if ((this.x == this.startX && this.xSpeed != 0) || (this.y == this.startY && this.ySpeed != 0)){
+				this.forward = true;
+			}
+		});
 	}
 	
 	@Override

@@ -1,15 +1,14 @@
 package com.orangomango.food;
 
-import dev.webfx.platform.resource.Resource;
 import dev.webfx.platform.scheduler.Scheduler;
-import javafx.scene.canvas.*;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class Notification{
 	private String text = "";
 	private boolean mustShow;
-	private static Font font = Font.loadFont(Resource.toUrl("/font/font.ttf", Notification.class), 30);
+	private static Font font = MainApplication.getFont(30);
 	
 	public void setText(String t, int millis){
 		this.text = t;
