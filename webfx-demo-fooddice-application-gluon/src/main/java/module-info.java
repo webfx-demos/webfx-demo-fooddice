@@ -6,6 +6,7 @@ module webfx.demo.fooddice.application.gluon {
     requires javafx.media;
     requires webfx.demo.fooddice.application;
     requires webfx.kit.openjfx;
+    requires webfx.platform.audio.gluon;
     requires webfx.platform.boot.java;
     requires webfx.platform.console.java;
     requires webfx.platform.json.java;
