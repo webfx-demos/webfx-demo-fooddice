@@ -17,7 +17,7 @@ import java.util.*;
 
 public class LevelsScreen{
 	private static LevelManager levelManager;
-	public static final int FINAL_LEVEL = 6;
+	public static final int FINAL_LEVEL = 7;
 	private static final Map<Integer, Integer> LEVELCOINS = new HashMap<>();
 	
 	public static class LevelManager{
@@ -29,18 +29,24 @@ public class LevelsScreen{
 			if (this.json == null) {
 				this.json = Json.createObject();
 				for (int i = 0; i < LevelsScreen.FINAL_LEVEL; i++){
-					JsonObject level = Json.createObject();
-					level.set("coins", 0);
-					level.set("deaths", 0);
-					level.set("bestTime", 0);
-					this.json.set("level"+(i+1), level);
+					createJsonLevel(i+1);
 				}
 				save();
 			}
 		}
+
+		private JsonObject createJsonLevel(int l) {
+			JsonObject level = Json.createObject();
+			level.set("coins", 0);
+			level.set("deaths", 0);
+			level.set("bestTime", 0);
+			this.json.set("level"+l, level);
+			return level;
+		}
 		
 		public JsonObject getLevelData(int level){
-			return this.json.getObject("level"+level);
+			JsonObject jsonObject = this.json.getObject("level" + level);
+			return jsonObject != null ? jsonObject : createJsonLevel(level);
 		}
 		
 		public void put(int level, String key, int value){
