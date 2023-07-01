@@ -1,25 +1,27 @@
 package com.orangomango.food.ui;
 
+import com.orangomango.food.*;
+import com.orangomango.food.ui.controls.JoyStick;
 import dev.webfx.platform.json.JsonObject;
 import dev.webfx.platform.os.OperatingSystem;
 import dev.webfx.platform.resource.Resource;
 import dev.webfx.platform.scheduler.Scheduler;
 import dev.webfx.platform.storage.LocalStorage;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.StackPane;
-import javafx.scene.canvas.*;
-import javafx.scene.paint.Color;
-import javafx.animation.*;
-import javafx.util.Duration;
+import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
-import javafx.scene.image.*;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.util.Duration;
 
 import java.util.*;
-import java.io.*;
-
-import com.orangomango.food.*;
-import com.orangomango.food.ui.controls.JoyStick;
 
 public class GameScreen{
 	private volatile List<GameObject> sprites = new ArrayList<>();
@@ -504,14 +506,12 @@ public class GameScreen{
 		
 		canvas.setFocusTraversable(true);
 		canvas.setOnMousePressed(e -> {
-			for (int i = 0; i < this.buttons.size(); i++){
-				MenuButton mb = this.buttons.get(i);
-				mb.click(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE);
-			}
-			KeyCode k = this.joystick.clicked(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE);
-			if (k != null){
-				handlePress(k, canvas);
-			}
+			onPressed(e.getX(), e.getY(), canvas);
+			e.consume();
+		});
+		canvas.setOnTouchPressed(e -> {
+			onPressed(e.getTouchPoint().getX(), e.getTouchPoint().getY(), canvas);
+			e.consume();
 		});
 		
 		this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> update(gc)));
@@ -521,12 +521,14 @@ public class GameScreen{
 		canvas.setOnKeyPressed(e -> handlePress(toKeyCode(e), canvas));
 		canvas.setOnKeyReleased(e -> keys.put(toKeyCode(e), false));
 		canvas.setOnMouseReleased(e -> {
-			KeyCode k = this.joystick.clicked(e.getX(), e.getY());
-			if (k != null){
-				keys.put(k, false);
-			}
+			onReleased(e.getX(), e.getY());
+			e.consume();
 		});
-		
+		canvas.setOnTouchReleased(e -> {
+			onReleased(e.getTouchPoint().getX(), e.getTouchPoint().getY());
+			e.consume();
+		});
+
 		AnimationTimer fTimer = new AnimationTimer(){
 			@Override
 			public void handle(long time){
@@ -538,6 +540,24 @@ public class GameScreen{
 		//layout.getChildren().add(canvas);
 		//return layout;
 		return canvas;
+	}
+
+	private void onPressed(double x, double y, Canvas canvas) {
+		for (int i = 0; i < this.buttons.size(); i++){
+			MenuButton mb = this.buttons.get(i);
+			mb.click(x/MainApplication.SCALE, y/MainApplication.SCALE);
+		}
+		KeyCode k = this.joystick.clicked(x/MainApplication.SCALE, y/MainApplication.SCALE);
+		if (k != null){
+			handlePress(k, canvas);
+		}
+	}
+
+	private void onReleased(double x, double y) {
+		KeyCode k = this.joystick.clicked(x, y);
+		if (k != null){
+			keys.put(k, false);
+		}
 	}
 
 	private KeyCode toKeyCode(KeyEvent keyEvent) {
@@ -752,10 +772,10 @@ public class GameScreen{
 				loadLevel(gc, ++this.currentLevel);
 			}
 		}
-		if (keys.getOrDefault(KeyCode.A, false) || keys.getOrDefault(KeyCode.LEFT, false)){
+		if (keys.getOrDefault(KeyCode.S, false) || keys.getOrDefault(KeyCode.LEFT, false)){
 			this.player.moveLeft(Player.X_SPEED*(this.specialEffect.speedBoost ? 2 : 1));
 		}
-		if (keys.getOrDefault(KeyCode.D, false) || keys.getOrDefault(KeyCode.RIGHT, false)){
+		if (keys.getOrDefault(KeyCode.F, false) || keys.getOrDefault(KeyCode.RIGHT, false)){
 			this.player.moveRight(Player.X_SPEED*(this.specialEffect.speedBoost ? 2 : 1));
 		}
 		if (keys.getOrDefault(KeyCode.SPACE, false) || keys.getOrDefault(KeyCode.UP, false)){
