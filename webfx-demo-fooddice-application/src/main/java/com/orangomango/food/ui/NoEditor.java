@@ -1,17 +1,15 @@
 package com.orangomango.food.ui;
 
 import com.orangomango.food.MainApplication;
-import dev.webfx.platform.resource.Resource;
 import dev.webfx.platform.windowlocation.WindowLocation;
-
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import javafx.scene.Cursor;
-import javafx.geometry.Rectangle2D;
 
 public class NoEditor{
 	private Image background = MainApplication.loadImage("background_home.jpg");
@@ -44,14 +42,17 @@ public class NoEditor{
 			}
 		});
 
-		MainApplication.onImagesLoaded(() -> {
+		Font font50 = MainApplication.getFont(50);
+		Font font35 = MainApplication.getFont(35);
+
+		MainApplication.onFontsImagesLoaded(() -> {
 			gc.drawImage(this.background, 0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
 			gc.scale(MainApplication.SCALE, MainApplication.SCALE);
-			gc.setFont(MainApplication.getFont(50));
+			gc.setFont(font50);
 			gc.setFill(Color.BLACK);
 			gc.setTextAlign(TextAlignment.CENTER);
 			gc.fillText("Editor not available", 400, 100);
-			gc.setFont(MainApplication.getFont(35));
+			gc.setFont(font35);
 			gc.fillText("Please download the game\nin order to use the editor", 400, 200);
 			home.render(gc);
 		});

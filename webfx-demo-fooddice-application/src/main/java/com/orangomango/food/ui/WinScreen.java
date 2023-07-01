@@ -3,6 +3,7 @@ package com.orangomango.food.ui;
 import javafx.scene.canvas.*;
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
 import com.orangomango.food.MainApplication;
@@ -24,14 +25,17 @@ public class WinScreen{
 		}, 50, 300, 75, 75, MainApplication.loadImage("button_home.png"));
 		canvas.setOnMousePressed(e -> home.click(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE));
 
-		MainApplication.onImagesLoaded(() -> {
+		Font font50 = MainApplication.getFont(50);
+		Font font35 = MainApplication.getFont(35);
+
+		MainApplication.onFontsImagesLoaded(() -> {
 			gc.drawImage(this.background, 0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
 			gc.scale(MainApplication.SCALE, MainApplication.SCALE);
-			gc.setFont(MainApplication.getFont(50));
+			gc.setFont(font50);
 			gc.setFill(Color.BLACK);
 			gc.setTextAlign(TextAlignment.CENTER);
 			gc.fillText("YOU WIN!", 400, 100);
-			gc.setFont(MainApplication.getFont(35));
+			gc.setFont(font35);
 			gc.fillText("Thanks for playing", 400, 200);
 			home.render(gc);
 		});

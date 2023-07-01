@@ -1,14 +1,14 @@
 package com.orangomango.food.ui;
 
-import javafx.scene.layout.StackPane;
-import javafx.scene.canvas.*;
-import javafx.scene.paint.Color;
-import javafx.animation.*;
-import javafx.util.Duration;
-import javafx.scene.text.Font;
-import javafx.scene.image.Image;
-
 import com.orangomango.food.MainApplication;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 public class HelpScreen{
 	private Timeline loop;
@@ -49,7 +49,7 @@ public class HelpScreen{
 		}, 50, 300, 75, 75, MainApplication.loadImage("button_home.png"));
 		canvas.setOnMousePressed(e -> home.click(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE));
 
-		MainApplication.onImagesLoaded(() -> {
+		MainApplication.onFontsImagesLoaded(() -> {
 			this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> update(gc)));
 			this.loop.setCycleCount(Animation.INDEFINITE);
 			this.loop.play();

@@ -1,12 +1,16 @@
 package com.orangomango.food.ui;
 
-import javafx.scene.canvas.*;
-import javafx.animation.*;
-import javafx.util.Duration;
-import javafx.scene.image.*;
-
-import java.util.*;
 import com.orangomango.food.MainApplication;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.util.Duration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeScreen{
 	private Timeline loop;
@@ -51,7 +55,7 @@ public class HomeScreen{
 			MainApplication.setScreen(ed.getLayout());
 		}, 570, 230, 75, 75, MainApplication.loadImage("button_editor.png")));
 		
-		MainApplication.onImagesLoaded(() -> {
+		MainApplication.onFontsImagesLoaded(() -> {
 			update(gc);
 			this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> update(gc)));
 			this.loop.setCycleCount(Animation.INDEFINITE);

@@ -146,13 +146,16 @@ public class LevelsScreen{
 			HomeScreen hs = new HomeScreen();
 			MainApplication.setScreen(hs.getLayout());
 		}, 50, 300, 75, 75, MainApplication.loadImage("button_home.png"));
-		
-		update(gc);
-		
-		this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> update(gc)));
-		this.loop.setCycleCount(Animation.INDEFINITE);
-		this.loop.play();
-		
+
+
+		MainApplication.onFontsImagesLoaded(() -> {
+			update(gc);
+
+			this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> update(gc)));
+			this.loop.setCycleCount(Animation.INDEFINITE);
+			this.loop.play();
+		});
+
 		return canvas;
 	}
 	

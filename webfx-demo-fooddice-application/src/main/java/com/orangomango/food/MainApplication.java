@@ -74,7 +74,7 @@ public class MainApplication extends Application{
 	}
 
 	public static void setScreen(Node screenNode) {
-		MainApplication.onImagesLoaded(() -> scalePane.setNode(screenNode));
+		MainApplication.onFontsImagesLoaded(() -> scalePane.setNode(screenNode));
 	}
 
 	public static void setScale(double newScale) {
@@ -129,8 +129,8 @@ public class MainApplication extends Application{
 			loadImage(name);
 	}
 
-	public static void onImagesLoaded(Runnable runnable){
-		DeviceSceneUtil.onImagesLoaded(runnable, imagesCache.values().toArray(new Image[0]));
+	public static void onFontsImagesLoaded(Runnable runnable){
+		DeviceSceneUtil.onFontsAndImagesLoaded(runnable, imagesCache.values().toArray(new Image[0]));
 	}
 	
 	public static void playMusic(Media media, boolean rep){
@@ -160,8 +160,10 @@ public class MainApplication extends Application{
 		return new Point2D(nx+px, ny+py);
 	}
 
+	private static final Font font = Font.loadFont(Resource.toUrl("/font/font.ttf", Application.class), 16);
+
 	public static Font getFont(double size) {
-		return Font.loadFont(Resource.toUrl("/font/font.ttf", Application.class), size);
+		return new Font(font.getFamily(), size);
 	}
 
 }
