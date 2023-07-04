@@ -53,6 +53,7 @@ public class GameScreen{
 	private Map<Integer, Integer> spritesID = new HashMap<>();
 	private Image fogImage = MainApplication.loadImage("fog.png");
 	private Image levelImage;
+	private Map<Integer, KeyCode> touchID = new HashMap<>();
 	private boolean showInfo = "true".equals(LocalStorage.getItem("showInfo"));
 
 	private JoyStick joystick;
@@ -500,14 +501,14 @@ public class GameScreen{
 		
 		canvas.setFocusTraversable(true);
 		canvas.setOnMousePressed(e -> {
-			onPressed(e.getX(), e.getY(), canvas);
+			onPressed(e.getX(), e.getY(), -1, canvas);
 			e.consume();
 		});
 		canvas.setOnTouchPressed(e -> {
-			onPressed(e.getTouchPoint().getX(), e.getTouchPoint().getY(), canvas);
+			onPressed(e.getTouchPoint().getX(), e.getTouchPoint().getY(), e.getTouchPoint().getId(), canvas);
 			e.consume();
 		});
-		
+
 		this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> update(gc)));
 		loop.setCycleCount(Animation.INDEFINITE);
 		loop.play();
@@ -515,11 +516,11 @@ public class GameScreen{
 		canvas.setOnKeyPressed(e -> handlePress(toKeyCode(e), canvas));
 		canvas.setOnKeyReleased(e -> keys.put(toKeyCode(e), false));
 		canvas.setOnMouseReleased(e -> {
-			onReleased(e.getX(), e.getY());
+			onReleased(e.getX(), e.getY(), -1);
 			e.consume();
 		});
 		canvas.setOnTouchReleased(e -> {
-			onReleased(e.getTouchPoint().getX(), e.getTouchPoint().getY());
+			onReleased(e.getTouchPoint().getX(), e.getTouchPoint().getY(), e.getTouchPoint().getId());
 			e.consume();
 		});
 
@@ -536,21 +537,27 @@ public class GameScreen{
 		return canvas;
 	}
 
-	private void onPressed(double x, double y, Canvas canvas) {
+	private void onPressed(double x, double y, int touchId, Canvas canvas) {
 		for (int i = 0; i < this.buttons.size(); i++){
 			MenuButton mb = this.buttons.get(i);
 			mb.click(x/MainApplication.SCALE, y/MainApplication.SCALE);
 		}
 		KeyCode k = this.joystick.clicked(x/MainApplication.SCALE, y/MainApplication.SCALE);
 		if (k != null){
+			if (touchId != -1)
+				this.touchID.put(touchId, k);
 			handlePress(k, canvas);
 		}
 	}
 
-	private void onReleased(double x, double y) {
+	private void onReleased(double x, double y, int touchId) {
 		KeyCode k = this.joystick.clicked(x, y);
-		if (k != null){
-			keys.put(k, false);
+		KeyCode tk = this.touchID.getOrDefault(touchId, null);
+		if (k != null || tk != null){
+			keys.put(k == null ? tk : k, false);
+			if (tk != null){
+				this.touchID.remove(touchId);
+			}
 		}
 	}
 
