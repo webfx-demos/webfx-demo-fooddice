@@ -51,9 +51,9 @@ public class GameScreen{
 	public int deaths;
 	private String loadString;
 	private Map<Integer, Integer> spritesID = new HashMap<>();
-	private boolean showInfo = "true".equals(LocalStorage.getItem("showInfo"));
 	private Image fogImage = MainApplication.loadImage("fog.png");
 	private Image levelImage;
+	private boolean showInfo = "true".equals(LocalStorage.getItem("showInfo"));
 
 	private JoyStick joystick;
 	
@@ -360,7 +360,7 @@ public class GameScreen{
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, 180, 235));
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, 320, 235));
 				
-				//effects.add(new Particle(gc, 100, 100, "tail", 40, true));
+				//effects.add(new Particle(100, 100, "tail", 40, true));
 				
 				this.exit = new Exit(175, 110);
 				break;
@@ -473,7 +473,7 @@ public class GameScreen{
 				return;
 		}
 		loadAngles((int)this.levelWidth/25, (int)this.levelHeight/25);
-		this.levelImage = generateLevelImage();
+		MainApplication.onFontsImagesLoaded(() -> this.levelImage = generateLevelImage());
 	}
 	
 	static String[] getLevelData(int n){
@@ -868,6 +868,15 @@ public class GameScreen{
 		if (OperatingSystem.isMobile())
 			this.joystick.render();
 		gc.restore();
+
+		if (this.keys.getOrDefault(KeyCode.M, false)){
+			gc.save();
+			gc.setGlobalAlpha(0.7);
+			gc.setFill(Color.BLACK);
+			gc.fillRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
+			gc.drawImage(this.levelImage, MainApplication.WIDTH*0.3, MainApplication.HEIGHT*0.1, MainApplication.WIDTH*0.4, MainApplication.WIDTH*0.4);
+			gc.restore();
+		}
 	}
 
 	private static String format2d(double d) {
