@@ -13,7 +13,6 @@ import com.orangomango.food.ui.GameScreen;
 
 public abstract class GameObject{
 	protected double x, y, w, h;
-	protected GraphicsContext gc;
 	private double gravity = 1.5;
 	protected boolean gravityActivated, falling;
 	protected boolean movingRight, movingLeft, jumping;
@@ -31,8 +30,7 @@ public abstract class GameObject{
 	private Timeline an, gr;
 	private boolean renderingEnabled = true;
 	
-	public GameObject(GraphicsContext gc, double x, double y, double w, double h){
-		this.gc = gc;
+	public GameObject(double x, double y, double w, double h){
 		this.x = x;
 		this.y = y;
 		this.w = w;
@@ -42,7 +40,7 @@ public abstract class GameObject{
 		this.lastTimeEffect = System.currentTimeMillis();
 	}
 	
-	public abstract void render();
+	public abstract void render(GraphicsContext gc);
 	
 	public void destroy(){
 		this.stopThread = true;
@@ -337,7 +335,7 @@ public abstract class GameObject{
 		if (this.falling || this.jumping || this.died) return;
 		this.jumping = true;
 		if (this instanceof Player) MainApplication.playSound(MainApplication.JUMP_SOUND, false);
-		GameScreen.getInstance().getEffects().add(new Particle(GameScreen.getInstance().getGC(), this.x, this.y+this.h, "tail", 20, false));
+		GameScreen.getInstance().getEffects().add(new Particle(this.x, this.y+this.h, "tail", 20, false));
 		this.motionJump = new Timeline(new KeyFrame(Duration.millis(1000.0/60), e -> {
 			if (!checkCollision(this.x, this.y-Y_FRAMES, this.w, this.h+Y_FRAMES)){
 				this.y -= Y_FRAMES;

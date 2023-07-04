@@ -15,6 +15,7 @@
         <resource>levels/level5.lvl</resource>
         <resource>levels/level6.lvl</resource>
         <resource>levels/level7.lvl</resource>
+        <resource>levels/level8.lvl</resource>
     </embed-resources>
 
     <dependencies>

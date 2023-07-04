@@ -17,7 +17,7 @@ import java.util.*;
 
 public class LevelsScreen{
 	private static LevelManager levelManager;
-	public static final int FINAL_LEVEL = 7;
+	public static final int FINAL_LEVEL = 8;
 	private static final Map<Integer, Integer> LEVELCOINS = new HashMap<>();
 	
 	public static class LevelManager{
@@ -210,10 +210,11 @@ public class LevelsScreen{
 		
 		gc.setFill(Color.WHITE);
 		gc.fillText(this.selectedText, 35, 55);
-		
+		gc.translate(0, -this.extraY);
+
 		if (MAX_SCROLL != 0){
 			gc.fillRect(770, 0, 30, 400);
-			gc.setFill(Color.BLACK);
+			gc.setFill(Color.BLUE);
 			gc.fillRect(770, -this.scrollY, 30, 400-MAX_SCROLL);
 		}
 		

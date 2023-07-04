@@ -23,8 +23,8 @@ public class Player extends GameObject{
 		}
 	}
 	
-	public Player(GraphicsContext gc, double x, double y){
-		super(gc, x, y, IMAGES[0].getWidth(), IMAGES[0].getHeight());
+	public Player(double x, double y){
+		super(x, y, IMAGES[0].getWidth(), IMAGES[0].getHeight());
 		this.onDieX = this.respawnX;
 		this.onDieY = this.respawnY;
 		makeGravity();
@@ -33,7 +33,7 @@ public class Player extends GameObject{
 	}
 	
 	@Override
-	public void render(){
+	public void render(GraphicsContext gc){
 		gc.save();
 		gc.translate(this.x+this.w/2, this.y+this.h/2);
 		gc.rotate(this.angle);
@@ -96,7 +96,7 @@ public class Player extends GameObject{
 			this.jumping = false;
 		}
 		GameScreen.getInstance().deaths++;
-		GameScreen.getInstance().getEffects().add(new Particle(this.gc, this.x, this.y, "circle", 30, false));
+		GameScreen.getInstance().getEffects().add(new Particle(this.x, this.y, "circle", 30, false));
 		Scheduler.scheduleDelay(500, () -> {
 			this.x = this.onDieX;
 			this.y = this.onDieY;

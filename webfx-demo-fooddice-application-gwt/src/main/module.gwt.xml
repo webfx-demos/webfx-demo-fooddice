@@ -202,7 +202,6 @@
     <super-source path="super"/>
     <super-source includes="java/io/" path=""/>
     <super-source includes="java/lang/" path=""/>
-    <super-source includes="java/net/" path=""/>
     <super-source includes="java/security/" path=""/>
     <super-source includes="java/text/" path=""/>
     <super-source includes="java/util/" path=""/>

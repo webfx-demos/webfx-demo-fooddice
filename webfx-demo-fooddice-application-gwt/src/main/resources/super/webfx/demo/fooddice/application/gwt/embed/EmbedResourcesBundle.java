@@ -27,6 +27,9 @@ public interface EmbedResourcesBundle extends ClientBundle {
     @Source("levels/level7.lvl")
     TextResource r6();
 
+    @Source("levels/level8.lvl")
+    TextResource r7();
+
 
 
     final class ProvidedGwtResourceBundle extends GwtResourceBundleBase {
@@ -37,6 +40,7 @@ public interface EmbedResourcesBundle extends ClientBundle {
             registerResource("levels/level5.lvl", R.r4());
             registerResource("levels/level6.lvl", R.r5());
             registerResource("levels/level7.lvl", R.r6());
+            registerResource("levels/level8.lvl", R.r7());
 
         }
     }

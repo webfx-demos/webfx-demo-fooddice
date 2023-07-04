@@ -14,8 +14,8 @@ public class Propeller extends GameObject implements Turnable{
 	private int time = 50;
 	private volatile boolean on = true;
 	
-	public Propeller(GraphicsContext gc, double x, double y){
-		super(gc, x, y, IMAGE.getWidth(), IMAGE.getHeight());
+	public Propeller(double x, double y){
+		super(x, y, IMAGE.getWidth(), IMAGE.getHeight());
 		Scheduler.schedulePeriodic(this.time, scheduled -> {
 			if (this.stopThread)
 				scheduled.cancel();
@@ -31,7 +31,7 @@ public class Propeller extends GameObject implements Turnable{
 	}
 	
 	@Override
-	public void render(){
+	public void render(GraphicsContext gc){
 		gc.save();
 		gc.translate(this.x+this.w/2, this.y+this.h/2);
 		gc.rotate(this.angle);
