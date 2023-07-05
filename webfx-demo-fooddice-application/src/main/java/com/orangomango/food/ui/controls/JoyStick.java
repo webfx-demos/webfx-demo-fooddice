@@ -1,23 +1,23 @@
 package com.orangomango.food.ui.controls;
 
+import com.orangomango.food.ui.shared.UiShared;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.image.Image;
 
-import com.orangomango.food.MainApplication;
-import static com.orangomango.food.MainApplication.WIDTH;
-import static com.orangomango.food.MainApplication.HEIGHT;
+import static com.orangomango.food.ui.shared.UiShared.WIDTH;
+import static com.orangomango.food.ui.shared.UiShared.HEIGHT;
 
 public class JoyStick{
 	private final GraphicsContext gc;
 	private final Image[] images = {
-			MainApplication.loadImage("control_left.png"),
-			MainApplication.loadImage("control_right.png"),
-			MainApplication.loadImage("control_jump.png"),
-			MainApplication.loadImage("control_pause.png"),
-			MainApplication.loadImage("control_minimap.png"),
-			MainApplication.loadImage("control_kill.png")
+			UiShared.loadImage("control_left.png"),
+			UiShared.loadImage("control_right.png"),
+			UiShared.loadImage("control_jump.png"),
+			UiShared.loadImage("control_pause.png"),
+			UiShared.loadImage("control_minimap.png"),
+			UiShared.loadImage("control_kill.png")
 	};
 
 	private final Rectangle2D moveLeft = new Rectangle2D(40, HEIGHT-90, 70, 70);

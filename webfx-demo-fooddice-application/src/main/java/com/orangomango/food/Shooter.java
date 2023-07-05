@@ -1,10 +1,9 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.shared.UiShared;
 import dev.webfx.platform.scheduler.Scheduler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.animation.*;
-import javafx.util.Duration;
 
 import java.util.*;
 import com.orangomango.food.ui.GameScreen;
@@ -15,7 +14,7 @@ public class Shooter extends GameObject implements Turnable{
 		private boolean left;
 		private static final double speed = 1.5;
 		public static final double SIZE = 12;
-		private static Image image = MainApplication.loadImage("shooter_bullet.png");
+		private static Image image = UiShared.loadImage("shooter_bullet.png");
 		
 		public Bullet(double x, double y, boolean l){
 			this.x = x;
@@ -40,8 +39,8 @@ public class Shooter extends GameObject implements Turnable{
 	private boolean left;
 	private List<Bullet> bullets = new ArrayList<>();
 	private int timeOff = 1300;
-	private static Image[][] IMAGES = new Image[][]{new Image[]{MainApplication.loadImage("shooter_0.png"), MainApplication.loadImage("shooter_1.png")},
-													new Image[]{MainApplication.loadImage("shooter2_0.png"), MainApplication.loadImage("shooter2_1.png")}};
+	private static Image[][] IMAGES = new Image[][]{new Image[]{UiShared.loadImage("shooter_0.png"), UiShared.loadImage("shooter_1.png")},
+													new Image[]{UiShared.loadImage("shooter2_0.png"), UiShared.loadImage("shooter2_1.png")}};
 	private Image[] images;
 	private volatile boolean on = true;
 	

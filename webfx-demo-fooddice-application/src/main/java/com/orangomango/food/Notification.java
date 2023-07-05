@@ -1,5 +1,6 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.shared.UiShared;
 import dev.webfx.platform.scheduler.Scheduler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -8,12 +9,12 @@ import javafx.scene.text.Font;
 public class Notification{
 	private String text = "";
 	private boolean mustShow;
-	private static Font font = MainApplication.getFont(30);
+	private static Font font = UiShared.getFont(30);
 	
 	public void setText(String t, int millis){
 		this.text = t;
 		this.mustShow = true;
-		MainApplication.playSound(MainApplication.NOTIFICATION_SOUND, false);
+		UiShared.playSound(MainApplication.NOTIFICATION_SOUND, false);
 		Scheduler.scheduleDelay(millis, () -> this.mustShow = false);
 	}
 	

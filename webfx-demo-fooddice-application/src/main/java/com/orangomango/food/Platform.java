@@ -1,38 +1,11 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.shared.PlatformType;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 
 public class Platform extends GameObject{
-	public static enum PlatformType{
-		SMALL(68, 20, "platform_small.png"),
-		MEDIUM(100, 20, "platform_medium.png");
-		
-		private double width;
-		private double height;
-		private Image image;
-		
-		private PlatformType(double w, double h, String imageName){
-			this.width = w;
-			this.height = h;
-			this.image = MainApplication.loadImage(imageName);
-		}
-		
-		public double getHeight(){
-			return this.height;
-		}
-		
-		public double getWidth(){
-			return this.width;
-		}
-		
-		public Image getImage(){
-			return this.image;
-		}
-	}
-	
+
 	protected Image type;
 	private boolean repeat;
 	

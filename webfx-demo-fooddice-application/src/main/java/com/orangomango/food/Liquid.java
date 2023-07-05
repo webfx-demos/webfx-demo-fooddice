@@ -1,10 +1,11 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.shared.UiShared;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class Liquid extends GameObject{
-	private static final Image IMAGE = MainApplication.loadImage("lava.png");
+	private static final Image IMAGE = UiShared.loadImage("lava.png");
 	
 	public Liquid(double x, double y, double w, double h){
 		super(x, y, w, h);

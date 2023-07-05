@@ -1,9 +1,10 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.shared.PlatformType;
+import com.orangomango.food.ui.shared.UiShared;
 import dev.webfx.platform.scheduler.Scheduler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.geometry.Point2D;
 
 import java.util.*;
@@ -11,7 +12,7 @@ import java.util.*;
 import com.orangomango.food.ui.GameScreen;
 
 public class RotatingPlatform extends GameObject implements Turnable{
-	private static Image IMAGE = MainApplication.loadImage("rotatingPlatform.png");
+	private static Image IMAGE = UiShared.loadImage("rotatingPlatform.png");
 	private int n;
 	private List<Point2D> rotatingPoints = new ArrayList<>();
 	private List<Platform> platforms = new ArrayList<>();
@@ -26,9 +27,9 @@ public class RotatingPlatform extends GameObject implements Turnable{
 		this.n = n;
 		for (int i = 0; i < n; i++){
 			Point2D point = new Point2D(this.x+this.w/2, this.y+this.h/2-length);
-			point = MainApplication.rotatePoint(point, 360/n*i, this.x+this.w/2, this.y+this.h/2);
+			point = UiShared.rotatePoint(point, 360/n*i, this.x+this.w/2, this.y+this.h/2);
 			this.rotatingPoints.add(point);
-			Platform plat = new Platform(point.getX()-Platform.PlatformType.SMALL.getWidth()/2, point.getY()-Platform.PlatformType.SMALL.getHeight()/2, Platform.PlatformType.SMALL);
+			Platform plat = new Platform(point.getX()- PlatformType.SMALL.getWidth()/2, point.getY()- PlatformType.SMALL.getHeight()/2, PlatformType.SMALL);
 			plat.disableRendering();
 			this.platforms.add(plat);
 		}
@@ -51,7 +52,7 @@ public class RotatingPlatform extends GameObject implements Turnable{
 	public void render(GraphicsContext gc){
 		gc.setLineWidth(4);
 		for (int i = 0; i < this.n; i++){
-			Point2D rotated = MainApplication.rotatePoint(this.rotatingPoints.get(i), this.angle, this.x+this.w/2, this.y+this.w/2);
+			Point2D rotated = UiShared.rotatePoint(this.rotatingPoints.get(i), this.angle, this.x+this.w/2, this.y+this.w/2);
 			gc.strokeLine(this.x+this.w/2, this.y+this.h/2, rotated.getX(), rotated.getY());
 			Platform pf = this.platforms.get(i);
 			double tempX = pf.getX();

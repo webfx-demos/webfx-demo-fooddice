@@ -1,5 +1,6 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.shared.UiShared;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -7,8 +8,8 @@ import com.orangomango.food.ui.GameScreen;
 
 public class CheckPoint extends GameObject{
 	private boolean activated;
-	private static Image ON_IMAGE = MainApplication.loadImage("checkpoint_on.png");
-	private static Image OFF_IMAGE = MainApplication.loadImage("checkpoint_off.png");
+	private static Image ON_IMAGE = UiShared.loadImage("checkpoint_on.png");
+	private static Image OFF_IMAGE = UiShared.loadImage("checkpoint_off.png");
 	
 	public CheckPoint(double x, double y){
 		super(x, y, ON_IMAGE.getWidth(), ON_IMAGE.getHeight());
@@ -23,7 +24,7 @@ public class CheckPoint extends GameObject{
 			this.activated = collided(GameScreen.getInstance().getPlayer()) && !GameScreen.getInstance().getSpecialEffect().noCheckpoints;
 			if (this.activated){
 				GameScreen.getInstance().getPlayer().setRespawnPoint(this.x, this.y);
-				MainApplication.playSound(MainApplication.CHECKPOINT_SOUND, false);
+				UiShared.playSound(MainApplication.CHECKPOINT_SOUND, false);
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.shared.UiShared;
 import dev.webfx.platform.scheduler.Scheduler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -13,13 +14,13 @@ public class Player extends GameObject{
 	public static final double Y_SPEED = 95; // Jump height
 	public static final double X_SPEED = 10;
 	private static Image[] IMAGES = new Image[6];
-	private static Image DIED_IMAGE = MainApplication.loadImage("player_died.png");
+	private static Image DIED_IMAGE = UiShared.loadImage("player_died.png");
 	private double onDieX, onDieY;
 	private volatile boolean blinking, blink;
 	
 	static {
 		for (int i = 1; i <= 6; i++){
-			IMAGES[i-1] = MainApplication.loadImage("player_"+i+".png");
+			IMAGES[i-1] = UiShared.loadImage("player_"+i+".png");
 		}
 	}
 	
@@ -82,7 +83,7 @@ public class Player extends GameObject{
 		GameScreen.getInstance().shakeCamera();
 		if ((this.died || GameScreen.getInstance().getSpecialEffect().invulnerability) && !force) return;
 		this.died = true;
-		MainApplication.playSound(MainApplication.DIE_SOUND, false);
+		UiShared.playSound(MainApplication.DIE_SOUND, false);
 		if (this.motionLeft != null && this.movingLeft){
 			this.motionLeft.stop();
 			this.movingLeft = false;

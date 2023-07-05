@@ -1,5 +1,7 @@
 package com.orangomango.food.ui;
 
+import com.orangomango.food.ui.shared.MenuButton;
+import com.orangomango.food.ui.shared.UiShared;
 import dev.webfx.platform.windowlocation.WindowLocation;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
@@ -9,24 +11,21 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.image.Image;
 
-import com.orangomango.food.MainApplication;
-
 public class CreditsScreen{
-	private Image background = MainApplication.loadImage("background_home.jpg");
+	private Image background = UiShared.loadImage("background_home.jpg");
 
 	public Canvas getLayout(){
 		//StackPane layout = new StackPane();
 		
-		Canvas canvas = new Canvas(MainApplication.WIDTH, MainApplication.HEIGHT);
+		Canvas canvas = new Canvas(UiShared.WIDTH, UiShared.HEIGHT);
 		//layout.getChildren().add(canvas);
 		
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		Rectangle2D link = new Rectangle2D(150, 265, 500, 30);
 
 		MenuButton home = new MenuButton("", () -> {
-			HomeScreen hs = new HomeScreen();
-			MainApplication.setScreen(hs.getLayout());
-		}, 50, 300, 75, 75, MainApplication.loadImage("button_home.png"));
+			UiShared.goToHomeScreen();
+		}, 50, 300, 75, 75, UiShared.loadImage("button_home.png"));
 
 		canvas.setOnMousePressed(e -> {
 			if (link.contains(e.getX(), e.getY())){
@@ -44,12 +43,12 @@ public class CreditsScreen{
 			}
 		});
 
-		Font font = MainApplication.getFont(30);
-		MainApplication.onFontsImagesLoaded(() -> {
+		Font font = UiShared.getFont(30);
+		UiShared.onFontsImagesLoaded(() -> {
 			//gc.setFill(Color.web("#409B85"));
 			//gc.fillRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
-			gc.drawImage(this.background, 0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
-			gc.scale(MainApplication.SCALE, MainApplication.SCALE);
+			gc.drawImage(this.background, 0, 0, UiShared.WIDTH, UiShared.HEIGHT);
+			gc.scale(UiShared.SCALE, UiShared.SCALE);
 			home.render(gc);
 			gc.setFill(Color.BLACK);
 			gc.setFont(font);

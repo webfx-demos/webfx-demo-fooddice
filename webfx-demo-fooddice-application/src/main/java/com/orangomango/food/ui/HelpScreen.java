@@ -1,6 +1,7 @@
 package com.orangomango.food.ui;
 
-import com.orangomango.food.MainApplication;
+import com.orangomango.food.ui.shared.MenuButton;
+import com.orangomango.food.ui.shared.UiShared;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -16,41 +17,40 @@ public class HelpScreen{
 	private Image[] images = new Image[14];
 	private boolean forward = true;
 	private double extraY = 1;
-	private Image background = MainApplication.loadImage("background_home.jpg");
+	private Image background = UiShared.loadImage("background_home.jpg");
 	
 	public HelpScreen(){
-		this.images[0] = MainApplication.loadImage("key_s.png");
-		this.images[1] = MainApplication.loadImage("key_f.png");
-		this.images[2] = MainApplication.loadImage("key_left.png");
-		this.images[3] = MainApplication.loadImage("key_right.png");
-		this.images[4] = MainApplication.loadImage("key_esc.png");
-		this.images[5] = MainApplication.loadImage("key_p.png");
-		this.images[6] = MainApplication.loadImage("key_k.png");
-		this.images[7] = MainApplication.loadImage("key_l.png");
-		this.images[8] = MainApplication.loadImage("key_f1.png");
-		this.images[9] = MainApplication.loadImage("key_f2.png");
-		this.images[10] = MainApplication.loadImage("key_f3.png");
-		this.images[11] = MainApplication.loadImage("key_f4.png");
-		this.images[12] = MainApplication.loadImage("key_i.png");
-		this.images[13] = MainApplication.loadImage("key_up.png");
+		this.images[0] = UiShared.loadImage("key_s.png");
+		this.images[1] = UiShared.loadImage("key_f.png");
+		this.images[2] = UiShared.loadImage("key_left.png");
+		this.images[3] = UiShared.loadImage("key_right.png");
+		this.images[4] = UiShared.loadImage("key_esc.png");
+		this.images[5] = UiShared.loadImage("key_p.png");
+		this.images[6] = UiShared.loadImage("key_k.png");
+		this.images[7] = UiShared.loadImage("key_l.png");
+		this.images[8] = UiShared.loadImage("key_f1.png");
+		this.images[9] = UiShared.loadImage("key_f2.png");
+		this.images[10] = UiShared.loadImage("key_f3.png");
+		this.images[11] = UiShared.loadImage("key_f4.png");
+		this.images[12] = UiShared.loadImage("key_i.png");
+		this.images[13] = UiShared.loadImage("key_up.png");
 	}
 
 	public Canvas getLayout(){
 		//StackPane layout = new StackPane();
 		
-		Canvas canvas = new Canvas(MainApplication.WIDTH, MainApplication.HEIGHT);
+		Canvas canvas = new Canvas(UiShared.WIDTH, UiShared.HEIGHT);
 		//layout.getChildren().add(canvas);
 		
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		
 		this.home = new MenuButton("", () -> {
-			HomeScreen hs = new HomeScreen();
-			MainApplication.setScreen(hs.getLayout());
-		}, 50, 300, 75, 75, MainApplication.loadImage("button_home.png"));
-		canvas.setOnMousePressed(e -> home.click(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE));
+			UiShared.goToHomeScreen();
+		}, 50, 300, 75, 75, UiShared.loadImage("button_home.png"));
+		canvas.setOnMousePressed(e -> home.click(e.getX()/ UiShared.SCALE, e.getY()/ UiShared.SCALE));
 
-		MainApplication.onFontsImagesLoaded(() -> {
-			this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> update(gc)));
+		UiShared.onFontsImagesLoaded(() -> {
+			this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/ UiShared.FPS), e -> update(gc)));
 			this.loop.setCycleCount(Animation.INDEFINITE);
 			this.loop.play();
 		});
@@ -59,12 +59,12 @@ public class HelpScreen{
 	}
 	
 	private void update(GraphicsContext gc){
-		gc.clearRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
+		gc.clearRect(0, 0, UiShared.WIDTH, UiShared.HEIGHT);
 		//gc.setFill(Color.web("#409B85"));
 		//gc.fillRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
-		gc.drawImage(this.background, 0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
+		gc.drawImage(this.background, 0, 0, UiShared.WIDTH, UiShared.HEIGHT);
 		gc.save();
-		gc.scale(MainApplication.SCALE, MainApplication.SCALE);
+		gc.scale(UiShared.SCALE, UiShared.SCALE);
 		this.home.render(gc);
 
 		// TODO add spacebar key image
@@ -92,7 +92,7 @@ public class HelpScreen{
 		}
 		
 		gc.setFill(Color.BLACK);
-		gc.setFont(MainApplication.getFont(20));
+		gc.setFont(UiShared.getFont(20));
 		gc.fillText("Use S/F or arrow keys to move\nSpace or up arrow to jump", 187, 85);
 		gc.fillText("Use ESC or P to pause/resume", 187, 230);
 		gc.fillText("Use K to kill yourself", 550, 75);

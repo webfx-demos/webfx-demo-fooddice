@@ -1,5 +1,6 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.shared.UiShared;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import java.util.Random;
@@ -11,17 +12,17 @@ public class Spike extends GameObject{
 		super(x, y, 0, 0);
 		switch (type){
 			case "fire":
-				this.images[0] = MainApplication.loadImage("fire_0.png");
-				this.images[1] = MainApplication.loadImage("fire_1.png");
-				this.images[2] = MainApplication.loadImage("fire_2.png");
+				this.images[0] = UiShared.loadImage("fire_0.png");
+				this.images[1] = UiShared.loadImage("fire_1.png");
+				this.images[2] = UiShared.loadImage("fire_2.png");
 				startImageAnimation(200, 2, true);
 				break;
 			case "spike":
-				this.images[0] = MainApplication.loadImage("spike.png");
+				this.images[0] = UiShared.loadImage("spike.png");
 				break;
 			case "cactus":
 				for (int i = 0; i < 4; i++){
-					this.images[i] = MainApplication.loadImage("cactus_"+i+".png");
+					this.images[i] = UiShared.loadImage("cactus_"+i+".png");
 				}
 				Random random = new Random();
 				this.imageIndex = random.nextInt(4);

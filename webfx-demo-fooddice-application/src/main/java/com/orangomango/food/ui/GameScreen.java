@@ -2,6 +2,9 @@ package com.orangomango.food.ui;
 
 import com.orangomango.food.*;
 import com.orangomango.food.ui.controls.JoyStick;
+import com.orangomango.food.ui.shared.MenuButton;
+import com.orangomango.food.ui.shared.PlatformType;
+import com.orangomango.food.ui.shared.UiShared;
 import dev.webfx.platform.json.JsonObject;
 import dev.webfx.platform.os.OperatingSystem;
 import dev.webfx.platform.resource.Resource;
@@ -33,7 +36,7 @@ public class GameScreen{
 	public Timeline loop;
 	private Exit exit;
 	private int currentLevel;
-	private Image backgroundTile = MainApplication.loadImage("background.png");
+	private Image backgroundTile = UiShared.loadImage("background.png");
 	private double levelWidth, levelHeight;
 	private volatile boolean paused;
 	private Image pausedImage;
@@ -51,15 +54,15 @@ public class GameScreen{
 	public int deaths;
 	private String loadString;
 	private Map<Integer, Integer> spritesID = new HashMap<>();
-	private Image fogImage = MainApplication.loadImage("fog.png");
+	private Image fogImage = UiShared.loadImage("fog.png");
 	private Image levelImage;
 	private Map<Integer, KeyCode> touchID = new HashMap<>();
 	private boolean showInfo = "true".equals(LocalStorage.getItem("showInfo"));
 
 	private JoyStick joystick;
 	
-	private static Font FONT_20 = MainApplication.getFont(20);
-	private static Font FONT_55 = MainApplication.getFont(55);
+	private static Font FONT_20 = UiShared.getFont(20);
+	private static Font FONT_55 = UiShared.getFont(55);
 	
 	public GameScreen(int l){
 		this(l, null);
@@ -170,16 +173,16 @@ public class GameScreen{
 					double ph = Double.parseDouble(line.split(",")[4]);
 					switch (type){
 						case 0:
-							sprites.add(new Platform(px, py, Platform.PlatformType.SMALL));
+							sprites.add(new Platform(px, py, PlatformType.SMALL));
 							break;
 						case 1:
-							sprites.add(new Platform(px, py, Platform.PlatformType.MEDIUM));
+							sprites.add(new Platform(px, py, PlatformType.MEDIUM));
 							break;
 						case 2:
-							sprites.add(new Platform(px, py, pw, ph, MainApplication.loadImage("ground.png")));
+							sprites.add(new Platform(px, py, pw, ph, UiShared.loadImage("ground.png")));
 							break;
 						case 3:
-							sprites.add(new Platform(px, py, pw, ph, MainApplication.loadImage("wood.png")));
+							sprites.add(new Platform(px, py, pw, ph, UiShared.loadImage("wood.png")));
 							break;
 						case 4:
 							sprites.add(new Spike(px, py, "fire"));
@@ -255,7 +258,7 @@ public class GameScreen{
 								maxY = Double.parseDouble(data[3]);
 								moveTime = Integer.parseInt(data[4]);
 							}
-							sprites.add(new MovablePlatform(px, py, type == 16 ? Platform.PlatformType.SMALL : Platform.PlatformType.MEDIUM, moveX, moveY, maxX, maxY, moveTime));
+							sprites.add(new MovablePlatform(px, py, type == 16 ? PlatformType.SMALL : PlatformType.MEDIUM, moveX, moveY, maxX, maxY, moveTime));
 							break;
 						case 18:
 							Portal portal = new Portal(px, py);
@@ -314,13 +317,13 @@ public class GameScreen{
 				this.player = new Player(40, 240);
 				sprites.add(player);
 				
-				sprites.add(new Platform(0, 256, 96, this.levelHeight-256-150, MainApplication.loadImage("ground.png")));
+				sprites.add(new Platform(0, 256, 96, this.levelHeight-256-150, UiShared.loadImage("ground.png")));
 				sprites.add(new Box(65, 30));
 				sprites.add(new Box(65, 0));
 				Door door = new Door(385, 206);
 				Laser laser = new Laser(450, 20);
 				Shooter shooter = new Shooter(460, 236, false);
-				MovablePlatform mob = new MovablePlatform(130, 270, Platform.PlatformType.SMALL, 2, 0, 50, 0, 100);
+				MovablePlatform mob = new MovablePlatform(130, 270, PlatformType.SMALL, 2, 0, 50, 0, 100);
 				sprites.add(door);
 				sprites.add(new ActivatorPad(0, -30, () -> {
 					door.turnOn();
@@ -332,13 +335,13 @@ public class GameScreen{
 					shooter.turnOn();
 				}));
 				sprites.add(new ActivatorPad(420, 180, () -> laser.turnOff(), () -> laser.turnOn()));
-				sprites.add(new Platform(385, 256, 224, this.levelHeight-256-150, MainApplication.loadImage("wood.png")));
+				sprites.add(new Platform(385, 256, 224, this.levelHeight-256-150, UiShared.loadImage("wood.png")));
 				sprites.add(mob);
-				sprites.add(new Platform(260, 270, Platform.PlatformType.MEDIUM));
-				sprites.add(new Platform(150, 150, Platform.PlatformType.MEDIUM));
-				sprites.add(new Platform(300, 100, Platform.PlatformType.MEDIUM));
+				sprites.add(new Platform(260, 270, PlatformType.MEDIUM));
+				sprites.add(new Platform(150, 150, PlatformType.MEDIUM));
+				sprites.add(new Platform(300, 100, PlatformType.MEDIUM));
 				sprites.add(new JumpPad(350, 50));
-				sprites.add(new MovablePlatform(625, 250, Platform.PlatformType.SMALL, 0, 5, 0, 500, 50));
+				sprites.add(new MovablePlatform(625, 250, PlatformType.SMALL, 0, 5, 0, 500, 50));
 				sprites.add(new JumpPad(270, 252));
 				sprites.add(new CheckPoint(150, 750));
 				
@@ -373,19 +376,19 @@ public class GameScreen{
 				this.player = new Player(20, 240);
 				sprites.add(new GameText(35, 190, 300, 25, "You get special effect every 15s based on your dice face"));
 				sprites.add(this.player);
-				sprites.add(new Platform(0, 256, 192, 400-256, MainApplication.loadImage("ground.png")));
-				sprites.add(new Platform(348, 256, 192, 400-256, MainApplication.loadImage("ground.png")));
+				sprites.add(new Platform(0, 256, 192, 400-256, UiShared.loadImage("ground.png")));
+				sprites.add(new Platform(348, 256, 192, 400-256, UiShared.loadImage("ground.png")));
 				sprites.add(new Liquid(348+192, 350, 800-348-192, 50));
-				sprites.add(new Platform(0, 0, 200, 125, MainApplication.loadImage("ground.png")));
-				sprites.add(new Platform(220, 256, Platform.PlatformType.MEDIUM));
-				sprites.add(new Platform(700, 175, Platform.PlatformType.SMALL));
-				sprites.add(new Platform(600, 115, Platform.PlatformType.SMALL));
-				sprites.add(new MovablePlatform(390, 85, Platform.PlatformType.SMALL, 2, 0, 100, 0, 50));
-				sprites.add(new Platform(250, 80, Platform.PlatformType.MEDIUM));
+				sprites.add(new Platform(0, 0, 200, 125, UiShared.loadImage("ground.png")));
+				sprites.add(new Platform(220, 256, PlatformType.MEDIUM));
+				sprites.add(new Platform(700, 175, PlatformType.SMALL));
+				sprites.add(new Platform(600, 115, PlatformType.SMALL));
+				sprites.add(new MovablePlatform(390, 85, PlatformType.SMALL, 2, 0, 100, 0, 50));
+				sprites.add(new Platform(250, 80, PlatformType.MEDIUM));
 				for (int i = 0; i < 6; i++){
 					sprites.add(new Spike(192+i*25, 375, "fire"));
 				}
-				sprites.add(new Platform(570, 220, Platform.PlatformType.MEDIUM));
+				sprites.add(new Platform(570, 220, PlatformType.MEDIUM));
 				
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, 255, 215));
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, 480, 215));
@@ -412,15 +415,15 @@ public class GameScreen{
 				sprites.add(this.player);
 				
 				// Grounds
-				sprites.add(new Platform(0, 0, 800, 72, MainApplication.loadImage("ground.png")));
-				sprites.add(new Platform(0, 728, 800, 72, MainApplication.loadImage("ground.png")));
-				sprites.add(new Platform(0, 512, 290, 72, MainApplication.loadImage("ground.png")));
+				sprites.add(new Platform(0, 0, 800, 72, UiShared.loadImage("ground.png")));
+				sprites.add(new Platform(0, 728, 800, 72, UiShared.loadImage("ground.png")));
+				sprites.add(new Platform(0, 512, 290, 72, UiShared.loadImage("ground.png")));
 				
 				sprites.add(new Laser(20, 584));
 				sprites.add(new Laser(120, 584));
 				sprites.add(new Laser(240, 584));
-				sprites.add(new Platform(300, 700, Platform.PlatformType.MEDIUM));
-				sprites.add(new Platform(415, 650, Platform.PlatformType.MEDIUM));
+				sprites.add(new Platform(300, 700, PlatformType.MEDIUM));
+				sprites.add(new Platform(415, 650, PlatformType.MEDIUM));
 				sprites.add(new Spike(407, 703, "cactus"));
 				sprites.add(new Spike(437, 703, "cactus"));
 				sprites.add(new Spike(467, 703, "cactus"));
@@ -429,37 +432,37 @@ public class GameScreen{
 				sprites.add(new ActivatorPad(450, 630, () -> door_l4.turnOn(), () -> door_l4.turnOff()));
 				sprites.add(new Spike(575, 703, "fire"));
 				sprites.add(new Spike(615, 703, "cactus"));
-				sprites.add(new MovablePlatform(530, 650, Platform.PlatformType.SMALL, 2, 0, 100, 0, 50));
-				sprites.add(new Platform(700, 615, Platform.PlatformType.MEDIUM));
+				sprites.add(new MovablePlatform(530, 650, PlatformType.SMALL, 2, 0, 100, 0, 50));
+				sprites.add(new Platform(700, 615, PlatformType.MEDIUM));
 				sprites.add(new CheckPoint(730, 565));
-				sprites.add(new Platform(570, 585, Platform.PlatformType.MEDIUM));
+				sprites.add(new Platform(570, 585, PlatformType.MEDIUM));
 				sprites.add(new Shooter(570, 565, false));
-				sprites.add(new Platform(700, 537, Platform.PlatformType.MEDIUM));
-				sprites.add(new MovablePlatform(470, 510, Platform.PlatformType.SMALL, 2, 0, 144, 0, 50));
-				sprites.add(new Platform(300, 490, 143, 40, MainApplication.loadImage("wood.png")));
+				sprites.add(new Platform(700, 537, PlatformType.MEDIUM));
+				sprites.add(new MovablePlatform(470, 510, PlatformType.SMALL, 2, 0, 144, 0, 50));
+				sprites.add(new Platform(300, 490, 143, 40, UiShared.loadImage("wood.png")));
 				for (int i = 0; i < 11; i++){
 					sprites.add(new Spike(i*25, 487, "fire"));
 				}
 				sprites.add(new CheckPoint(340, 440));
-				sprites.add(new Platform(190, 450, Platform.PlatformType.MEDIUM));
-				sprites.add(new MovablePlatform(110, 315, Platform.PlatformType.SMALL, 0, 2, 0, 120, 50));
-				sprites.add(new Platform(5, 290, Platform.PlatformType.MEDIUM));
-				sprites.add(new Platform(180, 290, Platform.PlatformType.MEDIUM));
-				sprites.add(new Platform(300, 290, 140, 40, MainApplication.loadImage("wood.png")));
+				sprites.add(new Platform(190, 450, PlatformType.MEDIUM));
+				sprites.add(new MovablePlatform(110, 315, PlatformType.SMALL, 0, 2, 0, 120, 50));
+				sprites.add(new Platform(5, 290, PlatformType.MEDIUM));
+				sprites.add(new Platform(180, 290, PlatformType.MEDIUM));
+				sprites.add(new Platform(300, 290, 140, 40, UiShared.loadImage("wood.png")));
 				sprites.add(new Laser(300, 330));
 				sprites.add(new Laser(390, 330));
 				sprites.add(new Laser(300, 72));
 				sprites.add(new Laser(390, 72));
 				sprites.add(new Laser(60, 72));
 				sprites.add(new Laser(235, 72));
-				sprites.add(new Platform(475, 270, Platform.PlatformType.SMALL));
+				sprites.add(new Platform(475, 270, PlatformType.SMALL));
 				sprites.add(new Box(480, 235));
-				sprites.add(new Platform(547, 220, 33, 150, MainApplication.loadImage("wood.png")));
+				sprites.add(new Platform(547, 220, 33, 150, UiShared.loadImage("wood.png")));
 				sprites.add(door_l4);
-				sprites.add(new Platform(580, 328, Platform.PlatformType.MEDIUM));
-				sprites.add(new Platform(733, 328, Platform.PlatformType.SMALL));
+				sprites.add(new Platform(580, 328, PlatformType.MEDIUM));
+				sprites.add(new Platform(733, 328, PlatformType.SMALL));
 				sprites.add(new Shooter(753, 310, true));
-				sprites.add(new Platform(580, 268, Platform.PlatformType.SMALL));
+				sprites.add(new Platform(580, 268, PlatformType.SMALL));
 				sprites.add(new Laser(590, 72));
 				
 				collectables.add(new CollectableObject(CollectableObject.CollectableType.COIN, 13, 255));
@@ -474,7 +477,7 @@ public class GameScreen{
 				return;
 		}
 		loadAngles((int)this.levelWidth/25, (int)this.levelHeight/25);
-		MainApplication.onFontsImagesLoaded(() -> this.levelImage = generateLevelImage());
+		UiShared.onFontsImagesLoaded(() -> this.levelImage = generateLevelImage());
 	}
 	
 	static String[] getLevelData(int n){
@@ -489,7 +492,7 @@ public class GameScreen{
 	
 	public Canvas getLayout(){
 		//StackPane layout = new StackPane();
-		Canvas canvas = new Canvas(MainApplication.WIDTH, MainApplication.HEIGHT);
+		Canvas canvas = new Canvas(UiShared.WIDTH, UiShared.HEIGHT);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		
 		if (this.loadString != null){
@@ -509,7 +512,7 @@ public class GameScreen{
 			e.consume();
 		});
 
-		this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> update(gc)));
+		this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/ UiShared.FPS), e -> update(gc)));
 		loop.setCycleCount(Animation.INDEFINITE);
 		loop.play();
 		
@@ -540,9 +543,9 @@ public class GameScreen{
 	private void onPressed(double x, double y, int touchId, Canvas canvas) {
 		for (int i = 0; i < this.buttons.size(); i++){
 			MenuButton mb = this.buttons.get(i);
-			mb.click(x/MainApplication.SCALE, y/MainApplication.SCALE);
+			mb.click(x/ UiShared.SCALE, y/ UiShared.SCALE);
 		}
-		KeyCode k = this.joystick.clicked(x/MainApplication.SCALE, y/MainApplication.SCALE);
+		KeyCode k = this.joystick.clicked(x/ UiShared.SCALE, y/ UiShared.SCALE);
 		if (k != null){
 			if (touchId != -1)
 				this.touchID.put(touchId, k);
@@ -590,7 +593,7 @@ public class GameScreen{
 	}
 
 	private void handlePress(KeyCode key, Canvas canvas){
-		if (MainApplication.handleScalePress(key))
+		if (UiShared.handleScalePress(key))
 			return;
 		if (key == KeyCode.I)
 			setShowInfo(!this.showInfo);
@@ -598,7 +601,7 @@ public class GameScreen{
 			this.paused = !this.paused;
 			if (this.paused){
 				this.pausedStart = System.currentTimeMillis();
-				this.pausedImage = canvas.snapshot(null, new WritableImage(MainApplication.WIDTH, MainApplication.HEIGHT));
+				this.pausedImage = canvas.snapshot(null, new WritableImage(UiShared.WIDTH, UiShared.HEIGHT));
 				this.buttons.add(new MenuButton("", () -> {
 					clearEverything();
 					/*if (this.currentLevel < 0 && Editor.lastFile != null){
@@ -606,9 +609,9 @@ public class GameScreen{
 						MainApplication.stage.getScene().setRoot(ed.getLayout());
 					} else*/ {
 						LevelsScreen ls = new LevelsScreen();
-						MainApplication.setScreen(ls.getLayout());
+						UiShared.setScreen(ls.getLayout());
 					}
-				}, 250, 200, 75, 75, MainApplication.loadImage("button_home.png")));
+				}, 250, 200, 75, 75, UiShared.loadImage("button_home.png")));
 				this.buttons.add(new MenuButton("", () -> {
 					if (this.currentLevel < 0){
 						loadLevel(-1, this.loadString.split("\n"));
@@ -618,8 +621,8 @@ public class GameScreen{
 					this.paused = false;
 					this.pausedImage = null;
 					this.buttons.clear();
-				}, 350, 200, 75, 75, MainApplication.loadImage("button_restart.png")));
-				this.buttons.add(new MenuButton("", () -> handlePress(KeyCode.P, canvas), 450, 200, 75, 75, MainApplication.loadImage("button_continue.png")));
+				}, 350, 200, 75, 75, UiShared.loadImage("button_restart.png")));
+				this.buttons.add(new MenuButton("", () -> handlePress(KeyCode.P, canvas), 450, 200, 75, 75, UiShared.loadImage("button_continue.png")));
 			} else {
 				this.pausedImage = null;
 				this.pausedTime += System.currentTimeMillis()-this.pausedStart;
@@ -703,9 +706,9 @@ public class GameScreen{
 	}
 
 	private void update(GraphicsContext gc){
-		gc.clearRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
+		gc.clearRect(0, 0, UiShared.WIDTH, UiShared.HEIGHT);
 		gc.setFill(Color.web("#00694F"));
-		gc.fillRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
+		gc.fillRect(0, 0, UiShared.WIDTH, UiShared.HEIGHT);
 		long difference = System.currentTimeMillis()-this.levelStart-this.pausedTime;
 		
 		if (this.paused){
@@ -713,10 +716,10 @@ public class GameScreen{
 			gc.save();
 			gc.setGlobalAlpha(0.6);
 			gc.setFill(Color.BLACK);
-			gc.fillRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
+			gc.fillRect(0, 0, UiShared.WIDTH, UiShared.HEIGHT);
 			gc.setGlobalAlpha(1);
 			gc.setFill(Color.WHITE);
-			gc.scale(MainApplication.SCALE, MainApplication.SCALE);
+			gc.scale(UiShared.SCALE, UiShared.SCALE);
 			gc.setFont(FONT_55);
 			gc.fillText("PAUSED", 310, 150);
 			for (MenuButton mb : this.buttons){
@@ -728,10 +731,10 @@ public class GameScreen{
 		
 		gc.save();
 		if (this.showCamera){
-			gc.scale(MainApplication.SCALE, MainApplication.SCALE);
+			gc.scale(UiShared.SCALE, UiShared.SCALE);
 			gc.translate(-this.player.getX()+200-this.cameraShakeX, -this.player.getY()+175-this.cameraShakeY);
 		} else {
-			gc.scale(MainApplication.WIDTH/this.levelWidth, MainApplication.HEIGHT/this.levelHeight);
+			gc.scale(UiShared.WIDTH/this.levelWidth, UiShared.HEIGHT/this.levelHeight);
 		}
 		
 		makeBackground(gc);
@@ -749,7 +752,7 @@ public class GameScreen{
 			co.render(gc);
 			if (co.collided(this.player)){
 				if (co.getType() == CollectableObject.CollectableType.COIN) this.coinsCollected++;
-				MainApplication.playSound(MainApplication.COIN_SOUND, false);
+				UiShared.playSound(MainApplication.COIN_SOUND, false);
 				collectables.remove(co);
 				i--;
 			}
@@ -764,7 +767,7 @@ public class GameScreen{
 			}
 		}
 		if (this.player.collided(this.exit.x, this.exit.y, Exit.WIDTH, Exit.HEIGHT)){
-			MainApplication.playSound(MainApplication.LEVEL_COMPLETE_SOUND, false);
+			UiShared.playSound(MainApplication.LEVEL_COMPLETE_SOUND, false);
 			LevelsScreen.LevelManager levelManager = LevelsScreen.getLevelManager();
 			JsonObject level = levelManager.getLevelData(this.currentLevel);
 			if (level != null){
@@ -781,8 +784,7 @@ public class GameScreen{
 			}
 			if (this.currentLevel == LevelsScreen.FINAL_LEVEL){ // Final level
 				clearEverything();
-				WinScreen ws = new WinScreen();
-				MainApplication.setScreen(ws.getLayout());
+				UiShared.setScreen(new WinScreen().getLayout());
 				return;
 			} else if (this.currentLevel < 0){
 				clearEverything();
@@ -791,7 +793,7 @@ public class GameScreen{
 					MainApplication.stage.getScene().setRoot(ed.getLayout());
 				} else*/ {
 					LevelsScreen ls = new LevelsScreen();
-					MainApplication.setScreen(ls.getLayout());
+					UiShared.setScreen(ls.getLayout());
 				}
 				return;
 			} else {
@@ -849,7 +851,7 @@ public class GameScreen{
 		gc.restore();
 
 		gc.save();
-		gc.scale(MainApplication.SCALE, MainApplication.SCALE);
+		gc.scale(UiShared.SCALE, UiShared.SCALE);
 
 		if (this.specialEffect.fog && this.currentLevel != 1){
 			gc.drawImage(this.fogImage, 0, 0, 800, 400);
@@ -880,8 +882,8 @@ public class GameScreen{
 			gc.save();
 			gc.setGlobalAlpha(0.7);
 			gc.setFill(Color.BLACK);
-			gc.fillRect(0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
-			gc.drawImage(this.levelImage, MainApplication.WIDTH*0.3, MainApplication.HEIGHT*0.1, MainApplication.WIDTH*0.4, MainApplication.WIDTH*0.4);
+			gc.fillRect(0, 0, UiShared.WIDTH, UiShared.HEIGHT);
+			gc.drawImage(this.levelImage, UiShared.WIDTH*0.3, UiShared.HEIGHT*0.1, UiShared.WIDTH*0.4, UiShared.WIDTH*0.4);
 			gc.restore();
 		}
 	}

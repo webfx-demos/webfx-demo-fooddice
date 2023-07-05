@@ -1,5 +1,6 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.shared.UiShared;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -7,7 +8,7 @@ public class Exit{
 	public double x, y;
 	public static final double WIDTH = 35;
 	public static final double HEIGHT = 40;
-	private Image image = MainApplication.loadImage("exit.png");
+	private Image image = UiShared.loadImage("exit.png");
 	
 	public Exit(double x, double y){
 		this.x = x;

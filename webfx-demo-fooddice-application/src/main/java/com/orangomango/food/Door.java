@@ -1,5 +1,6 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.shared.UiShared;
 import dev.webfx.platform.scheduler.Scheduler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -12,7 +13,7 @@ public class Door extends GameObject implements Turnable{
 
 	static {
 		for (int i = 0; i < 8; i++){
-			IMAGES[i] = MainApplication.loadImage("door_"+i+".png");
+			IMAGES[i] = UiShared.loadImage("door_"+i+".png");
 		}
 	}
 

@@ -1,5 +1,6 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.shared.UiShared;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -11,7 +12,7 @@ public class GameText extends GameObject{
 	public GameText(double x, double y, double w, double h, String text){
 		super(x, y, w, h);
 		this.text = text;
-		this.font = MainApplication.getFont(this.h);
+		this.font = UiShared.getFont(this.h);
 	}
 	
 	@Override

@@ -1,12 +1,10 @@
-package com.orangomango.food.ui;
+package com.orangomango.food.ui.shared;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
-
-import com.orangomango.food.MainApplication;
 
 public class MenuButton{
 	private double x, y, w, h;
@@ -44,7 +42,7 @@ public class MenuButton{
 	public void click(double x, double y){
 		Rectangle2D thisRect = new Rectangle2D(this.x, this.y, this.w, this.h);
 		if (thisRect.contains(x, y)){
-			MainApplication.playSound(MainApplication.CLICK_SOUND, false);
+			UiShared.playSound(UiShared.CLICK_SOUND, false);
 			this.onClick.run();
 		}
 	}

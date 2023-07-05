@@ -1,5 +1,6 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.shared.UiShared;
 import dev.webfx.platform.scheduler.Scheduler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -9,7 +10,7 @@ import com.orangomango.food.ui.GameScreen;
 
 public class Laser extends GameObject implements Turnable{
 	private volatile boolean shooting = false;
-	private static Image IMAGE = MainApplication.loadImage("laser.png");
+	private static Image IMAGE = UiShared.loadImage("laser.png");
 	private volatile double drawAmount;
 	private volatile boolean on = true;
 	private int timeOff = 1400;

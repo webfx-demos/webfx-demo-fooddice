@@ -36,6 +36,10 @@
         <module>webfx-demo-fooddice-application-gluon</module>
         <module>webfx-demo-fooddice-application-gwt</module>
         <module>webfx-demo-fooddice-application-openjfx</module>
+        <module>webfx-demo-fooddice-editor</module>
+        <module>webfx-demo-fooddice-editor-gwt</module>
+        <module>webfx-demo-fooddice-editor-openjfx</module>
+        <module>webfx-demo-fooddice-ui-shared</module>
     </modules>
 
 </project>

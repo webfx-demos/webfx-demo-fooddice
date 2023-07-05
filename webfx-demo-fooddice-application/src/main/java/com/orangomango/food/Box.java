@@ -1,10 +1,11 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.shared.UiShared;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class Box extends GameObject{
-	private static Image IMAGE = MainApplication.loadImage("box.png");
+	private static Image IMAGE = UiShared.loadImage("box.png");
 
 	public Box(double x, double y){
 		super(x, y, IMAGE.getWidth(), IMAGE.getHeight());

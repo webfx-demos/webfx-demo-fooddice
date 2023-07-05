@@ -1,5 +1,6 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.shared.PlatformType;
 import dev.webfx.platform.scheduler.Scheduler;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -12,7 +13,7 @@ public class MovablePlatform extends Platform implements Turnable{
 	private int time;
 	private volatile boolean on = true;
 	
-	public MovablePlatform(double x, double y, Platform.PlatformType type, double xSpeed, double ySpeed, double xMax, double yMax, int time){
+	public MovablePlatform(double x, double y, PlatformType type, double xSpeed, double ySpeed, double xMax, double yMax, int time){
 		super(x, y, type);
 		this.xSpeed = xSpeed;
 		this.ySpeed = ySpeed;

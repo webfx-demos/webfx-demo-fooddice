@@ -1,6 +1,7 @@
 package com.orangomango.food.ui;
 
-import com.orangomango.food.MainApplication;
+import com.orangomango.food.ui.shared.MenuButton;
+import com.orangomango.food.ui.shared.UiShared;
 import dev.webfx.platform.json.Json;
 import dev.webfx.platform.json.JsonObject;
 import dev.webfx.platform.storage.LocalStorage;
@@ -86,7 +87,7 @@ public class LevelsScreen{
 	private Timeline loop;
 	private List<MenuButton> buttons = new ArrayList<>();
 	private MenuButton selectButton, quitButton;
-	private Image background = MainApplication.loadImage("background_home.jpg");
+	private Image background = UiShared.loadImage("background_home.jpg");
 	private boolean forward = true;
 	private double extraY = 1;
 	private String selectedText = "No level selected";
@@ -97,13 +98,13 @@ public class LevelsScreen{
 	public Canvas getLayout(){
 		//StackPane layout = new StackPane();
 		
-		Canvas canvas = new Canvas(MainApplication.WIDTH, MainApplication.HEIGHT);
+		Canvas canvas = new Canvas(UiShared.WIDTH, UiShared.HEIGHT);
 		canvas.setOnMousePressed(e -> {
 			for (MenuButton mb : this.buttons){
-				mb.click(e.getX()/MainApplication.SCALE, (e.getY()-this.scrollY)/MainApplication.SCALE);
+				mb.click(e.getX()/ UiShared.SCALE, (e.getY()-this.scrollY)/ UiShared.SCALE);
 			}
-			this.selectButton.click(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE);
-			this.quitButton.click(e.getX()/MainApplication.SCALE, e.getY()/MainApplication.SCALE);
+			this.selectButton.click(e.getX()/ UiShared.SCALE, e.getY()/ UiShared.SCALE);
+			this.quitButton.click(e.getX()/ UiShared.SCALE, e.getY()/ UiShared.SCALE);
 		});
 		canvas.setOnScroll(e -> {
 			this.scrollY += e.getDeltaY();
@@ -116,14 +117,14 @@ public class LevelsScreen{
 		//layout.getChildren().add(canvas);
 		
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		gc.setFont(MainApplication.getFont(25));
+		gc.setFont(UiShared.getFont(25));
 		
 		final int GAP = 150;
 		final int ROW = 5;
 		
 		for (int i = 0; i < FINAL_LEVEL; i++){
 			final int levelNumber = i+1;
-			buttons.add(new MenuButton("Level "+levelNumber, () -> loadLevel(levelNumber), 260+100*(i%ROW), 40+(i/ROW)*GAP, 75, 75, MainApplication.loadImage("button_play.png")));
+			buttons.add(new MenuButton("Level "+levelNumber, () -> loadLevel(levelNumber), 260+100*(i%ROW), 40+(i/ROW)*GAP, 75, 75, UiShared.loadImage("button_play.png")));
 		}
 		
 		/*List<String> userLevels = Editor.getUserLevels();
@@ -146,18 +147,17 @@ public class LevelsScreen{
 			MAX_SCROLL = mb.getY()-305; // Default Y (reset) is 305
 		}*/
 		
-		this.selectButton = new MenuButton("", () -> playLevel(), 30, 200, 200, 60, MainApplication.loadImage("button_select.png"));
+		this.selectButton = new MenuButton("", () -> playLevel(), 30, 200, 200, 60, UiShared.loadImage("button_select.png"));
 		this.quitButton = new MenuButton("", () -> {
 			this.loop.stop();
-			HomeScreen hs = new HomeScreen();
-			MainApplication.setScreen(hs.getLayout());
-		}, 50, 300, 75, 75, MainApplication.loadImage("button_home.png"));
+			UiShared.goToHomeScreen();
+		}, 50, 300, 75, 75, UiShared.loadImage("button_home.png"));
 
 
-		MainApplication.onFontsImagesLoaded(() -> {
+		UiShared.onFontsImagesLoaded(() -> {
 			update(gc);
 
-			this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/MainApplication.FPS), e -> update(gc)));
+			this.loop = new Timeline(new KeyFrame(Duration.millis(1000.0/ UiShared.FPS), e -> update(gc)));
 			this.loop.setCycleCount(Animation.INDEFINITE);
 			this.loop.play();
 		});
@@ -187,13 +187,13 @@ public class LevelsScreen{
 		if (this.selectedLevel == 0) return;
 		this.loop.stop();
 		GameScreen gs = new GameScreen(this.selectedLevel);
-		MainApplication.setScreen(gs.getLayout());
+		UiShared.setScreen(gs.getLayout());
 	}
 	
 	private void update(GraphicsContext gc){
-		gc.drawImage(this.background, 0, 0, MainApplication.WIDTH, MainApplication.HEIGHT);
+		gc.drawImage(this.background, 0, 0, UiShared.WIDTH, UiShared.HEIGHT);
 		gc.save();
-		gc.scale(MainApplication.SCALE, MainApplication.SCALE);
+		gc.scale(UiShared.SCALE, UiShared.SCALE);
 		gc.translate(0, this.extraY+this.scrollY);
 		for (MenuButton mb : this.buttons){
 			mb.render(gc);

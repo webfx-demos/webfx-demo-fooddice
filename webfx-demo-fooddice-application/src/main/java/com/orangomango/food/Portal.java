@@ -1,12 +1,13 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.shared.UiShared;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 import com.orangomango.food.ui.GameScreen;
 
 public class Portal extends GameObject{
-	private static Image IMAGE = MainApplication.loadImage("portal.png");
+	private static Image IMAGE = UiShared.loadImage("portal.png");
 	private double tpX, tpY;
 
 	public Portal(double x, double y){
@@ -25,7 +26,7 @@ public class Portal extends GameObject{
 		if (GameScreen.getInstance().getPlayer().collided(this.x, this.y-3, this.w, 3)){
 			GameScreen.getInstance().getPlayer().setX(this.tpX);
 			GameScreen.getInstance().getPlayer().setY(this.tpY);
-			MainApplication.playSound(MainApplication.PORTAL_SOUND, false);
+			UiShared.playSound(MainApplication.PORTAL_SOUND, false);
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.shared.UiShared;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -7,8 +8,8 @@ import javafx.beans.property.SimpleBooleanProperty;
 import com.orangomango.food.ui.GameScreen;
 
 public class ActivatorPad extends GameObject{
-	private static Image IMAGE = MainApplication.loadImage("activatorpad_0.png");
-	private static Image IMAGE2 = MainApplication.loadImage("activatorpad_1.png");
+	private static Image IMAGE = UiShared.loadImage("activatorpad_0.png");
+	private static Image IMAGE2 = UiShared.loadImage("activatorpad_1.png");
 	private SimpleBooleanProperty activated = new SimpleBooleanProperty(false);
 
 	public ActivatorPad(double x, double y, Runnable on, Runnable off){

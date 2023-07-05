@@ -1,5 +1,6 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.shared.UiShared;
 import dev.webfx.platform.scheduler.Scheduler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -7,7 +8,7 @@ import javafx.scene.image.Image;
 import com.orangomango.food.ui.GameScreen;
 
 public class FallingBlock extends GameObject{
-	private static Image IMAGE = MainApplication.loadImage("fallingBlock.png");
+	private static Image IMAGE = UiShared.loadImage("fallingBlock.png");
 	private boolean falling = false;
 	private int time = 1000;
 

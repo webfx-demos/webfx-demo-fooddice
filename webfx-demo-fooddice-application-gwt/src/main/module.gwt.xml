@@ -85,6 +85,10 @@
     <public includes="images/" path=""/>
     <resource path="levels"/>
     <public includes="levels/" path=""/>
+    <!--=========================< webfx-demo-fooddice-editor-gwt >=========================-->
+    <source path="com/orangomango/food/ui/editor"/>
+    <!--=========================< webfx-demo-fooddice-ui-shared >==========================-->
+    <source path="com/orangomango/food/ui/shared"/>
     <!--=============================< webfx-extras-scalepane >=============================-->
     <source path="dev/webfx/extras/scalepane"/>
     <!--=================================< webfx-kit-gwt >==================================-->

@@ -1,5 +1,6 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.shared.UiShared;
 import dev.webfx.platform.scheduler.Scheduled;
 import dev.webfx.platform.scheduler.Scheduler;
 import javafx.scene.canvas.GraphicsContext;
@@ -274,7 +275,7 @@ public abstract class GameObject{
 		if (!this.soundAllowed) return;
 		this.soundAllowed = false;
 		Scheduler.scheduleDelay(500, () -> this.soundAllowed = true);
-		MainApplication.playSound(MainApplication.MOVE_SOUND, false);
+		UiShared.playSound(MainApplication.MOVE_SOUND, false);
 	}
 	
 	public void moveLeft(double speed){
@@ -334,7 +335,7 @@ public abstract class GameObject{
 	public void moveUp(double speed){
 		if (this.falling || this.jumping || this.died) return;
 		this.jumping = true;
-		if (this instanceof Player) MainApplication.playSound(MainApplication.JUMP_SOUND, false);
+		if (this instanceof Player) UiShared.playSound(MainApplication.JUMP_SOUND, false);
 		GameScreen.getInstance().getEffects().add(new Particle(this.x, this.y+this.h, "tail", 20, false));
 		this.motionJump = new Timeline(new KeyFrame(Duration.millis(1000.0/60), e -> {
 			if (!checkCollision(this.x, this.y-Y_FRAMES, this.w, this.h+Y_FRAMES)){

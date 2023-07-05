@@ -1,7 +1,7 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.shared.UiShared;
 import javafx.scene.canvas.*;
-import javafx.scene.paint.Color;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.animation.*;
@@ -20,7 +20,7 @@ public class CollectableObject{
 		private CollectableType(double w, double h, String imageName){
 			this.width = w;
 			this.height = h;
-			this.image = MainApplication.loadImage(imageName);
+			this.image = UiShared.loadImage(imageName);
 		}
 		
 		public double getHeight(){

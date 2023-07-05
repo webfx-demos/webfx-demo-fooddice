@@ -1,12 +1,13 @@
 package com.orangomango.food;
 
+import com.orangomango.food.ui.shared.UiShared;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 import com.orangomango.food.ui.GameScreen;
 
 public class JumpPad extends GameObject{
-	private static Image IMAGE = MainApplication.loadImage("jumppad.png");
+	private static Image IMAGE = UiShared.loadImage("jumppad.png");
 	
 	public JumpPad(double x, double y){
 		super(x, y, IMAGE.getWidth(), IMAGE.getHeight());
