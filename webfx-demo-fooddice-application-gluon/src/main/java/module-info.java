@@ -20,7 +20,7 @@ module webfx.demo.fooddice.application.gluon {
     requires webfx.platform.windowhistory.java;
     requires webfx.platform.windowlocation.java;
 
-    // Meta Resource package
+    // Resources packages
     opens dev.webfx.platform.meta.exe;
 
 }

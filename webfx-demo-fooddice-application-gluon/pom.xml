@@ -150,7 +150,7 @@
                         <list>dev/webfx/platform/meta/exe/[^/]+$</list>
                         <list>font/[^/]+$</list>
                         <list>images/[^/]+$</list>
-                        <list>images/checkbox/[^/]+$</list>
+                        <list>javafx/scene/control/skin/checkbox/[^/]+$</list>
                         <list>levels/[^/]+$</list>
                     </resourcesList>
                     <appIdentifier>dev.webfx.demo.fooddice</appIdentifier>
