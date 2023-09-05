@@ -9,7 +9,7 @@ module webfx.demo.fooddice.application {
     requires javafx.media;
     requires webfx.demo.fooddice.editor;
     requires webfx.demo.fooddice.ui.shared;
-    requires webfx.platform.json;
+    requires webfx.platform.ast;
     requires webfx.platform.os;
     requires webfx.platform.resource;
     requires webfx.platform.scheduler;

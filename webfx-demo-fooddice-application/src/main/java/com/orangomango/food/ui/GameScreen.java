@@ -5,7 +5,7 @@ import com.orangomango.food.ui.controls.JoyStick;
 import com.orangomango.food.ui.shared.MenuButton;
 import com.orangomango.food.ui.shared.PlatformType;
 import com.orangomango.food.ui.shared.UiShared;
-import dev.webfx.platform.json.JsonObject;
+import dev.webfx.platform.ast.ReadOnlyAstObject;
 import dev.webfx.platform.os.OperatingSystem;
 import dev.webfx.platform.resource.Resource;
 import dev.webfx.platform.scheduler.Scheduler;
@@ -769,7 +769,7 @@ public class GameScreen{
 		if (this.player.collided(this.exit.x, this.exit.y, Exit.WIDTH, Exit.HEIGHT)){
 			UiShared.playSound(MainApplication.LEVEL_COMPLETE_SOUND, false);
 			LevelsScreen.LevelManager levelManager = LevelsScreen.getLevelManager();
-			JsonObject level = levelManager.getLevelData(this.currentLevel);
+			ReadOnlyAstObject level = levelManager.getLevelData(this.currentLevel);
 			if (level != null){
 				if (difference < level.getInteger("bestTime") || level.getInteger("bestTime") == 0 || this.coinsCollected > level.getInteger("coins")){
 					levelManager.put(this.currentLevel, "bestTime", (int)(difference));

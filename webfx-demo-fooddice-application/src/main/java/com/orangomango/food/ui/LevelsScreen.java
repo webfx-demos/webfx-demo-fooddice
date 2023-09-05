@@ -2,8 +2,10 @@ package com.orangomango.food.ui;
 
 import com.orangomango.food.ui.shared.MenuButton;
 import com.orangomango.food.ui.shared.UiShared;
-import dev.webfx.platform.json.Json;
-import dev.webfx.platform.json.JsonObject;
+import dev.webfx.platform.ast.AST;
+import dev.webfx.platform.ast.AstObject;
+import dev.webfx.platform.ast.formatter.AstFormatter;
+import dev.webfx.platform.ast.parser.AstParser;
 import dev.webfx.platform.storage.LocalStorage;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -22,13 +24,13 @@ public class LevelsScreen{
 	private static final Map<Integer, Integer> LEVELCOINS = new HashMap<>();
 	
 	public static class LevelManager{
-		private JsonObject json;
+		private AstObject json;
 		//private File file;
 		
 		public LevelManager(){
 			load();
 			if (this.json == null) {
-				this.json = Json.createObject();
+				this.json = AST.createObject();
 				for (int i = 0; i < LevelsScreen.FINAL_LEVEL; i++){
 					createJsonLevel(i+1);
 				}
@@ -36,8 +38,8 @@ public class LevelsScreen{
 			}
 		}
 
-		private JsonObject createJsonLevel(int l) {
-			JsonObject level = Json.createObject();
+		private AstObject createJsonLevel(int l) {
+			AstObject level = AST.createObject();
 			level.set("coins", 0);
 			level.set("deaths", 0);
 			level.set("bestTime", 0);
@@ -45,8 +47,8 @@ public class LevelsScreen{
 			return level;
 		}
 		
-		public JsonObject getLevelData(int level){
-			JsonObject jsonObject = this.json.getObject("level" + level);
+		public AstObject getLevelData(int level){
+			AstObject jsonObject = (AstObject) this.json.getObject("level" + level);
 			return jsonObject != null ? jsonObject : createJsonLevel(level);
 		}
 		
@@ -55,11 +57,11 @@ public class LevelsScreen{
 		}
 		
 		public void save(){
-			LocalStorage.setItem("levels-data-json", json.toJsonString());
+			LocalStorage.setItem("levels-data-json", AstFormatter.formatObject(json, "json"));
 		}
 		
 		public void load(){
-			this.json = Json.parseObjectSilently(LocalStorage.getItem("levels-data-json"));
+			this.json = (AstObject) AstParser.parseObject(LocalStorage.getItem("levels-data-json"), "json");
 		}
 	}
 	
