@@ -5,8 +5,8 @@ module webfx.demo.fooddice.application.gluon {
     // Direct dependencies modules
     requires javafx.media;
     requires webfx.demo.fooddice.application;
-    requires webfx.kit.openjfx;
-    requires webfx.platform.ast.json.java;
+    requires webfx.kit.javafxgraphics.openjfx;
+    requires webfx.platform.ast.factory.generic;
     requires webfx.platform.audio.gluon;
     requires webfx.platform.boot.java;
     requires webfx.platform.console.java;
@@ -16,7 +16,6 @@ module webfx.demo.fooddice.application.gluon {
     requires webfx.platform.shutdown.gluon;
     requires webfx.platform.storage.java;
     requires webfx.platform.storagelocation.gluon;
-    requires webfx.platform.substitution.var;
     requires webfx.platform.visibility.gluon;
     requires webfx.platform.windowlocation.java;
 

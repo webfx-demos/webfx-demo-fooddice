@@ -21,7 +21,7 @@
     <dependencies>
         <used-by-source-modules/>
         <!-- For Json format support -->
-        <plugin-module>webfx-platform-ast-json</plugin-module>
+        <plugin-module>webfx-platform-ast-json-plugin</plugin-module>
     </dependencies>
 
     <providers>

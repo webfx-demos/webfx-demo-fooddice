@@ -31,6 +31,12 @@
 
         <dependency>
             <groupId>dev.webfx</groupId>
+            <artifactId>webfx-kit-javafxgraphics-openjfx</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.webfx</groupId>
             <artifactId>webfx-kit-javafxmedia-gluon</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
@@ -43,13 +49,7 @@
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-kit-openjfx</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-ast-json-java</artifactId>
+            <artifactId>webfx-platform-ast-factory-generic</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
@@ -68,6 +68,12 @@
         <dependency>
             <groupId>dev.webfx</groupId>
             <artifactId>webfx-platform-boot-java</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.webfx</groupId>
+            <artifactId>webfx-platform-conf-zero</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
@@ -115,12 +121,6 @@
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-substitution-var</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>dev.webfx</groupId>
             <artifactId>webfx-platform-visibility-gluon</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
@@ -147,6 +147,7 @@
                     </attachList>
                     <resourcesList>
                         <list>audio/[^/]+$</list>
+                        <list>dev/webfx/platform/conf/[^/]+$</list>
                         <list>dev/webfx/platform/meta/exe/[^/]+$</list>
                         <list>font/[^/]+$</list>
                         <list>images/[^/]+$</list>

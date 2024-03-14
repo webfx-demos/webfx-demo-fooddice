@@ -11,9 +11,15 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>webfx-demo-fooddice-editor-gwt</artifactId>
+    <artifactId>webfx-demo-fooddice-editor-gwt-j2cl</artifactId>
 
     <dependencies>
+
+        <dependency>
+            <groupId>dev.webfx</groupId>
+            <artifactId>webfx-kit-javafxbase-emul</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>

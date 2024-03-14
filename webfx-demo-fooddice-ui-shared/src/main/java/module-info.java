@@ -6,7 +6,7 @@ module webfx.demo.fooddice.ui.shared {
     requires java.base;
     requires javafx.graphics;
     requires javafx.media;
-    requires webfx.extras.scalepane;
+    requires webfx.extras.panes;
     requires webfx.kit.util.scene;
     requires webfx.platform.resource;
     requires webfx.platform.storage;

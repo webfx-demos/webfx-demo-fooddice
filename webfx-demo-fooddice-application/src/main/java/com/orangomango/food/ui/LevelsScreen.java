@@ -4,8 +4,6 @@ import com.orangomango.food.ui.shared.MenuButton;
 import com.orangomango.food.ui.shared.UiShared;
 import dev.webfx.platform.ast.AST;
 import dev.webfx.platform.ast.AstObject;
-import dev.webfx.platform.ast.formatter.AstFormatter;
-import dev.webfx.platform.ast.parser.AstParser;
 import dev.webfx.platform.storage.LocalStorage;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -48,7 +46,7 @@ public class LevelsScreen{
 		}
 		
 		public AstObject getLevelData(int level){
-			AstObject jsonObject = (AstObject) this.json.getObject("level" + level);
+			AstObject jsonObject = this.json.getObject("level" + level);
 			return jsonObject != null ? jsonObject : createJsonLevel(level);
 		}
 		
@@ -57,11 +55,11 @@ public class LevelsScreen{
 		}
 		
 		public void save(){
-			LocalStorage.setItem("levels-data-json", AstFormatter.formatObject(json, "json"));
+			LocalStorage.setItem("levels-data-json", AST.formatObject(json, "json"));
 		}
 		
 		public void load(){
-			this.json = (AstObject) AstParser.parseObject(LocalStorage.getItem("levels-data-json"), "json");
+			this.json = (AstObject) AST.parseObject(LocalStorage.getItem("levels-data-json"), "json");
 		}
 	}
 	

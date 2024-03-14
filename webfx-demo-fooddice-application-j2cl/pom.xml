@@ -11,13 +11,21 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>webfx-demo-fooddice-application-openjfx</artifactId>
+    <artifactId>webfx-demo-fooddice-application-j2cl</artifactId>
 
     <dependencies>
 
         <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-media</artifactId>
+            <groupId>org.treblereel.j2cl.processors</groupId>
+            <artifactId>annotations</artifactId>
+            <version>0.6.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.treblereel.j2cl.processors</groupId>
+            <artifactId>processors</artifactId>
+            <version>0.6.4</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -28,25 +36,25 @@
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-demo-fooddice-editor-openjfx</artifactId>
+            <artifactId>webfx-demo-fooddice-editor-gwt-j2cl</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-kit-javafxgraphics-openjfx</artifactId>
+            <artifactId>webfx-kit-javafxmedia-peers-gwt-j2cl</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-kit-launcher</artifactId>
+            <artifactId>webfx-kit-javafxmedia-registry-gwt-j2cl</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-kit-platform-visibility-openjfx</artifactId>
+            <artifactId>webfx-kit-javafxgraphics-fat-j2cl</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
@@ -64,115 +72,111 @@
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-boot-java</artifactId>
+            <artifactId>webfx-platform-boot-j2cl</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-conf-zero</artifactId>
+            <artifactId>webfx-platform-console-gwt-j2cl</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-console-java</artifactId>
+            <artifactId>webfx-platform-javabase-emul-j2cl</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-os-java</artifactId>
+            <artifactId>webfx-platform-javatime-emul-j2cl</artifactId>
+            <version>${webfx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.webfx</groupId>
+            <artifactId>webfx-platform-os-gwt-j2cl</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-resource-java</artifactId>
+            <artifactId>webfx-platform-resource-j2cl</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-scheduler-java</artifactId>
+            <artifactId>webfx-platform-shutdown-gwt-j2cl</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-shutdown-java</artifactId>
+            <artifactId>webfx-platform-storage-gwt-j2cl</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-storage-java</artifactId>
+            <artifactId>webfx-platform-uischeduler-gwt-j2cl</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-storagelocation-java</artifactId>
+            <artifactId>webfx-platform-useragent-gwt-j2cl</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-windowlocation-java</artifactId>
+            <artifactId>webfx-platform-windowlocation-gwt-j2cl</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
 
-    <properties>
-        <plugin.javapackager.name>WebFXDemoFooddice</plugin.javapackager.name>
-        <plugin.javapackager.displayName>WebFX Demo Fooddice</plugin.javapackager.displayName>
-        <plugin.javapackager.url/>
-    </properties>
-
     <profiles>
-        <!-- profile to make a fat standalone executable jar with all dependencies included inside -->
         <profile>
-            <id>openjfx-fatjar</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-
+            <id>j2cl</id>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>com.vertispan.j2cl</groupId>
+                        <artifactId>j2cl-maven-plugin</artifactId>
+                    </plugin>
 
-                    <!-- Generating the fat jar using the Shade plugin -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-shade-plugin</artifactId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>unpack-resources-to-web</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>dev.webfx</groupId>
+                                            <artifactId>webfx-demo-fooddice-application</artifactId>
+                                            <version>0.1.0-SNAPSHOT</version>
+                                            <includes>audio/ , images/ , levels/ , font/</includes>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <excludes>**/*.java,**/*.class</excludes>
+                                    <outputDirectory>${project.build.directory}/${project.build.finalName}/${project.artifactId}</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
 
                 </plugins>
             </build>
         </profile>
-
-        <profile>
-            <id>openjfx-desktop</id>
-
-            <build>
-                <plugins>
-
-                    <!-- Generating the fat jar using the Shade plugin (will be passed to JavaPackager) -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-shade-plugin</artifactId>
-                    </plugin>
-
-                    <!-- Generating the desktop executables using the JavaPackager plugin -->
-                    <plugin>
-                        <groupId>io.github.fvarrui</groupId>
-                        <artifactId>javapackager</artifactId>
-                    </plugin>
-
-                </plugins>
-            </build>
-        </profile>
-
     </profiles>
 
 </project>

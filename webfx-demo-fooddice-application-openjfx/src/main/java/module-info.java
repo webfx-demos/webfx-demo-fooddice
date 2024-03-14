@@ -5,9 +5,9 @@ module webfx.demo.fooddice.application.openjfx {
     // Direct dependencies modules
     requires javafx.media;
     requires webfx.demo.fooddice.application;
-    requires webfx.kit.openjfx;
+    requires webfx.kit.javafxgraphics.openjfx;
     requires webfx.kit.platform.visibility.openjfx;
-    requires webfx.platform.ast.json.java;
+    requires webfx.platform.ast.factory.generic;
     requires webfx.platform.boot.java;
     requires webfx.platform.console.java;
     requires webfx.platform.os.java;
@@ -16,7 +16,6 @@ module webfx.demo.fooddice.application.openjfx {
     requires webfx.platform.shutdown.java;
     requires webfx.platform.storage.java;
     requires webfx.platform.storagelocation.java;
-    requires webfx.platform.substitution.var;
     requires webfx.platform.windowlocation.java;
 
 }

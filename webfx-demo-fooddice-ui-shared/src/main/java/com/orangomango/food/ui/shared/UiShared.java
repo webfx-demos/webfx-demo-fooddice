@@ -1,6 +1,6 @@
 package com.orangomango.food.ui.shared;
 
-import dev.webfx.extras.scalepane.ScalePane;
+import dev.webfx.extras.panes.ScalePane;
 import dev.webfx.kit.util.scene.DeviceSceneUtil;
 import dev.webfx.platform.resource.Resource;
 import dev.webfx.platform.storage.LocalStorage;
