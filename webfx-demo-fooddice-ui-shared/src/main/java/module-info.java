@@ -3,7 +3,6 @@
 module webfx.demo.fooddice.ui.shared {
 
     // Direct dependencies modules
-    requires java.base;
     requires javafx.graphics;
     requires javafx.media;
     requires webfx.extras.panes;
