@@ -161,7 +161,6 @@
                         <!-- Android -->
                         <appLabel>Food Dice</appLabel>
                     </releaseConfiguration>
-
                 </configuration>
             </plugin>
         </plugins>
