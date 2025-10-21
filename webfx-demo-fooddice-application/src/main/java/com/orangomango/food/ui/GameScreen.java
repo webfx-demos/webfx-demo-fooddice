@@ -771,12 +771,15 @@ public class GameScreen{
 			LevelsScreen.LevelManager levelManager = LevelsScreen.getLevelManager();
 			ReadOnlyAstObject level = levelManager.getLevelData(this.currentLevel);
 			if (level != null){
-				if (difference < level.getInteger("bestTime") || level.getInteger("bestTime") == 0 || this.coinsCollected > level.getInteger("coins")){
+                Integer bestTime = level.getInteger("bestTime");
+                Integer coins = level.getInteger("coins");
+                if (bestTime == null || difference < bestTime || bestTime == 0 || coins == null || this.coinsCollected > coins){
 					levelManager.put(this.currentLevel, "bestTime", (int)(difference));
-					if (this.deaths < level.getInteger("deaths") || level.getInteger("deaths") == 0){
+                    Integer deaths = level.getInteger("deaths");
+                    if (deaths == null || this.deaths < deaths || deaths == 0){
 						levelManager.put(this.currentLevel, "deaths", this.deaths);
 					}
-					if (this.coinsCollected > level.getInteger("coins")){
+					if (coins == null || this.coinsCollected > coins){
 						levelManager.put(this.currentLevel, "coins", this.coinsCollected);				
 					}
 				}

@@ -11,20 +11,20 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>webfx-demo-fooddice-editor-gwt-j2cl</artifactId>
+    <artifactId>webfx-demo-fooddice-editor-web</artifactId>
 
     <dependencies>
 
         <dependency>
-            <groupId>dev.webfx</groupId>
-            <artifactId>webfx-kit-javafxbase-emul</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>dev.webfx</groupId>
-            <artifactId>webfx-kit-javafxgraphics-emul</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

@@ -97,7 +97,7 @@
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-scheduler-java</artifactId>
+            <artifactId>webfx-platform-scheduler-jre</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
@@ -109,7 +109,7 @@
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-storage-java</artifactId>
+            <artifactId>webfx-platform-storage-jre</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
@@ -127,7 +127,13 @@
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-windowlocation-java</artifactId>
+            <artifactId>webfx-platform-windowhistory-jre</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.webfx</groupId>
+            <artifactId>webfx-platform-windowlocation-jre</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
@@ -147,11 +153,9 @@
                     </attachList>
                     <resourcesList>
                         <list>audio/[^/]+$</list>
-                        <list>dev/webfx/platform/conf/[^/]+$</list>
                         <list>dev/webfx/platform/meta/exe/[^/]+$</list>
                         <list>font/[^/]+$</list>
                         <list>images/[^/]+$</list>
-                        <list>javafx/scene/control/skin/checkbox/[^/]+$</list>
                         <list>levels/[^/]+$</list>
                     </resourcesList>
                     <appIdentifier>dev.webfx.demo.fooddice</appIdentifier>

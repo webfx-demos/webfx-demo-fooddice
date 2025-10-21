@@ -7,6 +7,11 @@
       <option name="url" value="https://repo.maven.apache.org/maven2" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="teavm-dev" />
+      <option name="name" value="teavm-dev" />
+      <option name="url" value="https://teavm.org/maven/repository" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="MavenRepo" />
       <option name="name" value="MavenRepo" />
       <option name="url" value="https://repo.maven.apache.org/maven2/" />
@@ -30,6 +35,11 @@
       <option name="id" value="gluon-repository" />
       <option name="name" value="gluon-repository" />
       <option name="url" value="https://nexus.gluonhq.com/nexus/content/repositories/releases" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="webfx-snapshots" />
+      <option name="name" value="webfx-snapshots" />
+      <option name="url" value="https://central.sonatype.com/repository/maven-snapshots/" />
     </remote-repository>
   </component>
 </project>

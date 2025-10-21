@@ -4,7 +4,7 @@ package dev.webfx.platform.resource.gwt;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.TextResource;
-import dev.webfx.platform.resource.spi.impl.gwt.GwtResourceBundleBase;
+import dev.webfx.platform.resource.spi.impl.web.WebResourceBundleBase;
 
 public interface GwtEmbedResourcesBundle extends ClientBundle {
 
@@ -32,15 +32,15 @@ public interface GwtEmbedResourcesBundle extends ClientBundle {
 
 
 
-    final class ProvidedGwtResourceBundle extends GwtResourceBundleBase {
+    final class ProvidedGwtResourceBundle extends WebResourceBundleBase {
         public ProvidedGwtResourceBundle() {
-            registerResource("dev/webfx/platform/meta/exe/exe.properties", R.r1());
-            registerResource("levels/level2.lvl", R.r2());
-            registerResource("levels/level3.lvl", R.r3());
-            registerResource("levels/level5.lvl", R.r4());
-            registerResource("levels/level6.lvl", R.r5());
-            registerResource("levels/level7.lvl", R.r6());
-            registerResource("levels/level8.lvl", R.r7());
+            registerResource("dev/webfx/platform/meta/exe/exe.properties", () -> R.r1().getText());
+            registerResource("levels/level2.lvl", () -> R.r2().getText());
+            registerResource("levels/level3.lvl", () -> R.r3().getText());
+            registerResource("levels/level5.lvl", () -> R.r4().getText());
+            registerResource("levels/level6.lvl", () -> R.r5().getText());
+            registerResource("levels/level7.lvl", () -> R.r6().getText());
+            registerResource("levels/level8.lvl", () -> R.r7().getText());
 
         }
     }

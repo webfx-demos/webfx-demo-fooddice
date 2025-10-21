@@ -173,13 +173,17 @@ public class LevelsScreen{
 		this.selectedLevel = l;
 		StringBuilder builder = new StringBuilder();
 		builder.append("Level: "+l);
-		if (levelManager.getLevelData(l).getInteger("bestTime") == 0){
-			builder.append("\n\nComplete the level\nto see your stats");
-		} else {
-			builder.append("\nCoins: "+levelManager.getLevelData(l).getInteger("coins")+"/"+LEVELCOINS.get(l));
-			builder.append("\nDeaths: "+levelManager.getLevelData(l).getInteger("deaths"));
-			builder.append("\nBest time: " + levelManager.getLevelData(l).getInteger("bestTime")/60000 + ":" + levelManager.getLevelData(l).getInteger("bestTime")/1000%60);
-		}
+        AstObject levelData = levelManager.getLevelData(l);
+        if (levelData != null) {
+            Integer bestTime = levelData.getInteger("bestTime");
+            if (bestTime == null || bestTime == 0) {
+                builder.append("\n\nComplete the level\nto see your stats");
+            } else {
+                builder.append("\nCoins: " + levelData.getInteger("coins") + "/" + LEVELCOINS.get(l));
+                builder.append("\nDeaths: " + levelData.getInteger("deaths"));
+                builder.append("\nBest time: " + bestTime / 60000 + ":" + bestTime / 1000 % 60);
+            }
+        }
 		this.selectedText = builder.toString();
 	}
 	

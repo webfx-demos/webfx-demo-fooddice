@@ -11,13 +11,13 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>webfx-demo-fooddice-application-openjfx</artifactId>
+    <artifactId>webfx-demo-fooddice-application-teavm</artifactId>
 
     <dependencies>
 
         <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-media</artifactId>
+            <groupId>org.teavm</groupId>
+            <artifactId>teavm-core</artifactId>
         </dependency>
 
         <dependency>
@@ -28,13 +28,19 @@
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-demo-fooddice-editor-openjfx</artifactId>
+            <artifactId>webfx-demo-fooddice-editor-web</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-kit-javafxgraphics-openjfx</artifactId>
+            <artifactId>webfx-kit-javafxgraphics-elemental2</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.webfx</groupId>
+            <artifactId>webfx-kit-javafxmedia-peers-elemental2</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
@@ -46,13 +52,7 @@
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-kit-platform-visibility-openjfx</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-ast-factory-generic</artifactId>
+            <artifactId>webfx-platform-ast-factory-teavm</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
@@ -70,115 +70,99 @@
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-conf-zero</artifactId>
+            <artifactId>webfx-platform-console-elemental2</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-console-java</artifactId>
+            <artifactId>webfx-platform-os-elemental2</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-os-jre</artifactId>
+            <artifactId>webfx-platform-resource-teavm</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-resource-jre</artifactId>
+            <artifactId>webfx-platform-resource-web</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-scheduler-jre</artifactId>
+            <artifactId>webfx-platform-shutdown-elemental2</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-shutdown-jre</artifactId>
+            <artifactId>webfx-platform-storage-elemental2</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-storage-jre</artifactId>
+            <artifactId>webfx-platform-uischeduler-elemental2</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-storagelocation-jre</artifactId>
+            <artifactId>webfx-platform-useragent-elemental2</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-windowhistory-jre</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-windowlocation-jre</artifactId>
+            <artifactId>webfx-platform-windowlocation-elemental2</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
 
-    <properties>
-        <plugin.javapackager.name>WebFXDemoFooddice</plugin.javapackager.name>
-        <plugin.javapackager.displayName>WebFX Demo Fooddice</plugin.javapackager.displayName>
-        <plugin.javapackager.url/>
-    </properties>
-
     <profiles>
-        <!-- profile to make a fat standalone executable jar with all dependencies included inside -->
         <profile>
-            <id>openjfx-fatjar</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-
+            <id>teavm</id>
             <build>
                 <plugins>
-
-                    <!-- Generating the fat jar using the Shade plugin -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-shade-plugin</artifactId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>unpack-resources-to-web</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>dev.webfx</groupId>
+                                            <artifactId>webfx-demo-fooddice-application-teavm</artifactId>
+                                            <version>0.1.0-SNAPSHOT</version>
+                                            <includes>dev/webfx/platform/meta/exe/</includes>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>dev.webfx</groupId>
+                                            <artifactId>webfx-demo-fooddice-application</artifactId>
+                                            <version>0.1.0-SNAPSHOT</version>
+                                            <includes>audio/ , images/ , levels/ , font/</includes>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <excludes>**/*.java,**/*.class</excludes>
+                                    <outputDirectory>${project.build.directory}/teavm</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
-
                 </plugins>
             </build>
         </profile>
-
-        <profile>
-            <id>openjfx-desktop</id>
-
-            <build>
-                <plugins>
-
-                    <!-- Generating the fat jar using the Shade plugin (will be passed to JavaPackager) -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-shade-plugin</artifactId>
-                    </plugin>
-
-                    <!-- Generating the desktop executables using the JavaPackager plugin -->
-                    <plugin>
-                        <groupId>io.github.fvarrui</groupId>
-                        <artifactId>javapackager</artifactId>
-                    </plugin>
-
-                </plugins>
-            </build>
-        </profile>
-
     </profiles>
 
 </project>
