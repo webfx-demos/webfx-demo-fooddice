@@ -34,7 +34,7 @@ jobs:
     strategy:
       matrix:
         app: [{name: 'FoodDice', module-token: 'webfx-demo-fooddice', gwt-token: 'webfx_demo_fooddice', gluon-token: 'WebFXDemoFooddice', gwt-push-branch: 'fooddice', teavm-push-branch: 'fooddice-teavm', android-package-name: 'dev.webfx.demo.fooddice', android-track: 'beta', ios-bundle-id: 'dev.webfx.demo.fooddice', version: '0.1.0-SNAPSHOT'}]
-        os-config:  [1, 2, 3, 4]
+        os-config:  [1]
         include:
           - os-config: 1 # Generates builds 1) 2) 3) 4) & 5)
             os: ubuntu-latest
