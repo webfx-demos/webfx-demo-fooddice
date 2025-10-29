@@ -33,7 +33,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        app: [{name: 'FoodDice', module-token: 'webfx-demo-fooddice', gwt-token: 'webfx_demo_fooddice', gluon-token: 'WebFXDemoFooddice', gwt-push-branch: 'fooddice', teavm-push-branch: 'fooddice-teavm', android-package-name: 'dev.webfx.demo.fooddice', android-track: 'beta', ios-bundle-id: 'dev.webfx.demo.fooddice', version: '0.1.0-SNAPSHOT'}]
+        app: [{name: 'FoodDice', module-token: 'webfx-demo-fooddice', gwt-token: 'webfx_demo_fooddice', gluon-token: 'WebFXDemoFooddice', gwt-push-branch: 'fooddice', teavm-push-branch: 'fooddice-teavm', teavm-wasm-push-branch: 'fooddice-wasm', android-package-name: 'dev.webfx.demo.fooddice', android-track: 'beta', ios-bundle-id: 'dev.webfx.demo.fooddice', version: '0.1.0-SNAPSHOT'}]
         os-config:  [1]
         include:
           - os-config: 1 # Generates builds 1) 2) 3) 4) & 5)
@@ -57,8 +57,10 @@ jobs:
       app-gwt-build-dir:         ./${{ matrix.app.module-token }}-application-gwt/target/${{ matrix.app.module-token }}-application-gwt-${{ matrix.app.version }}/${{ matrix.app.gwt-token }}_application_gwt
       app-j2cl-module-dir:       ./${{ matrix.app.module-token }}-application-j2cl
       app-j2cl-build-dir:        ./${{ matrix.app.module-token }}-application-j2cl/target/${{ matrix.app.module-token }}-application-j2cl-${{ matrix.app.version }}/${{ matrix.app.module-token }}-application-j2cl
-      app-teavm-module-dir:       ./${{ matrix.app.module-token }}-application-teavm
-      app-teavm-build-dir:        ./${{ matrix.app.module-token }}-application-teavm/target/teavm
+      app-teavm-module-dir:      ./${{ matrix.app.module-token }}-application-teavm
+      app-teavm-build-dir:       ./${{ matrix.app.module-token }}-application-teavm/target/${{ matrix.app.module-token }}-application-teavm-${{ matrix.app.version }}
+      app-teavm-wasm-module-dir: ./${{ matrix.app.module-token }}-application-teavm-wasm
+      app-teavm-wasm-build-dir:  ./${{ matrix.app.module-token }}-application-teavm-wasm/target/${{ matrix.app.module-token }}-application-teavm-wasm-${{ matrix.app.version }}
       app-gluon-module-dir:      ./${{ matrix.app.module-token }}-application-gluon
       web-push-repository-name:  'webfx-netlify'
       web-push-repository-owner: 'webfx-project'
@@ -110,8 +112,8 @@ jobs:
           tar -xzf apache-maven-3.8.8-bin.tar.gz -C /tmp/maven/
           ${{ matrix.MVN }} -version
 
-      # Checkout this repository
-      - name: Checkout this repository
+      # Check out this repository
+      - name: Check out this repository
         uses: actions/checkout@v4
         with:
           path: ${{ env.app-repo-dir }}
@@ -147,19 +149,19 @@ jobs:
       # Building GWT application (if required)
       - if: matrix.gwt-artifact-suffix != null || matrix.app.gwt-push-branch != null && matrix.os-config == 1
         name: Build GWT application
-        run: ${{ matrix.MVN }} -B -P gwt-compile package
+        run: ${{ matrix.MVN }} -B -Pgwt-compile,production package
         working-directory: ${{ env.app-parent-module-dir }}
 
       # Building J2CL application (if required)
       - if: matrix.j2cl-artifact-suffix != null || matrix.app.j2cl-push-branch != null && matrix.os-config == 1
         name: Build J2CL application
-        run: ${{ matrix.MVN }} -B -P j2cl package
+        run: ${{ matrix.MVN }} -B -Pj2cl,production package
         working-directory: ${{ env.app-parent-module-dir }}
 
       # Building TeaVM application (if required)
-      - if: matrix.teavm-artifact-suffix != null || matrix.app.teavm-push-branch != null && matrix.os-config == 1
+      - if: matrix.teavm-artifact-suffix != null || matrix.app.teavm-push-branch != null && matrix.os-config == 1  || matrix.app.teavm-wasm-push-branch != null && matrix.os-config == 1
         name: Build TeaVM application
-        run: ${{ matrix.MVN }} -B -Pteavm package
+        run: ${{ matrix.MVN }} -B -Pteavm,production package
         working-directory: ${{ env.app-parent-module-dir }}
 
       # Building OpenJFX fat jar and installers (if required)
@@ -200,7 +202,7 @@ jobs:
           user-email: ${{ env.web-push-email }}
 
       - if: matrix.os-config == 1 && matrix.app.teavm-push-branch != null && env.API_GITHUB_TOKEN != ''
-        name: Push TeaVM build to ${{ matrix.app.teavm-push-branch }} branch
+        name: Push TeaVM JS build to ${{ matrix.app.teavm-push-branch }} branch
         uses: cpina/github-action-push-to-another-repository@master
         env:
           API_TOKEN_GITHUB: ${{ env.API_GITHUB_TOKEN }}
@@ -209,6 +211,19 @@ jobs:
           destination-repository-username: ${{ env.web-push-repository-owner }}
           destination-repository-name: ${{ env.web-push-repository-name }}
           target-branch: ${{ matrix.app.teavm-push-branch }}
+          destination-github-username: ${{ env.web-push-username }}
+          user-email: ${{ env.web-push-email }}
+
+      - if: matrix.os-config == 1 && matrix.app.teavm-wasm-push-branch != null && env.API_GITHUB_TOKEN != ''
+        name: Push TeaVM WASM build to ${{ matrix.app.teavm-wasm-push-branch }} branch
+        uses: cpina/github-action-push-to-another-repository@master
+        env:
+          API_TOKEN_GITHUB: ${{ env.API_GITHUB_TOKEN }}
+        with:
+          source-directory: ${{ env.app-teavm-wasm-build-dir }}
+          destination-repository-username: ${{ env.web-push-repository-owner }}
+          destination-repository-name: ${{ env.web-push-repository-name }}
+          target-branch: ${{ matrix.app.teavm-wasm-push-branch }}
           destination-github-username: ${{ env.web-push-username }}
           user-email: ${{ env.web-push-email }}
 

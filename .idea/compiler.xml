@@ -16,6 +16,7 @@
         <module name="webfx-demo-fooddice-application-j2cl" />
         <module name="webfx-demo-fooddice-application" />
         <module name="webfx-demo-fooddice-editor" />
+        <module name="webfx-demo-fooddice-application-teavm-wasm" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17" />

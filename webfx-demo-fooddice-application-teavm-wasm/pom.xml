@@ -11,7 +11,7 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>webfx-demo-fooddice-application-teavm</artifactId>
+    <artifactId>webfx-demo-fooddice-application-teavm-wasm</artifactId>
 
     <packaging>war</packaging>
 
