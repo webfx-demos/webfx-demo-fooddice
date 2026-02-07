@@ -11,7 +11,7 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>webfx-demo-fooddice-application-teavm-wasm</artifactId>
+    <artifactId>webfx-demo-fooddice-application-teavm-js</artifactId>
 
     <packaging>war</packaging>
 
@@ -126,10 +126,10 @@
 
     </dependencies>
 
-    <!-- Unpacking all resources for this web archive, but only when the user activates the teavm-wasm profile -->
+    <!-- Unpacking all resources for this web archive, but only when the user activates the teavm-js profile -->
     <profiles>
         <profile>
-            <id>teavm-wasm</id>
+            <id>teavm-js</id>
             <build>
                 <plugins>
                     <plugin>

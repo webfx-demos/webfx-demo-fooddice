@@ -2,11 +2,13 @@
 <!-- File managed by WebFX (DO NOT EDIT MANUALLY) -->
 <module rename-to="webfx_demo_fooddice_application_gwt">
 
-    <!-- Configuring logging (must be in first position) -->
+    <!-- Configuring logging (must be in the first position) -->
     <inherits name="com.google.gwt.logging.Logging"/>
     <set-property name="gwt.logging.enabled" value="TRUE"/>
     <set-property name="gwt.logging.logLevel" value="FINEST"/>
     <set-property name="gwt.logging.consoleHandler" value="ENABLED"/>
+    <!-- If GWT-time is used, set domino.slf4j.logging.level=OFF to remove log pollution -->
+    <set-property name="domino.slf4j.logging.level" value="OFF"/>
 
     <!-- Source maps configuration (considered by GWT only if gwt-sourcemaps Maven profile is activated) -->
     <set-configuration-property name="compiler.embedSourceMaps" value="true"/>

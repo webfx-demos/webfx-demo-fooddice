@@ -9,8 +9,8 @@
         <module name="webfx-demo-fooddice-ui-shared" />
         <module name="webfx-demo-fooddice-application-gluon" />
         <module name="webfx-demo-fooddice-editor-web" />
-        <module name="webfx-demo-fooddice-application-teavm" />
         <module name="webfx-demo-fooddice-application-gwt" />
+        <module name="webfx-demo-fooddice-application-teavm-js" />
         <module name="webfx-demo-fooddice-application-openjfx" />
         <module name="webfx-demo-fooddice-editor-openjfx" />
         <module name="webfx-demo-fooddice-application-j2cl" />
@@ -19,6 +19,8 @@
         <module name="webfx-demo-fooddice-application-teavm-wasm" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="17" />
+    <bytecodeTargetLevel target="17">
+      <module name="webfx-demo-fooddice-application-teavm" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

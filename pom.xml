@@ -38,7 +38,7 @@
         <module>webfx-demo-fooddice-application-gwt</module>
         <module>webfx-demo-fooddice-application-j2cl</module>
         <module>webfx-demo-fooddice-application-openjfx</module>
-        <module>webfx-demo-fooddice-application-teavm</module>
+        <module>webfx-demo-fooddice-application-teavm-js</module>
         <module>webfx-demo-fooddice-application-teavm-wasm</module>
         <module>webfx-demo-fooddice-editor</module>
         <module>webfx-demo-fooddice-editor-openjfx</module>
