@@ -1,10 +1,10 @@
-package dev.webfx.platform.resource.teavm;
+package dev.webfx.platform.resource.teavm.js;
 
 import dev.webfx.platform.resource.spi.impl.teavm.TeaVMResourceBundle;
 import org.teavm.classlib.ResourceSupplier;
 import org.teavm.classlib.ResourceSupplierContext;
 
-public final class TeaVMWasmEmbedResourcesBundle extends TeaVMResourceBundle implements ResourceSupplier {
+public final class TeaVMEmbedResourcesBundle extends TeaVMResourceBundle implements ResourceSupplier {
 
     private static final String[] RESOURCE_PATHS = {
         "dev/webfx/platform/meta/exe/exe.properties",
@@ -22,7 +22,7 @@ public final class TeaVMWasmEmbedResourcesBundle extends TeaVMResourceBundle imp
         return RESOURCE_PATHS;
     }
 
-    public TeaVMWasmEmbedResourcesBundle() {
+    public TeaVMEmbedResourcesBundle() {
         super(RESOURCE_PATHS);
     }
 

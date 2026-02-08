@@ -11,8 +11,8 @@
     </dependencies>
 
     <providers>
-        <provider interface="org.teavm.classlib.ResourceSupplier">dev.webfx.platform.resource.teavm.TeaVMJsEmbedResourcesBundle</provider>
-        <provider interface="dev.webfx.platform.resource.spi.impl.web.WebResourceBundle">dev.webfx.platform.resource.teavm.TeaVMJsEmbedResourcesBundle</provider>
+        <provider interface="org.teavm.classlib.ResourceSupplier">dev.webfx.platform.resource.teavm.js.TeaVMEmbedResourcesBundle</provider>
+        <provider interface="dev.webfx.platform.resource.spi.impl.web.WebResourceBundle">dev.webfx.platform.resource.teavm.js.TeaVMEmbedResourcesBundle</provider>
     </providers>
 
 
